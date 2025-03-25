@@ -1,0 +1,12 @@
+.header {
+   background-color: var(--mantine-color-body);
+   height: var(--height-header);
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: 101;
+   border-bottom: 1px solid var(--mantine-color-gray-light);
+   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+ }
+ 
