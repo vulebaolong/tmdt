@@ -9,7 +9,7 @@ export const BASE_DOMAIN_API = process.env.BASE_DOMAIN_API || `http://localhost:
 export const BASE_DOMAIN_CLOUDINARY = `https://res.cloudinary.com/vulebaolong/image/upload/`;
 export const FOLDER_IMAGE_BE = `images/`;
 
-export const TITLE = `Cyber Community`
+export const TITLE = `TMDT`
 
 console.log({
    BASE_DOMAIN_API,
