@@ -1,3 +1,5 @@
+'use client'
+
 import { Center, Group } from "@mantine/core";
 import ButtonToggleTheme from "../toggle-theme/button/ButtonToggleTheme";
 import SwitchToggleTheme from "../toggle-theme/switch/SwitchToggleTheme";
