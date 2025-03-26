@@ -1,3 +1,5 @@
+"use client";
+
 import { Box, Image } from "@mantine/core";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +16,7 @@ export function LogoIcon({ width = `40px` }: TProps) {
 
    return (
       <Box onClick={handleClickLogo} style={{ cursor: `pointer` }}>
-         <Image style={{ width: width }} src={`/logo/logo-icon.png`} alt="logo"/>
+         <Image style={{ width: width }} src={`/logo/logo-icon.png`} alt="logo" />
       </Box>
    );
 }
