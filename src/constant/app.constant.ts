@@ -9,9 +9,22 @@ export const BASE_DOMAIN_API = process.env.BASE_DOMAIN_API || `http://localhost:
 export const BASE_DOMAIN_CLOUDINARY = `https://res.cloudinary.com/vulebaolong/image/upload/`;
 export const FOLDER_IMAGE_BE = `images/`;
 
-export const TITLE = `TMDT`
+export const TITLE = `TMDT`;
+
+export const MONGODB_URI = process.env.MONGODB_URI;
+
+export const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+export const ACCESS_TOKEN_EXPIRES = process.env.ACCESS_TOKEN_EXPIRES;
+
+export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+export const REFRESH_TOKEN_EXPIRES = process.env.REFRESH_TOKEN_EXPIRES;
 
 console.log({
    BASE_DOMAIN_API,
    BASE_DOMAIN_API_pro: process.env.NEXT_PUBLIC_BASE_DOMAIN_API,
+   MONGODB_URI,
+   ACCESS_TOKEN_SECRET,
+   ACCESS_TOKEN_EXPIRES,
+   REFRESH_TOKEN_SECRET,
+   REFRESH_TOKEN_EXPIRES,
 });

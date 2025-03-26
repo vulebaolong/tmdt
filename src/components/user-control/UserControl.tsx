@@ -1,32 +1,33 @@
 "use client";
 
 import ROUTER from "@/constant/router.constant";
+import { logout } from "@/helpers/api.helper";
 import { effectText } from "@/helpers/motion.helper";
-import { Avatar, Box, Group, Menu, Text } from "@mantine/core";
+import { useAppSelector } from "@/redux/hooks";
+import { Avatar, Group, Menu, Text } from "@mantine/core";
 import { IconLogout, IconSettings, IconUserCheck, IconUserSearch } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import classes from "./UserControl.module.css";
-import Badge from "../badge/Badge";
 
 export default function UserControl() {
    const router = useRouter();
-   const info =false
+   const info = useAppSelector((state) => state.user.info);
 
    return (
       <Menu shadow="md" width={200}>
-         <Menu.Target>{<Avatar style={{ cursor: `pointer` }}  />}</Menu.Target>
+         <Menu.Target>{<Avatar style={{ cursor: `pointer` }} />}</Menu.Target>
 
          <Menu.Dropdown>
-            <Box className={classes.textAvatar}>
+            {/* <Box className={classes.textAvatar}>
                <Badge user={info} w={`100%`} />
-            </Box>
+            </Box> */}
 
             <Group gap={0} className={classes.textAvatar} wrap="nowrap">
                <Text className={classes.widthText} c="dimmed" size="xs" component="div">
                   {effectText(`Name`)}
                </Text>
                <Text component="span" size="xs" truncate="end">
-                  {`info?.fullName`}
+                  {info?.fullName}
                </Text>
             </Group>
             <Group gap={0} className={classes.textAvatar} wrap="nowrap">
@@ -34,7 +35,7 @@ export default function UserControl() {
                   {effectText(`Email`)}
                </Text>
                <Text span size="xs" truncate="end">
-                  {`info?.email`}
+                  {info?.email}
                </Text>
             </Group>
 
@@ -72,9 +73,9 @@ export default function UserControl() {
             <Menu.Divider />
 
             <Menu.Item
-               // onClick={() => {
-               //    `logout();`
-               // }}
+               onClick={() => {
+                  logout();
+               }}
                color="red"
                leftSection={<IconLogout size={14} />}
             >

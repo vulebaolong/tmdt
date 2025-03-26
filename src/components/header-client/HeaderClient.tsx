@@ -5,20 +5,25 @@ import SwitchLang from "@/components/switch-lang/SwitchLang";
 import ButtonToggleTheme from "@/components/toggle-theme/button/ButtonToggleTheme";
 import { MOBILE_HIDDEN_DESKTOP_VISIBLE, MOBILE_VISIBLE_DESKTOP_HIDDEN } from "@/constant/app.constant";
 import ROUTER from "@/constant/router.constant";
-import { ActionIcon, Box, Burger, Container, Group } from "@mantine/core";
+import { ActionIcon, Box, Burger, Button, Container, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconBrandRumble, IconBuildingStore, IconHome, IconUsersGroup } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { Logo } from "../logo/Logo";
 import classes from "./HeaderClient.module.css";
+import UserControl from "../user-control/UserControl";
+import { useTranslations } from "next-intl";
+import { useAppSelector } from "@/redux/hooks";
+import { useQueryInfo } from "@/tantask/auth.tanstack";
 
-// const styleButtonNav = { border: `none`, background: `transparent` };
+const styleButtonNav = { border: `none`, background: `transparent` };
 
 export default function HeaderClient() {
-   // const t = useTranslations(`header`);
+   const t = useTranslations(`header`);
    const [opened, handleDrawerNavbar] = useDisclosure(false);
-   // const info = false;
+   const info = useAppSelector(state => state.user.info);
    const router = useRouter();
+   useQueryInfo()
 
    return (
       <>
@@ -73,7 +78,7 @@ export default function HeaderClient() {
 
                   {/* right */}
                   <Group gap={5} wrap="nowrap" className={`${MOBILE_HIDDEN_DESKTOP_VISIBLE}`}>
-                     {/* {info ? (
+                     {info ? (
                         <UserControl />
                      ) : (
                         <Button
@@ -87,7 +92,7 @@ export default function HeaderClient() {
                         >
                            {t("login")}
                         </Button>
-                     )} */}
+                     )}
                      <Group wrap="nowrap" gap={5}>
                         {/* {!info && (
                            <Button

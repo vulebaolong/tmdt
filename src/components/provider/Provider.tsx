@@ -15,6 +15,7 @@ import { resolver, themeOverride } from "./mantine/theme";
 import ToastProvider from "./toast/ToastProvider";
 import { useHotkeys } from "@mantine/hooks";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ProviderRedux from "./redux/ProviderRedux";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -38,10 +39,12 @@ export default function Provider({ children }: { children: ReactNode }) {
 
    return (
       <QueryClientProvider client={queryClient}>
-         <MantineProvider theme={themeOverride} defaultColorScheme="dark" cssVariablesResolver={resolver}>
-            <ToastProvider />
-            {children}
-         </MantineProvider>
+         <ProviderRedux>
+            <MantineProvider theme={themeOverride} defaultColorScheme="dark" cssVariablesResolver={resolver}>
+               <ToastProvider />
+               {children}
+            </MantineProvider>
+         </ProviderRedux>
       </QueryClientProvider>
    );
 }
