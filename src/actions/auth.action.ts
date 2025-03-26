@@ -69,7 +69,10 @@ export async function loginGooleAction(payload: { code: string }) {
 
 export async function loginFormAction(payload: TLoginFormReq) {
    try {
+      await connectDB();
+
       const userExist = await User.findOne({ email: payload.email }).select("+password").lean();
+      console.log({userExist});
       if (!userExist) throw new Error(`Login failed`);
 
       const match = await bcrypt.compare(payload.password, userExist.password);
@@ -106,11 +109,13 @@ export async function loginGoogleAuthenticatorAction(payload: TLoginFormReq) {
 
 export async function getInfoAction() {
    try {
+
       const accessToken = await getAccessToken();
       if (!accessToken) return false;
 
       const isAccessToken = verifyAccessToken(accessToken);
 
+      await connectDB();
       const users = await User.findOne({ _id: isAccessToken.sub }).lean();
 
       return JSON.parse(JSON.stringify(users));

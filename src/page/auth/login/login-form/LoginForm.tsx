@@ -116,7 +116,7 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
             </Group>
          </Box>
 
-         <Button mt={10} loading={false} type="submit" fullWidth style={{ flexShrink: `0` }}>
+         <Button mt={10} loading={useloginForm.isPending} type="submit" fullWidth style={{ flexShrink: `0` }}>
             Login
          </Button>
       </Box>
