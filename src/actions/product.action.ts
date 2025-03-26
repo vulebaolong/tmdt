@@ -20,8 +20,6 @@ export async function getProductListAction(page: number): Promise<TResPagination
 
       const totalPages = Math.ceil(totalItems / pageSize);
 
-      console.log({ page, totalPages });
-
       return {
          page,
          pageSize,
