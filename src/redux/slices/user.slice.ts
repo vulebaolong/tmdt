@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 type TInitialState = {
    info: TUser | null;
 };
-
+// redux state for user: { info: TUser | null }
 const initialState: TInitialState = {
    info: null,
 };
