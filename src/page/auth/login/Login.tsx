@@ -3,7 +3,7 @@
 // import { useAppContext } from "@/components/provider/appProvider/AppProvider";
 import { FacebookButton } from "@/components/buttons/FacebookButton";
 import { GoogleButton } from "@/components/buttons/GoogleButton";
-import { Logo } from "@/components/logo/Logo";
+import LogoIconText from "@/components/logo/LogoIconText";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
 import { Anchor, Box, Center, Divider, Group, Loader, Paper, Text, Title, Transition } from "@mantine/core";
 import { useRouter } from "next/navigation";
@@ -21,7 +21,7 @@ export default function Login() {
       <Suspense fallback={<Loader />}>
          <Box className={`${classes.wrapForm}`} style={{ animation: "fadeInUp 0.5s" }} px={`md`}>
             <Center>
-               <Logo />
+               <LogoIconText color={5} />
             </Center>
             <Title mt={20} ta="center" style={{ fontFamily: `Greycliff CF,   var(--mantine-font-family)`, fontWeight: `900` }}>
                Welcome back!

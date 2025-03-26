@@ -1,4 +1,4 @@
-import { TUser } from "@/schemas/users.schema";
+import { TUser } from "@/schemas/user.schema";
 import { createSlice } from "@reduxjs/toolkit";
 
 type TInitialState = {

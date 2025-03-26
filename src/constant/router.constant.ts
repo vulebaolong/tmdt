@@ -2,11 +2,7 @@ const ROUTER = {
    HOME: `/`,
    LOGIN: `/login`,
    REGISTER: `/register`,
-   COURSE: `/course`,
-   EXPLORE: `/explore`,
-   PROFILE: `/profile`,
-   SETTING: `/setting`,
-   ROLE: `/role`,
+   PRODUCT: `/product`
 };
 
 export default ROUTER;

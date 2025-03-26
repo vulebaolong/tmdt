@@ -1,51 +1,46 @@
-/* @tailwind base; */
-@tailwind components;
-@tailwind utilities;
-[class*="popupContainer"] {
-  z-index: 2000 !important;
-}
-
 :root {
-  --height-header: 64px;
+   --height-header: mobile-desktop(80px = 120px);
 }
 
-
-@media (max-width: 62em) {
-  .container {
-    max-width: 360px;
-  }
+body {
+   background-color: light-dark(rgb(245 245 245), var(--mantine-color-dark-7));
 }
 
-@media (min-width: 62em) {
-  .container {
-   max-width: var(--container-size);
-  }
+.no-scrollbar {
+  overflow: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 
 /*! SCROLLBAR - start */
 * {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(100, 116, 139, 0.502) rgba(100, 116, 139, 0.161);
+   scrollbar-width: thin;
+   scrollbar-color: rgba(100, 116, 139, 0.502) rgba(100, 116, 139, 0.161);
 }
 *::-webkit-scrollbar {
-  width: 0.1rem;
+   width: 0.1rem;
 }
 /* CSS for horizontal scrollbars */
 *::-webkit-scrollbar:horizontal {
-  height: 0.1rem;
+   height: 0.1rem;
 }
 *::-webkit-scrollbar-track,
 *::-webkit-scrollbar-track:horizontal,
 *::-webkit-scrollbar-corner {
-  background-color: rgba(100, 116, 139, 0.161);
+   background-color: rgba(100, 116, 139, 0.161);
 }
 *::-webkit-scrollbar-thumb,
 *::-webkit-scrollbar-thumb:horizontal {
-  border-radius: 5px;
-  background-color: rgba(100, 116, 139, 0.502);
+   border-radius: 5px;
+   background-color: rgba(100, 116, 139, 0.502);
 }
 /* SCROLLBAR - end */
 
 *::selection {
-  background-color: rgba(0, 255, 238, 0.5);
+   background-color: rgba(0, 255, 238, 0.5);
 }

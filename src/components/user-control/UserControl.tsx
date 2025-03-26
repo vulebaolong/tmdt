@@ -1,21 +1,20 @@
 "use client";
 
-import ROUTER from "@/constant/router.constant";
 import { logout } from "@/helpers/api.helper";
 import { effectText } from "@/helpers/motion.helper";
 import { useAppSelector } from "@/redux/hooks";
 import { Avatar, Group, Menu, Text } from "@mantine/core";
 import { IconLogout, IconSettings, IconUserCheck, IconUserSearch } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import classes from "./UserControl.module.css";
 
 export default function UserControl() {
-   const router = useRouter();
+   // const router = useRouter();
    const info = useAppSelector((state) => state.user.info);
 
    return (
       <Menu shadow="md" width={200}>
-         <Menu.Target>{<Avatar style={{ cursor: `pointer` }} />}</Menu.Target>
+         <Menu.Target>{<Avatar color="white" style={{ cursor: `pointer` }} variant="transparent" radius="sm" />}</Menu.Target>
 
          <Menu.Dropdown>
             {/* <Box className={classes.textAvatar}>
@@ -45,7 +44,8 @@ export default function UserControl() {
 
             <Menu.Item
                onClick={() => {
-                  router.push(ROUTER.ROLE);
+                  // router.push(ROUTER.ROLE);
+                  toast.warning(`Coming Soon`);
                }}
                leftSection={<IconUserCheck size={14} />}
             >
@@ -54,7 +54,8 @@ export default function UserControl() {
 
             <Menu.Item
                onClick={() => {
-                  router.push(ROUTER.PROFILE);
+                  // router.push(ROUTER.PROFILE);
+                  toast.warning(`Coming Soon`);
                }}
                leftSection={<IconUserSearch size={14} />}
             >
@@ -63,7 +64,8 @@ export default function UserControl() {
 
             <Menu.Item
                onClick={() => {
-                  router.push(ROUTER.SETTING);
+                  // router.push(ROUTER.SETTING);
+                  toast.warning(`Coming Soon`);
                }}
                leftSection={<IconSettings size={14} />}
             >
@@ -72,13 +74,7 @@ export default function UserControl() {
 
             <Menu.Divider />
 
-            <Menu.Item
-               onClick={() => {
-                  logout();
-               }}
-               color="red"
-               leftSection={<IconLogout size={14} />}
-            >
+            <Menu.Item onClick={logout} color="red" leftSection={<IconLogout size={14} />}>
                Logout
             </Menu.Item>
          </Menu.Dropdown>

@@ -8,10 +8,10 @@ export default function ButtonToggleTheme() {
 
    return (
       <>
-         <ActionIcon onClick={toggleColorScheme} variant="default" size="lg" lightHidden>
+         <ActionIcon variant="transparent" onClick={toggleColorScheme} color={`white`} size="md" radius="xl" lightHidden>
             <IconSun stroke={1.5} size={20} />
          </ActionIcon>
-         <ActionIcon onClick={toggleColorScheme} variant="default" size="lg" darkHidden>
+         <ActionIcon variant="transparent" onClick={toggleColorScheme} color={`white`} size="md" radius="xl" darkHidden>
             <IconMoon stroke={1.5} size={20} />
          </ActionIcon>
       </>

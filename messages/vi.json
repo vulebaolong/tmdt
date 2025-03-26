@@ -10,11 +10,12 @@
       "forbusiness": "Dành Cho Doanh Nghiệp",
       "join": "Tham Gia Miễn Phí",
       "joinMobile": "Tham Gia",
-      "login": "Đăng nhập"
+      "login": "Đăng nhập",
+      "register": "Đăng ký"
    },
    "localeSwitcher": {
-      "vi": "Việt",
-      "en": "Anh",
+      "vi": "Tiếng Việt",
+      "en": "Tiếng Anh",
       "label": "Ngôn ngữ"
    },
    "home-right": {

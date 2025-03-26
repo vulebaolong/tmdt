@@ -3,7 +3,7 @@
 import { ActionIcon, Container, Group, rem, Text } from "@mantine/core";
 import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
-import { Logo } from "../logo/Logo";
+import { LogoIcon } from "../logo/LogoIcon";
 import classes from "./FooterClient.module.css";
 
 const data = [
@@ -65,7 +65,7 @@ export default function FooterClient() {
       <footer className={classes.footer}>
          <Container className={classes.inner}>
             <div className={classes.logo}>
-               <Logo />
+               <LogoIcon />
                <Text size="xs" c="dimmed" className={classes.description}>
                   Build fully functional accessible web applications faster than ever
                </Text>

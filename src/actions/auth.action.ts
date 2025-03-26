@@ -5,7 +5,7 @@ import api from "@/helpers/api.helper";
 import { clearTokens, getAccessToken, setAccessToken, setRefreshToken } from "@/helpers/cookies.helper";
 import { signAccessToken, signRefreshToken, verifyAccessToken } from "@/lib/jwt";
 import { connectDB } from "@/lib/mongoose";
-import User from "@/schemas/users.schema";
+import User from "@/schemas/user.schema";
 import { TRes } from "@/types/app.type";
 import { TLoginFormReq, TLoginRes, TRegisterReq } from "@/types/auth.type";
 import { TLoginFacebookReq } from "@/types/facebook.type";

@@ -1,4 +1,4 @@
-import { TUser } from "@/schemas/users.schema";
+import { TUser } from "@/schemas/user.schema";
 import { TCreateChatRes } from "./chat.type";
 
 export type TSessionLogin = {

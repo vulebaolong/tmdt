@@ -33,8 +33,8 @@ export default async function RootLayout({ children }: TProps) {
       <html lang={locale} {...mantineHtmlProps} suppressHydrationWarning>
          <head>
             {/* Favicon / Logo */}
-            <link rel="icon" href="/logo/logo-512x512.png" />
-            <link rel="apple-touch-icon" sizes="180x180" href="/logo/logo-512x512.png" />
+            <link rel="icon" href="/logo/logo-icon.png" />
+            <link rel="apple-touch-icon" sizes="180x180" href="/logo/logo-icon.png" />
 
             {/* Meta Tags for SEO */}
             <meta name="description" content="Browse stores and featured products with ease. Log in to shop securely on our eCommerce platform." />
@@ -52,7 +52,7 @@ export default async function RootLayout({ children }: TProps) {
                property="og:description"
                content="Explore thousands of stores and products. Log in to make secure purchases on our eCommerce platform."
             />
-            <meta property="og:image" content="/logo/logo-512x512.png" />
+            <meta property="og:image" content="/logo/logo-icon.png" />
             <meta property="og:url" content="https://tmdt.vulebaolong.com" />
             <meta property="og:type" content="website" />
 
@@ -60,7 +60,7 @@ export default async function RootLayout({ children }: TProps) {
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content="TMDT - Online Shopping Platform" />
             <meta name="twitter:description" content="Browse stores and products with ease. Log in to buy securely." />
-            <meta name="twitter:image" content="/logo/logo-512x512.png" />
+            <meta name="twitter:image" content="/logo/logo-icon.png" />
 
             <ColorSchemeScript />
          </head>

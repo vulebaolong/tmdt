@@ -1,15 +1,15 @@
 "use client";
-import { Logo } from "@/components/logo/Logo";
-import classes from "./../Auth.module.css";
+import LogoIconText from "@/components/logo/LogoIconText";
 import CustomPasswordInput, { validatePassword } from "@/components/password-input/CustomPasswordInput";
 import CustomRePasswordInput from "@/components/password-input/CustomRePasswordInput";
+import { useRegister } from "@/tantask/auth.tanstack";
 import { Anchor, Box, Button, Center, Paper, Stack, Text, TextInput, Title } from "@mantine/core";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
-import * as Yup from "yup";
-import { useRegister } from "@/tantask/auth.tanstack";
 import { toast } from "react-toastify";
+import * as Yup from "yup";
+import classes from "./../Auth.module.css";
 
 export default function Register() {
    const router = useRouter();
@@ -18,10 +18,14 @@ export default function Register() {
 
    const registerForm = useFormik({
       initialValues: {
-         fullName: "long",
-         email: "long@gmail.com",
-         password: "aA@123",
-         rePassword: "aA@123",
+         fullName: "",
+         email: "",
+         password: "",
+         rePassword: "",
+         // fullName: "long",
+         // email: "long@gmail.com",
+         // password: "aA@123",
+         // rePassword: "aA@123",
       },
       validationSchema: Yup.object().shape({
          fullName: Yup.string().trim().required("Username is required."),
@@ -84,7 +88,7 @@ export default function Register() {
       <Suspense fallback={<p>Loading feed...</p>}>
          <Stack className={`${classes.wrapForm}`} style={{ animation: "fadeInUp 0.5s" }} px={`md`}>
             <Center>
-               <Logo />
+               <LogoIconText color={5} />
             </Center>
 
             <Title ta="center" style={{ fontFamily: `Greycliff CF,   var(--mantine-font-family)`, fontWeight: `900` }}>

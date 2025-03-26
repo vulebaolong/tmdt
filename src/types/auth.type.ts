@@ -1,4 +1,4 @@
-import { TUser } from "@/schemas/users.schema";
+import { TUser } from "@/schemas/user.schema";
 
 export type TRegisterReq = {
    fullName: string;

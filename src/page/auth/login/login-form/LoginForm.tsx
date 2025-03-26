@@ -21,10 +21,10 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
 
    const loginForm = useFormik({
       initialValues: {
-         email: `long@gmail.com`,
-         password: `aA@123`,
-         // email: ``,
-         // password: ``,
+         // email: `long@gmail.com`,
+         // password: `aA@123`,
+         email: ``,
+         password: ``,
       },
       validationSchema: Yup.object().shape({
          email: Yup.string().trim().email().required(),

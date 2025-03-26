@@ -1,5 +1,6 @@
 .header {
-   background-color: var(--mantine-color-body);
+   /* background-color: var(--mantine-color-body); */
+   background: linear-gradient(-180deg, #f53d2d, #f63);
    height: var(--height-header);
    position: fixed;
    top: 0;
@@ -8,5 +9,17 @@
    z-index: 101;
    border-bottom: 1px solid var(--mantine-color-gray-light);
    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
- }
- 
+   display: flex;
+   align-items: center;
+}
+
+.text-1 {
+   font-size: 14px;
+   color: white;
+}
+
+.text-2 {
+   font-size: 14px;
+   color: white;
+   font-weight: 900;
+}

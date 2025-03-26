@@ -1,5 +1,7 @@
 import { BASE_DOMAIN_API, BASE_DOMAIN_CLOUDINARY, FOLDER_IMAGE_BE } from "@/constant/app.constant";
+import { Loader } from "@mantine/core";
 import dayjs from "dayjs";
+import { ReactElement } from "react";
 
 export const checkPathImage = (path: string | null | undefined) => {
    if (!path) return path;
@@ -70,3 +72,52 @@ export class LogWithColor {
 
 // ✅ Khởi tạo instance
 export const logWithColor = new LogWithColor();
+
+export const renderData = (
+   data: number | string | undefined | null,
+   loadingNumber?: boolean,
+   init: string = "-",
+   length: number = 3
+): number | string | ReactElement => {
+   if (loadingNumber) return <Loader size={16} color={`var(--text-color)`} />;
+   if (data === null || data === undefined) return init;
+
+   if (typeof data === "string") return data;
+   return fBeautifulNumber(data, length);
+};
+
+export function fBeautifulNumber(str: any, length = 0) {
+   try {
+      if (str) {
+         if (typeof str === "number") {
+            str = str.toFixed(8);
+         } else {
+            str = str.replace(/[^\d.]/g, "");
+         }
+         str += "";
+         const x = str.split(".");
+         let x1 = x[0];
+         const x2 = x[1];
+         let x3 = "";
+         if (x2) {
+            let decimalPlaces = x2.replace(/0+$/, "").length;
+            if (decimalPlaces > length) {
+               decimalPlaces = length;
+            }
+            x3 = decimalPlaces > 0 ? "." + x2.slice(0, decimalPlaces) : "";
+         }
+         if (!x1) x1 = "0";
+         const rgx = /(\d+)(\d{3})/;
+         while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, "$1,$2");
+         }
+         const result = (x1 + x3).replace(/^0+(?!\.|$)/, "").replace(/^\./, "");
+         return result;
+      } else {
+         return "0";
+      }
+   } catch (error) {
+      console.log(error);
+      return "0";
+   }
+}

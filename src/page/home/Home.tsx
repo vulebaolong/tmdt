@@ -1,18 +1,16 @@
+import ProductList from "@/components/product/product-list/ProductList";
+import { IProduct } from "@/schemas/product.schema";
+import { TResPagination } from "@/types/app.type";
 import { Box, Container } from "@mantine/core";
-import classes from "./Home.module.css";
 
-export default function Home() {
+type TProps = {
+   products?: TResPagination<IProduct[]>;
+};
+
+export default function Home({ products }: TProps) {
    return (
-      <Container>
-         <Box my={100}>
-            <Box className={`${classes[`box-container`]}`} p={20}>
-               <Box className={`${classes[`box-item`]}`}>{`<HomeLeft />`}</Box>
-
-               <Box className={`${classes[`box-center`]}`}>{`<HomeCenter />`}</Box>
-
-               <Box className={`${classes[`box-item`]}`}>{`<HomeRight />`}</Box>
-            </Box>
-         </Box>
+      <Container py={100}>
+         <Box style={{ minHeight: `calc(100dvh - var(--height-header))` }}>{products && <ProductList products={products} />}</Box>
       </Container>
    );
 }
