@@ -4,9 +4,10 @@ export type TUser = {
    email: string;
    fullName: string;
    password: string;
-   avatar?: any;
-   facebookId?: any;
-   googleId?: any;
+   avatar?: string;
+   facebookId?: string;
+   googleId?: string;
+   role: number;
    createdAt: string;
    updatedAt: string;
 } & Document;
@@ -16,9 +17,10 @@ const UserSchema = new Schema<TUser>(
       email: { type: String, required: true, unique: true },
       fullName: { type: String, required: true },
       password: { type: String, required: true, select: false },
-      avatar: { type: Schema.Types.Mixed },
-      facebookId: { type: Schema.Types.Mixed },
-      googleId: { type: Schema.Types.Mixed },
+      avatar: { type: String },
+      facebookId: { type: String },
+      googleId: { type: String },
+      role: { type: Number, required: true, default: 1 }, // 0: ADMIN / 1: USER
    },
    {
       collection: "Users",

@@ -11,7 +11,7 @@
   "dependencies": {
     "@greatsumini/react-facebook-login": "^3.4.0",
     "@mantine/core": "^7.17.2",
-    "@mantine/dropzone": "^7.17.2",
+    "@mantine/dropzone": "^7.17.3",
     "@mantine/hooks": "^7.17.2",
     "@reduxjs/toolkit": "^2.6.1",
     "@tabler/icons-react": "^3.31.0",

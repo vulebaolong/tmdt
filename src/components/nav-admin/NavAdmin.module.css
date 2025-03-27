@@ -1,0 +1,12 @@
+.box-1 {
+   border-right: light-dark(1px solid var(--mantine-color-gray-2), 1px solid var(--mantine-color-dark-7));
+   background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-8));
+   position: fixed;
+   top: var(--height-header-admin);
+   bottom: 0;
+   left: 0;
+   z-index: 100;
+   width: var(--width-nav);
+   display: flex;
+   flex-direction: column;
+}

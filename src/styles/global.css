@@ -1,5 +1,7 @@
 :root {
    --height-header: mobile-desktop(80px = 120px);
+   --height-header-admin: 60px;
+   --width-nav: 260px
 }
 
 body {

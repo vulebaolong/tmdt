@@ -42,7 +42,7 @@ export default function HeaderClient() {
                      </Group>
                      <Group align="center">
                         <SwitchLangV2 />
-                        <ButtonToggleTheme />
+                        <ButtonToggleTheme color="white" variant="transparent" />
                         {info ? (
                            <UserControl />
                         ) : (

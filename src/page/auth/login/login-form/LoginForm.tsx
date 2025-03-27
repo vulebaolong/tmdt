@@ -2,6 +2,7 @@ import CustomPasswordInput, { validatePassword } from "@/components/password-inp
 import ROUTER from "@/constant/router.constant";
 import { useLoginForm } from "@/tantask/auth.tanstack";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
+import { ERole } from "@/types/enum/role.enum";
 import { Anchor, Box, Button, Group, TextInput } from "@mantine/core";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
@@ -64,6 +65,8 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
          useloginForm.mutate(payload, {
             onSuccess: (data) => {
                console.log({ data });
+               if (data.role === ERole[`Admin`]) return router.push(ROUTER.ADMIN.ROOT);
+
                if (data.isGoogleAuthenticator) {
                   setStep(`login-google-authentication`);
                } else {

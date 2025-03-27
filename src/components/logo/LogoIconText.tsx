@@ -5,9 +5,11 @@ import { useRouter } from "next/navigation";
 
 type TProps = {
    color?: number;
+   width?: string;
+   height?: string;
 };
 
-export default function LogoIconText({ color = 0 }: TProps) {
+export default function LogoIconText({ color = 0, width = `160px`, height = `50px` }: TProps) {
    const theme = useMantineTheme();
    const router = useRouter();
 
@@ -20,8 +22,8 @@ export default function LogoIconText({ color = 0 }: TProps) {
          <svg
             viewBox="0 0 192 65"
             style={{
-               width: `160px`,
-               height: `50px`,
+               width,
+               height,
                fill: theme.colors.shopee[color],
             }}
          >
