@@ -40,6 +40,6 @@ jobs:
            run: |
               docker run -d \
               --env-file .env \
-              -p 3001:3000 \
+              -p 3069:3000 \
               --name cons-tmdt \
               vulebaolong/img-tmdt:latest
