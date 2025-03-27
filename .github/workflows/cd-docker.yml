@@ -14,7 +14,7 @@ jobs:
 
       steps:
          - name: Delete old .env file
-           run: sudo rm -f .env || true
+           run: rm -f .env || true
 
          - name: Create new .env file and add environment variables
            run: |
@@ -25,20 +25,20 @@ jobs:
               echo "REFRESH_TOKEN_EXPIRES=${{secrets.REFRESH_TOKEN_EXPIRES}}" >> .env
 
          - name: Stop running containers
-           run: sudo docker stop cons-tmdt || true
+           run: docker stop cons-tmdt || true
 
          - name: Remove containers
-           run: sudo docker rm cons-tmdt || true
+           run: docker rm cons-tmdt || true
 
          - name: Delete old docker image
-           run: sudo docker rmi vulebaolong/img-tmdt:latest || true
+           run: docker rmi vulebaolong/img-tmdt:latest || true
 
          - name: Pull Docker image
-           run: sudo docker pull vulebaolong/img-tmdt:latest || true
+           run: docker pull vulebaolong/img-tmdt:latest || true
 
          - name: Run Docker
            run: |
-              sudo docker run -d \
+              docker run -d \
               --env-file .env \
               -p 3001:3000 \
               --name cons-tmdt \
