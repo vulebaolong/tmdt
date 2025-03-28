@@ -37,10 +37,10 @@ export default function Product() {
                </Text>
             ),
          }),
-         columnHelper.accessor("images", {
+         columnHelper.accessor("imagePublicId", {
             header: "Hình",
             size: 150,
-            cell: ({ cell }) => <ProductImage width="50px" src={cell.getValue()[0]} />,
+            cell: ({ cell }) => <ProductImage width="50px" src={cell.getValue()} />,
          }),
          columnHelper.accessor("tags", {
             header: "Nhãn",

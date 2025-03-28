@@ -10,11 +10,11 @@ const nextConfig: NextConfig = {
       remotePatterns: [
          {
             protocol: "https",
-            hostname: "tmdt.vulebaolong.com",
-         },
+            hostname: "res.cloudinary.com",
+          },
          {
             protocol: "https",
-            hostname: "down-vn.img.susercontent.com",
+            hostname: "tmdt.vulebaolong.com",
          },
          {
             protocol: "http",

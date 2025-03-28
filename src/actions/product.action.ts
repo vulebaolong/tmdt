@@ -1,6 +1,7 @@
 "use server";
 
 import { toJson } from "@/helpers/function.helper";
+import { deleteImageCloudinary, uploadImageToCloudinary } from "@/lib/cloudinary-helper";
 import { connectDB } from "@/lib/mongoose";
 import Product, { IProduct } from "@/schemas/product.schema";
 import { TResPagination } from "@/types/app.type";
@@ -113,7 +114,8 @@ export async function getProductByIdAction(id: string) {
 
 export async function createProductAction({ imageFromData, ...product }: TCreateProductReq) {
    try {
-      const linkImage = await createImage(imageFromData);
+      const linkImage = await uploadImageToCloudinary(imageFromData);
+      console.log({linkImage});
       if (!linkImage) throw new Error(`No file`);
 
       await connectDB();
@@ -122,7 +124,8 @@ export async function createProductAction({ imageFromData, ...product }: TCreate
          name: product.name,
          tags: product.tags,
          price: product.price,
-         images: linkImage,
+         images: [linkImage.url],
+         imagePublicId: linkImage.public_id, // lưu thêm id để xóa sau này
          sold: 0,
       });
 
@@ -143,11 +146,13 @@ export async function updateProductAction({ imageFromData, ...product }: any) {
          price: product.price,
       };
 
-      // Nếu có ảnh mới
       if (imageFromData) {
-         await deleteImage(product?.images?.[0]);
-         const linkImage = await createImage(imageFromData);
-         if (linkImage) updateData.images = linkImage;
+         await deleteImageCloudinary(product.imagePublicId);
+         const linkImage = await uploadImageToCloudinary(imageFromData);
+         if (linkImage) {
+            updateData.images = [linkImage.url];
+            updateData.imagePublicId = linkImage.public_id;
+         }
       }
 
       const productUpdated = await Product.findByIdAndUpdate(product._id, updateData, { new: true });
@@ -165,10 +170,14 @@ export async function deleteProductAction(id: string) {
    try {
       await connectDB();
       const productDelete = await Product.findByIdAndDelete(id);
-      if (productDelete?.images?.[0]) await deleteImage(productDelete?.images?.[0]);
+
+      if (productDelete?.imagePublicId) {
+         await deleteImageCloudinary(productDelete.imagePublicId);
+      }
+
       return true;
    } catch (error) {
-      console.error("Update Product Failed", error);
+      console.error("Delete Product Failed", error);
       throw error;
    }
 }

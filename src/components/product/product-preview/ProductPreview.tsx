@@ -7,15 +7,18 @@ export default function ProductPreview({ createForm }: { createForm: FormikProps
    const file = createForm.values.imageFromData;
    const preView = useImagePreview(file);
 
+   console.log();
+
    return (
       <Paper shadow="md" radius="lg" withBorder p="xl">
          <Center h={`100%`}>
             <Box w={215}>
                <ProductItem
                   type="review"
+                  preview={preView}
                   product={
                      {
-                        images: [preView],
+                        imagePublicId: createForm.values.imagePublicId,
                         name: createForm.values.name,
                         tags: [],
                         price: createForm.values.price,

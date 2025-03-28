@@ -101,7 +101,6 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
             // filters={{ type: `1` }}
             onEdit={(item: any) => {
                setEditData(item);
-               console.log({ item });
                createForm.setValues(item);
                open();
             }}
@@ -220,7 +219,9 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
 
                      return null;
                   })}
-                  <Button type="submit">Save</Button>
+                  <Button loading={update.isPending || create.isPending} type="submit">
+                     Save
+                  </Button>
                </Stack>
             </form>
          </Drawer>

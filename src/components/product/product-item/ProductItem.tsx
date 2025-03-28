@@ -11,10 +11,11 @@ import classes from "./ProductItem.module.css";
 
 type TProps = {
    product: IProduct;
+   preview?: string;
    type?: `show` | `review`;
 };
 
-function ProductItem({ product, type = `show` }: TProps) {
+function ProductItem({ product, type = `show`, preview }: TProps) {
    const router = useRouter();
 
    const getDisplayName = () => {
@@ -38,7 +39,7 @@ function ProductItem({ product, type = `show` }: TProps) {
 
    return (
       <Box style={{ cursor: type === `show` ? `pointer` : `default` }} className={`${classes[`box-item`]}`} onClick={handleClick}>
-         <ProductImage src={product.images[0]} />
+         <ProductImage src={product.imagePublicId} preview={preview} />
          <Stack p={5}>
             <Box h={50}>
                <Text lineClamp={2} opacity={!product.name ? 0.7 : 1}>
