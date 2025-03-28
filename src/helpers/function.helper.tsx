@@ -128,36 +128,55 @@ export function toJson(params: any) {
    return JSON.parse(JSON.stringify(params));
 }
 
-
 export function buildInitialValues(fields: TFieldCreate[]) {
    return fields.reduce((acc, field) => {
-     acc[field.name] = field.type === "number" ? 0 : "";
-     return acc;
+      acc[field.name] = field.type === "number" ? 0 : "";
+      return acc;
    }, {} as Record<string, any>);
- }
- 
- export function buildValidationSchema(fields: TFieldCreate[]) {
+}
+
+export function buildValidationSchema(fields: TFieldCreate[]) {
    const shape: Record<string, any> = {};
- 
+
    fields.forEach((field) => {
-     let validator: any = null;
-     if (field.type === "text") {
-       validator = Yup.string();
-     }
-     if (field.type === "number") {
-       validator = Yup.number();
-     }
-     if (field.type === "select") {
-       validator = Yup.string();
-     }
-     if (field.type === "date") {
-       validator = Yup.date();
-     }
-     if (field.withAsterisk) {
-       validator = validator.required(`${field.label} is required`);
-     }
-     shape[field.name] = validator;
+      let validator: any = null;
+      if (field.type === "text") {
+         validator = Yup.string();
+      }
+      if (field.type === "number") {
+         validator = Yup.number();
+      }
+      if (field.type === "select") {
+         validator = Yup.string();
+      }
+      if (field.type === "date") {
+         validator = Yup.date();
+      }
+      if (field.withAsterisk) {
+         validator = validator.required(`${field.label} is required`);
+      }
+      shape[field.name] = validator;
    });
- 
+
    return Yup.object().shape(shape);
- }
+}
+
+export function buildFormDataOrObject(values: Record<string, any>) {
+   const result: Record<string, any> = {};
+   const formData = new FormData();
+
+   for (const key in values) {
+      const value = values[key];
+
+      if (value instanceof File) {
+         formData.append("file", value);
+         result[key] = formData
+      } else if (typeof value === "string") {
+         result[key] = value.trim();
+      } else {
+         result[key] = value;
+      }
+   }
+
+   return result;
+}

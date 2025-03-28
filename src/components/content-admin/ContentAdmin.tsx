@@ -1,6 +1,6 @@
-import { buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
+import { buildFormDataOrObject, buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
 import { TResPagination } from "@/types/app.type";
-import { Box, Button, Drawer, NumberInput, Select, Stack, TextInput } from "@mantine/core";
+import { Box, Button, Drawer, NumberInput, Select, Stack, TagsInput, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { useFormik } from "formik";
@@ -11,8 +11,10 @@ import TableCustom, { TPayload } from "../table-custom/TableCustom";
 export type TFieldCreate = {
    label: string;
    name: string;
-   type: "text" | "number" | "select" | "date" | "custom";
+   type: "text" | "number" | "select" | "date" | "custom" | "tags";
    options?: string[];
+   dataTags?: any;
+   onChangeTags?: any;
    withAsterisk?: boolean;
    component?: (props: { value: any; error: string | undefined; setValue: (value: any) => void }) => React.ReactElement;
 };
@@ -37,7 +39,9 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, title = `C
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
-         create.mutate(values, {
+         const payload = buildFormDataOrObject(values);
+         console.log(payload);
+         create.mutate(payload, {
             onSuccess: () => {
                toast.success(`Create success`);
                close();
@@ -137,6 +141,22 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, title = `C
                               value={createForm.values[field.name]}
                               onChange={(value) => createForm.setFieldValue(field.name, value)}
                               error={error}
+                              inputWrapperOrder={["label", "input", "error"]}
+                           />
+                        );
+                     }
+
+                     if (field.type === "tags") {
+                        return (
+                           <TagsInput
+                              placeholder="Nhãn"
+                              key={field.name}
+                              withAsterisk={field.withAsterisk}
+                              label={field.label}
+                              data={field.dataTags}
+                              onChange={(e) => { 
+                                 field.onChangeTags(e, createForm.setFieldValue)
+                               }}
                               inputWrapperOrder={["label", "input", "error"]}
                            />
                         );

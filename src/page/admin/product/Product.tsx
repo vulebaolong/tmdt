@@ -7,6 +7,7 @@ import ProductUploadImage from "@/components/product/product-upload-image/Produc
 import { formatLocalTime, renderData } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { useCreateProduct, useProducts } from "@/tantask/product.tanstack";
+import { EProductTag } from "@/types/enum/product.enum";
 import { Text } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
@@ -30,7 +31,7 @@ export default function Product() {
             size: 150,
             cell: ({ cell }) => <ProductImage width="50px" src={cell.getValue()[0]} />,
          }),
-         columnHelper.accessor("tag", {
+         columnHelper.accessor("tags", {
             header: "Nhãn",
             size: 150,
             cell: ({ cell }) => {
@@ -70,14 +71,26 @@ export default function Product() {
 
    const fields: TFieldCreate[] = [
       {
-         label: "Image",
-         name: "image",
+         label: "",
+         name: "imageFromData",
          type: "custom",
          component: ({ value, error, setValue }) => <ProductUploadImage value={value} onChange={setValue} error={error} />,
       },
       { label: "Name", name: "name", type: "text", withAsterisk: true },
+      {
+         label: "Nhãn",
+         name: "tags",
+         type: "tags",
+         dataTags: Object.keys(EProductTag).filter((key) => isNaN(Number(key))),
+         onChangeTags: (e: any, setFieldValue: any) => {
+            setFieldValue(
+               "tags",
+               e.map((item: any) => EProductTag[item as keyof typeof EProductTag] as number)
+            );
+         },
+      },
       { label: "Price", name: "price", type: "number" },
-      { label: "Status", name: "status", type: "select", options: ["active", "inactive"] },
+      // { label: "Status", name: "status", type: "select", options: ["active", "inactive"] },
    ];
    return (
       <>

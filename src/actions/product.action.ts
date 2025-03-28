@@ -1,13 +1,44 @@
 "use server";
 
+import { toJson } from "@/helpers/function.helper";
 import { connectDB } from "@/lib/mongoose";
-import fs from "fs";
-import path from "path";
 import Product, { IProduct } from "@/schemas/product.schema";
 import { TResPagination } from "@/types/app.type";
 import { TCreateProductReq } from "@/types/product.type";
-import { toJson } from "@/helpers/function.helper";
+import fs from "fs";
 import { SortOrder } from "mongoose";
+import path from "path";
+
+export async function getProductListAction2(page: number): Promise<TResPagination<IProduct[]>> {
+   try {
+      await connectDB();
+
+      console.log({ page });
+
+      const pageSize = 4;
+      const skip = (page - 1) * pageSize;
+
+      const [itemCount, items] = await Promise.all([
+         Product.countDocuments(),
+         Product.find().sort({ createdAt: -1 }).skip(skip).limit(pageSize).lean(),
+      ]);
+
+      const pageCount = Math.ceil(itemCount / pageSize);
+
+      return {
+         page,
+         pageSize,
+         pageCount,
+         itemCount,
+         items: JSON.parse(JSON.stringify(items)), // đảm bảo JSON-safe
+         filterable: [],
+         sortable: [],
+      };
+   } catch (error) {
+      console.error("Get List Product Failed", error);
+      throw error;
+   }
+}
 
 export type TGetProducts = {
    pagination: {

@@ -34,7 +34,7 @@ export default function ProductUploadImage({ value, onChange, error }: Props) {
                         {
                            images: [preview],
                            name: "Preview",
-                           tag: [],
+                           tags: [],
                            price: 0,
                         } as any
                      }

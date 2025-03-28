@@ -15,7 +15,7 @@ type TProps = {
 function ProductList({ products: initialProducts }: TProps) {
    const [products, setProducts] = useState(initialProducts.items);
    const [page, setPage] = useState(1);
-   const totalPage = useRef(initialProducts.totalPages);
+   const totalPage = useRef(initialProducts.pageCount);
 
    const getProductList = useGetProductList();
 
@@ -23,7 +23,7 @@ function ProductList({ products: initialProducts }: TProps) {
       if (page < 2 || page > totalPage.current) return;
       getProductList.mutate(page, {
          onSuccess: (data) => {
-            totalPage.current = data.totalPages;
+            totalPage.current = data.pageCount;
             const newProducts = [...products, ...data.items];
             setProducts(newProducts);
          },
@@ -40,7 +40,7 @@ function ProductList({ products: initialProducts }: TProps) {
       <Stack>
          <Box className={`${classes[`box-container`]}`}>
             {products.map((product, i) => {
-               return <ProductItem key={i} product={product} />;
+               return <ProductItem key={i} product={product as any} />;
             })}
          </Box>
          <Center>

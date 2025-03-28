@@ -47,12 +47,12 @@ function ProductItem({ product, type = `show` }: TProps) {
             </Box>
 
             <Group>
-               {product.tag.length === 0 && (
+               {product.tags.length === 0 && (
                   <Text fz={12} opacity={0.7}>
                      Nhãn sản phẩm
                   </Text>
                )}
-               {product.tag.map((tag: number, i: number) => {
+               {product.tags.map((tag: number, i: number) => {
                   return <ProductTag tag={tag} key={i} />;
                })}
             </Group>
