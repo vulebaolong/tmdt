@@ -10,7 +10,7 @@ import fs from "fs";
 import { SortOrder } from "mongoose";
 import path from "path";
 
-export async function getProductListAction2(page: number): Promise<TResPagination<IProduct[]>> {
+export async function getProductListAction2(page: number): Promise<TResPagination<IProduct>> {
    try {
       await connectDB();
 

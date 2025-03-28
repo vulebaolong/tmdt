@@ -4,7 +4,7 @@ import { TResPagination } from "@/types/app.type";
 import { Box, Container } from "@mantine/core";
 
 type TProps = {
-   products?: TResPagination<IProduct[]>;
+   products?: TResPagination<IProduct>;
 };
 
 export default function Home({ products }: TProps) {

@@ -1,5 +1,6 @@
 "use client";
 
+import Nodata from "@/components/no-data/Nodata";
 import { IProduct } from "@/schemas/product.schema";
 import { useGetProductList } from "@/tantask/product.tanstack";
 import { TResPagination } from "@/types/app.type";
@@ -9,7 +10,7 @@ import ProductItem from "../product-item/ProductItem";
 import classes from "./ProductList.module.css";
 
 type TProps = {
-   products: TResPagination<IProduct[]>;
+   products: TResPagination<IProduct>;
 };
 
 function ProductList({ products: initialProducts }: TProps) {
@@ -40,14 +41,18 @@ function ProductList({ products: initialProducts }: TProps) {
       <Stack>
          <Box className={`${classes[`box-container`]}`}>
             {products.map((product, i) => {
-               return <ProductItem key={i} product={product as any} />;
+               return <ProductItem key={i} product={product} />;
             })}
          </Box>
-         <Center>
-            <Button loading={getProductList.isPending} disabled={page === totalPage.current} onClick={handleLoadMore} variant="default" w={300}>
-               Xem Thêm
-            </Button>
-         </Center>
+         {products.length > 0 ? (
+            <Center>
+               <Button loading={getProductList.isPending} disabled={page === totalPage.current} onClick={handleLoadMore} variant="default" w={300}>
+                  Xem Thêm
+               </Button>
+            </Center>
+         ) : (
+            <Nodata />
+         )}
       </Stack>
    );
 }

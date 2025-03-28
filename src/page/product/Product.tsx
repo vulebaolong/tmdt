@@ -1,5 +1,6 @@
 "use client";
 
+import ProductImage from "@/components/product/product-image/ProductImage";
 import ROUTER from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { useAppSelector } from "@/redux/hooks";
@@ -52,12 +53,7 @@ export default function Product({ product }: TProps) {
                   <Box>
                      <Text style={{ fontSize: 20, fontWeight: 900 }}>Sản Phẩm</Text>
                      <Box w={100}>
-                        <Image
-                           style={{ width: `100%`, objectFit: `contain` }}
-                           // src={`	https://down-vn.img.susercontent.com/file/cn-11134207-7r98o-lpu7emvja9zsb3_tn.webp`}
-                           src={product.images[0]}
-                           alt="image-product"
-                        />
+                        <ProductImage src={product.imagePublicId} />
                      </Box>
                   </Box>
 
