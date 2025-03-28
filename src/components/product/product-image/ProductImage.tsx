@@ -15,10 +15,10 @@ export default function ProductImage({ src, width = `100%`, height = `auto` }: T
 
    return showImage ? (
       <Box style={{ aspectRatio: `1 / 1`, width, height }}>
-         <Image
+         <img
             src={src}
-            width={0}
-            height={0}
+            // width={0}
+            // height={0}
             sizes="100vw"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
             alt="product-image"
