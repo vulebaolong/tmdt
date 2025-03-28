@@ -76,3 +76,9 @@ export default async function RootLayout({ children }: TProps) {
 
 // https://sepay.vn/lap-trinh-cong-thanh-toan.html
 // https://www.notion.so/SEPAY-1c398db6991280d49ea1e111620a1261
+
+// ssh tmdt_ctid@207.2.122.125
+// - IP: 207.2.122.125
+// - Port: 22
+// - Username: tmdt_ctid
+// - Password: 123456a@A
