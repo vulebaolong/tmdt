@@ -1,6 +1,5 @@
 import NoImage from "@/components/no-image/NoImage";
 import { Box } from "@mantine/core";
-import Image from "next/image";
 import { useState } from "react";
 
 type TProductImageProps = {
