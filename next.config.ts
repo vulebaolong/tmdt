@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
    output: `standalone`,
    reactStrictMode: false,
    images: {
-      domains: ["tmdt.vulebaolong.com"],
+      domains: ["tmdt.vulebaolong.com", "down-vn.img.susercontent.com"],
    },
 };
 

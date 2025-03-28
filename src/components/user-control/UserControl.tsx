@@ -1,15 +1,17 @@
 "use client";
 
+import ROUTER from "@/constant/router.constant";
 import { logout } from "@/helpers/api.helper";
 import { effectText } from "@/helpers/motion.helper";
 import { useAppSelector } from "@/redux/hooks";
 import { Avatar, Group, Menu, Text } from "@mantine/core";
-import { IconLogout, IconSettings, IconUserCheck, IconUserSearch } from "@tabler/icons-react";
+import { IconDiamond, IconLogout, IconSettings, IconUserCheck, IconUserSearch } from "@tabler/icons-react";
 import { toast } from "react-toastify";
 import classes from "./UserControl.module.css";
+import { useRouter } from "next/navigation";
 
 export default function UserControl() {
-   // const router = useRouter();
+   const router = useRouter();
    const info = useAppSelector((state) => state.user.info);
 
    return (
@@ -41,6 +43,17 @@ export default function UserControl() {
             <Menu.Divider />
 
             <Menu.Label>Application</Menu.Label>
+
+            {info?.role === 0 && (
+               <Menu.Item
+                  onClick={() => {
+                     router.push(ROUTER.ADMIN.ROOT);
+                  }}
+                  leftSection={<IconDiamond size={14} />}
+               >
+                  Admin
+               </Menu.Item>
+            )}
 
             <Menu.Item
                onClick={() => {

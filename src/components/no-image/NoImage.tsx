@@ -6,9 +6,9 @@ export default function NoImage() {
       <Center w={`100%`} h={`100%`}>
          <Box>
             <Center>
-               <IconPhoto size={50} opacity={0.7} />
+               <IconPhoto size={`50%`} opacity={0.7} />
             </Center>
-            <Text ta={`center`} opacity={0.7}>
+            <Text ta={`center`} fz={`50%`} opacity={0.7}>
                No Image
             </Text>
          </Box>

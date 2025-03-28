@@ -72,3 +72,7 @@ export default async function RootLayout({ children }: TProps) {
       </html>
    );
 }
+
+
+// https://sepay.vn/lap-trinh-cong-thanh-toan.html
+// https://www.notion.so/SEPAY-1c398db6991280d49ea1e111620a1261

@@ -1,0 +1,15 @@
+.box-1 {
+   display: grid;
+   gap: 30px;
+   width: 100%;
+   grid-template-columns: mobile-desktop(1fr = 0.6fr 0.4fr);
+   grid-template-rows: mobile-desktop(1fr 1fr = 1fr);
+}
+
+.box-container {
+   display: grid;
+   grid-template-columns: mobile-desktop(1fr);
+   grid-template-rows: min-content;
+   gap: 20px;
+}
+

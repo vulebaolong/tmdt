@@ -1,7 +1,9 @@
+import { TFieldCreate } from "@/components/content-admin/ContentAdmin";
 import { BASE_DOMAIN_API, BASE_DOMAIN_CLOUDINARY, FOLDER_IMAGE_BE } from "@/constant/app.constant";
 import { Loader } from "@mantine/core";
 import dayjs from "dayjs";
 import { ReactElement } from "react";
+import * as Yup from "yup";
 
 export const checkPathImage = (path: string | null | undefined) => {
    if (!path) return path;
@@ -121,3 +123,41 @@ export function fBeautifulNumber(str: any, length = 0) {
       return "0";
    }
 }
+
+export function toJson(params: any) {
+   return JSON.parse(JSON.stringify(params));
+}
+
+
+export function buildInitialValues(fields: TFieldCreate[]) {
+   return fields.reduce((acc, field) => {
+     acc[field.name] = field.type === "number" ? 0 : "";
+     return acc;
+   }, {} as Record<string, any>);
+ }
+ 
+ export function buildValidationSchema(fields: TFieldCreate[]) {
+   const shape: Record<string, any> = {};
+ 
+   fields.forEach((field) => {
+     let validator: any = null;
+     if (field.type === "text") {
+       validator = Yup.string();
+     }
+     if (field.type === "number") {
+       validator = Yup.number();
+     }
+     if (field.type === "select") {
+       validator = Yup.string();
+     }
+     if (field.type === "date") {
+       validator = Yup.date();
+     }
+     if (field.withAsterisk) {
+       validator = validator.required(`${field.label} is required`);
+     }
+     shape[field.name] = validator;
+   });
+ 
+   return Yup.object().shape(shape);
+ }
