@@ -77,8 +77,7 @@ export async function getProductListAction({ pagination, filters = {}, sort }: T
       // 2. Xử lý sort
       const sortOption: Record<string, SortOrder> = sort?.sortBy ? { [sort.sortBy]: sort.isDesc ? -1 : 1 } : { createdAt: -1 };
 
-
-      console.log({query});
+      console.log({ query });
       // 3. Truy vấn DB
       const [itemCount, items] = await Promise.all([
          Product.countDocuments(query),
@@ -114,19 +113,8 @@ export async function getProductByIdAction(id: string) {
 
 export async function createProductAction({ imageFromData, ...product }: TCreateProductReq) {
    try {
-      const file = imageFromData.get("file") as File;
-      console.log({ file, product });
-      if (!file) throw new Error(`No file`);
-
-      const bytes = await file.arrayBuffer();
-      const buffer = Buffer.from(bytes);
-
-      const fileName = `${Date.now()}-${file.name}`;
-      const uploadPath = path.join(process.cwd(), "public", "uploads", fileName);
-
-      // Tạo thư mục nếu chưa có
-      fs.mkdirSync(path.dirname(uploadPath), { recursive: true });
-      fs.writeFileSync(uploadPath, buffer);
+      const linkImage = await createImage(imageFromData);
+      if (!linkImage) throw new Error(`No file`);
 
       await connectDB();
 
@@ -134,7 +122,7 @@ export async function createProductAction({ imageFromData, ...product }: TCreate
          name: product.name,
          tags: product.tags,
          price: product.price,
-         images: [`/uploads/${fileName}`],
+         images: linkImage,
          sold: 0,
       });
 
@@ -142,5 +130,80 @@ export async function createProductAction({ imageFromData, ...product }: TCreate
    } catch (error) {
       console.error("Create Product Failed", error);
       throw error;
+   }
+}
+
+export async function updateProductAction({ imageFromData, ...product }: any) {
+   try {
+      await connectDB();
+
+      const updateData: any = {
+         name: product.name,
+         tags: product.tags,
+         price: product.price,
+      };
+
+      // Nếu có ảnh mới
+      if (imageFromData) {
+         await deleteImage(product?.images?.[0]);
+         const linkImage = await createImage(imageFromData);
+         if (linkImage) updateData.images = linkImage;
+      }
+
+      const productUpdated = await Product.findByIdAndUpdate(product._id, updateData, { new: true });
+
+      if (!productUpdated) throw new Error("Product not found");
+
+      return toJson(productUpdated);
+   } catch (error) {
+      console.error("Update Product Failed", error);
+      throw error;
+   }
+}
+
+export async function deleteProductAction(id: string) {
+   try {
+      await connectDB();
+      const productDelete = await Product.findByIdAndDelete(id);
+      if (productDelete?.images?.[0]) await deleteImage(productDelete?.images?.[0]);
+      return true;
+   } catch (error) {
+      console.error("Update Product Failed", error);
+      throw error;
+   }
+}
+
+export async function createImage(formData: FormData) {
+   const file = formData.get("file") as File;
+   if (!file) return null;
+
+   const bytes = await file.arrayBuffer();
+   const buffer = Buffer.from(bytes);
+
+   const fileExtension = path.extname(file.name);
+   const fileName = `${Date.now()}${fileExtension}`;
+   const uploadPath = path.join(process.cwd(), "public", "uploads", fileName);
+
+   // Tạo thư mục nếu chưa có
+   fs.mkdirSync(path.dirname(uploadPath), { recursive: true });
+   fs.writeFileSync(uploadPath, buffer);
+
+   return `/uploads/${fileName}`;
+}
+
+export async function deleteImage(linkImage: string) {
+   try {
+      if (!linkImage) return;
+
+      const filePath = path.join(process.cwd(), "public", linkImage);
+
+      if (fs.existsSync(filePath)) {
+         fs.unlinkSync(filePath);
+         console.log(`Đã xóa file: ${filePath}`);
+      } else {
+         console.warn(`File không tồn tại: ${filePath}`);
+      }
+   } catch (error) {
+      console.error("Xóa file thất bại:", error);
    }
 }

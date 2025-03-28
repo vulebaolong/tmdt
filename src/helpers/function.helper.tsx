@@ -140,21 +140,33 @@ export function buildValidationSchema(fields: TFieldCreate[]) {
 
    fields.forEach((field) => {
       let validator: any = null;
-      if (field.type === "text") {
-         validator = Yup.string();
+
+      switch (field.type) {
+         case "text":
+            validator = Yup.string();
+            break;
+         case "number":
+            validator = Yup.number();
+            break;
+         case "select":
+            validator = Yup.string();
+            break;
+         case "date":
+            validator = Yup.date();
+            break;
+         default:
+            validator = Yup.mixed();
       }
-      if (field.type === "number") {
-         validator = Yup.number();
-      }
-      if (field.type === "select") {
-         validator = Yup.string();
-      }
-      if (field.type === "date") {
-         validator = Yup.date();
-      }
+
       if (field.withAsterisk) {
          validator = validator.required(`${field.label} is required`);
       }
+
+      if (field.validate) {
+         // Nếu có custom validate → apply
+         validator = field.validate(Yup, validator);
+      }
+
       shape[field.name] = validator;
    });
 
@@ -170,7 +182,7 @@ export function buildFormDataOrObject(values: Record<string, any>) {
 
       if (value instanceof File) {
          formData.append("file", value);
-         result[key] = formData
+         result[key] = formData;
       } else if (typeof value === "string") {
          result[key] = value.trim();
       } else {

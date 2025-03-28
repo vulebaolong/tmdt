@@ -7,7 +7,20 @@ const nextConfig: NextConfig = {
    output: `standalone`,
    reactStrictMode: false,
    images: {
-      domains: ["tmdt.vulebaolong.com", "down-vn.img.susercontent.com"],
+      remotePatterns: [
+         {
+            protocol: "https",
+            hostname: "tmdt.vulebaolong.com",
+         },
+         {
+            protocol: "https",
+            hostname: "down-vn.img.susercontent.com",
+         },
+         {
+            protocol: "http",
+            hostname: "localhost",
+         },
+      ],
    },
 };
 

@@ -1,6 +1,8 @@
 import { TResPagination } from "@/types/app.type";
 import {
+   ActionIcon,
    Box,
+   Group,
    LoadingOverlay,
    MantineStyleProp,
    Pagination,
@@ -14,9 +16,11 @@ import {
    TableThead,
    TableTr
 } from "@mantine/core";
+import { IconEdit, IconTrashFilled } from "@tabler/icons-react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
+import NodataOverlay from "../no-data/NodataOverlay";
 import classes from "./TableCustom.module.css";
 
 export type TPaginationTable = {
@@ -44,6 +48,8 @@ type TProps<T> = {
    styleTableTh?: MantineStyleProp;
    styleTableTr?: MantineStyleProp;
    styleTableTd?: MantineStyleProp;
+   onEdit?: (row: T) => void;
+   onDelete?: (row: T) => void;
 };
 
 function TableCustom<T>(props: TProps<T>) {
@@ -108,6 +114,16 @@ function TableCustom<T>(props: TProps<T>) {
                         </TableTd>
                      );
                   })}
+                  <TableTd style={{ ...styleTableTd }}>
+                     <Group wrap="nowrap">
+                        <ActionIcon onClick={() => props.onEdit?.(row.original)} variant="light" aria-label="Settings">
+                           <IconEdit style={{ width: "70%", height: "70%" }} stroke={1.5} />
+                        </ActionIcon>
+                        <ActionIcon onClick={() => props.onDelete?.(row.original)} variant="light" aria-label="Settings">
+                           <IconTrashFilled style={{ width: "70%", height: "70%" }} stroke={1.5} />
+                        </ActionIcon>
+                     </Group>
+                  </TableTd>
                </TableTr>
             ))}
          </>
@@ -118,19 +134,14 @@ function TableCustom<T>(props: TProps<T>) {
       <Box className={`${classes[`table`]}`}>
          <Paper pos="relative" shadow="md" radius="lg" withBorder p="xl">
             <LoadingOverlay visible={queryData.isLoading} zIndex={1000} overlayProps={{ radius: "sm", bg: `transparent` }} />
+            <NodataOverlay visiable={!queryData.isLoading && (!queryData.data || queryData.data.items.length === 0 || queryData.isError)} />
 
             <ScrollArea
                type="always"
                offsetScrollbars
                styles={{ thumb: { backgroundColor: `var(--mantine-color-blue-7)` }, root: { height: heightScroll } }}
             >
-               <Table
-                  stickyHeader
-                  style={{ ...styleTable }}
-                  // styles={{ thead: { background: `var(--mantine-color-3)` } }}
-                  withColumnBorders
-                  striped
-               >
+               <Table stickyHeader style={{ ...styleTable }} withColumnBorders striped>
                   <TableThead style={{ ...styleTableThead }}>
                      {table.getHeaderGroups().map((headerGroup) => (
                         <TableTr key={headerGroup.id} style={{ ...styleTableTr }}>
@@ -143,6 +154,7 @@ function TableCustom<T>(props: TProps<T>) {
                                  </TableTh>
                               );
                            })}
+                           {/* <TableTh style={{ ...styleTableTh }}>Action</TableTh> */}
                         </TableTr>
                      ))}
                   </TableThead>

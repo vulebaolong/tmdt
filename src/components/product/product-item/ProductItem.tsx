@@ -57,7 +57,7 @@ function ProductItem({ product, type = `show` }: TProps) {
                })}
             </Group>
             <Group align="center" justify="space-between">
-               <Text style={{ fontWeight: 900 }} fz={18} c={`shopee`}>
+               <Text truncate style={{ fontWeight: 900 }} fz={18} c={`shopee`}>
                   ₫{renderData(product.price)}
                </Text>
                <Text fz={14}>Đã bán {renderData(product.sold)}</Text>
