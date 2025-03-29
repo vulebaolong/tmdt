@@ -33,8 +33,16 @@ async function refreshToken() {
 
 export async function logout() {
    await clearTokensAction();
-   window.location.reload();
-   // window.location.href = "/login";
+
+   if (typeof window !== "undefined") {
+      // Client
+      window.location.reload();
+      //   window.location.href = "/login";
+   } else {
+      // Server
+      const { redirect } = await import("next/navigation");
+      redirect("/login");
+   }
 }
 
 type FetchOptions = RequestInit & { body?: any; isFormData?: boolean };

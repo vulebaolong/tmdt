@@ -1,5 +1,5 @@
 import { getProductByIdAction } from "@/actions/product.action";
-import Product from "@/page/product/Product";
+import ProductDetail from "@/page/product/ProductDetail";
 
 type TProps = {
    params: Promise<{ id: string }>;
@@ -8,5 +8,5 @@ type TProps = {
 export default async function page({ params }: TProps) {
    const { id } = await params;
    const product = await getProductByIdAction(id);
-   return <Product product={product} />;
+   return <ProductDetail product={product} />;
 }
