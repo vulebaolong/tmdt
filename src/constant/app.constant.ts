@@ -23,7 +23,7 @@ export const CLOUDINARY_NAME = process.env.CLOUDINARY_NAME;
 export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
 export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 
-export const SHIPPING_FEE = 30000;
+export const SHIPPING_FEE = 0;
 
 console.log({
    BASE_DOMAIN_API,

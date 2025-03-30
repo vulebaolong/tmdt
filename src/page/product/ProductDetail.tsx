@@ -4,6 +4,7 @@ import ProductImage from "@/components/product/product-image/ProductImage";
 import { SHIPPING_FEE } from "@/constant/app.constant";
 import ROUTER from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
+import { createQRMomopay, createQRZalopay, createVietQR } from "@/helpers/qr-payment.helper";
 import { useAppSelector } from "@/redux/hooks";
 import { IProduct } from "@/schemas/product.schema";
 import { ActionIcon, Box, Button, Center, Container, Divider, Group, NumberInput, Stack, Text, useMantineTheme } from "@mantine/core";
@@ -11,10 +12,10 @@ import { useCounter } from "@mantine/hooks";
 import { IconChevronDown, IconChevronUp, IconMapPinFilled } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import QRCode from "qrcode";
-import { useMemo, useState } from "react";
-import { BanksObject, QRPay } from "vietnam-qr-pay";
+import { useEffect, useMemo, useState } from "react";
+import { toast } from "react-toastify";
 import classes from "./ProductDetail.module.css";
+import { useCheckTransaction } from "@/tantask/check-transaction.tanstack";
 
 type TProps = {
    product: IProduct;
@@ -25,10 +26,18 @@ export default function ProductDetail({ product }: TProps) {
    const [vietQr, setVietQr] = useState<string | null>(null);
    const [qrMomo, setQrMomo] = useState<string | null>(null);
    const [qrZalopay, setQrZalopay] = useState<string | null>(null);
-
    const theme = useMantineTheme();
    const info = useAppSelector((state) => state.user.info);
    const router = useRouter();
+
+   const { data } = useCheckTransaction();
+
+   useEffect(() => {
+      if (data?.hasNew) {
+         toast.success("💰 Giao dịch mới vừa được ghi nhận!", { autoClose: false });
+      }
+   }, [data?.hasNew]);
+
 
    const total = useMemo(() => {
       const productTotal = product.price * quantity;
@@ -41,61 +50,16 @@ export default function ProductDetail({ product }: TProps) {
       };
    }, [product.price, quantity]);
 
-   const createQRZalopay = async () => {
-      const accountNumber = "99ZP25089M89819615";
-
-      const zaloPayQR = QRPay.initVietQR({
-         bankBin: BanksObject.banviet.bin,
-         bankNumber: accountNumber,
-         amount: total.totalPayment.toString(),
-         purpose: "Chuyen tien",
-      });
-
-      const content = zaloPayQR.build();
-      const base64 = await QRCode.toDataURL(content);
-      setQrZalopay(base64);
-   };
-
-   const createQRMomopay = async () => {
-      // Số tài khoản trong ví MoMo
-      const accountNumber = "99MM24343M62710222";
-
-      const momoQR = QRPay.initVietQR({
-         bankBin: BanksObject.banviet.bin,
-         bankNumber: accountNumber,
-         amount: total.totalPayment.toString(), // Số tiền
-         purpose: "Chuyen tien", // Nội dung (không bắt buộc)
-      });
-
-      // Trong mã QR của MoMo có chứa thêm 1 mã tham chiếu tương ứng với STK
-      momoQR.additionalData.reference = "MOMOW2W" + accountNumber.slice(10);
-
-      // Mã QR của MoMo có thêm 1 trường ID 80 với giá trị là 3 số cuối của SỐ ĐIỆN THOẠI của tài khoản nhận tiền
-      momoQR.setUnreservedField("80", "578");
-
-      const content2 = momoQR.build();
-      const base642 = await QRCode.toDataURL(content2);
-      setQrMomo(base642);
-   };
-
-   const createVietQR = async () => {
-      console.log("Số tiền thanh toán:", total.totalPayment);
-
-      const qrPay = QRPay.initVietQR({
-         bankBin: BanksObject.acb.bin,
-         bankNumber: "14553261",
-         amount: total.totalPayment.toString(),
-         purpose: "Chuyen tien",
-      });
-      const content1 = qrPay.build();
-      const base64 = await QRCode.toDataURL(content1);
-      setVietQr(base64);
-   };
-
    const handleOrder = async () => {
-      createVietQR();
-      createQRMomopay();
-      createQRZalopay();
+      if (!info?._id) return toast.warning(`Bạn cần đăng nhập để mua hàng`);
+
+      const vietQR = await createVietQR(total.totalPayment.toString(), `--${product._id}-${info._id}--`);
+      const qrMomo = await createQRMomopay(total.totalPayment.toString(), `--${product._id}-${info._id}--`);
+      const qrZalopay = await createQRZalopay(total.totalPayment.toString(), `--${product._id}-${info._id}--`);
+
+      setVietQr(vietQR);
+      setQrMomo(qrMomo);
+      setQrZalopay(qrZalopay);
    };
 
    return (
@@ -248,7 +212,7 @@ export default function ProductDetail({ product }: TProps) {
                   <Divider />
 
                   <Group justify="end">
-                     <Button onClick={handleOrder} size="lg" w={120} color={theme.colors.shopee[5]}>
+                     <Button onClick={handleOrder} size="lg" w={150} color={theme.colors.shopee[5]}>
                         Đặt Hàng
                      </Button>
                   </Group>
