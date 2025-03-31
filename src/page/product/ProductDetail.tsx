@@ -173,7 +173,7 @@ export default function ProductDetail({ product }: TProps) {
                         <Text style={{ fontSize: 14 }} opacity={0.5}>
                            Phí Vận Chuyển
                         </Text>
-                        <Text style={{ fontWeight: 900 }}>₫{renderData(SHIPPING_FEE)}</Text>
+                        <Text style={{ fontWeight: 900 }}>₫{renderData(product.shippingFee)}</Text>
                      </Stack>
                   </Box>
 

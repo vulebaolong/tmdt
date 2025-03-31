@@ -11,10 +11,17 @@ import { TCreateProductReq } from "@/types/product.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 
+export type TPayloadGetProductList = {
+   page: number;
+   category?: string;
+   searchProduct?: string;
+};
+
 export const useGetProductList = () => {
    return useMutation({
-      mutationFn: async (page: number) => {
-         const products = await getProductListAction2(page);
+      mutationFn: async (payload: TPayloadGetProductList) => {
+         console.log({ payload });
+         const products = await getProductListAction2(payload);
          if (!products.items) products.items = [];
          return products;
       },

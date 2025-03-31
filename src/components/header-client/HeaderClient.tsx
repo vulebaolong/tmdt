@@ -4,10 +4,10 @@ import DrawerNavbar from "@/components/drawer/drawer-navbar/DrawerNavbar";
 import ButtonToggleTheme from "@/components/toggle-theme/button/ButtonToggleTheme";
 import { MOBILE_HIDDEN_DESKTOP_VISIBLE, MOBILE_VISIBLE_DESKTOP_HIDDEN } from "@/constant/app.constant";
 import ROUTER from "@/constant/router.constant";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useQueryInfo } from "@/tantask/auth.tanstack";
 import { Box, Burger, Button, Container, Divider, Group, Input, Stack, Text, useMantineTheme } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDebouncedCallback, useDisclosure } from "@mantine/hooks";
 import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconSearch, IconShoppingCart } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
@@ -15,6 +15,7 @@ import LogoShopee from "../logo/LogoIconText";
 import SwitchLangV2 from "../switch-lang/SwitchLangV2";
 import UserControl from "../user-control/UserControl";
 import classes from "./HeaderClient.module.css";
+import { SEARCH_PRODUCT } from "@/redux/slices/product.slice";
 
 export default function HeaderClient() {
    const t = useTranslations(`header`);
@@ -22,6 +23,15 @@ export default function HeaderClient() {
    const info = useAppSelector((state) => state.user.info);
    const router = useRouter();
    const theme = useMantineTheme();
+   const dispatch = useAppDispatch();
+
+   const handleSearch = useDebouncedCallback(async (query: string) => {
+      dispatch(SEARCH_PRODUCT(query));
+   }, 500);
+
+   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      handleSearch(event.currentTarget.value);
+   };
 
    useQueryInfo();
 
@@ -92,6 +102,7 @@ export default function HeaderClient() {
                      >
                         <Input
                            style={{ flex: `1` }}
+                           onChange={handleChange}
                            placeholder="Tìm Sản Phẩm"
                            size="md"
                            styles={{ input: { backgroundColor: `transparent`, border: `transparent`, color: `black` } }}

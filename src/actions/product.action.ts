@@ -10,18 +10,35 @@ import fs from "fs";
 import { SortOrder } from "mongoose";
 import path from "path";
 
-export async function getProductListAction2(page: number): Promise<TResPagination<IProduct>> {
+export type TPayloadGetProductList = {
+   page: number;
+   category?: string;
+   searchProduct?: string;
+};
+
+export async function getProductListAction2({ page, category, searchProduct }: TPayloadGetProductList): Promise<TResPagination<IProduct>> {
    try {
       await connectDB();
-
-      console.log({ page });
 
       const pageSize = 4;
       const skip = (page - 1) * pageSize;
 
+      const filter: any = {};
+
+      // Filter category
+      if (category) {
+         const categoryArray = category.split(",").map((item) => Number(item.trim()));
+         filter.category = { $in: categoryArray };
+      }
+
+      // Filter search
+      if (searchProduct) {
+         filter.name = { $regex: searchProduct, $options: "i" };
+      }
+
       const [itemCount, items] = await Promise.all([
-         Product.countDocuments(),
-         Product.find().sort({ createdAt: -1 }).skip(skip).limit(pageSize).lean(),
+         Product.countDocuments(filter),
+         Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(pageSize).lean(),
       ]);
 
       const pageCount = Math.ceil(itemCount / pageSize);
@@ -31,7 +48,7 @@ export async function getProductListAction2(page: number): Promise<TResPaginatio
          pageSize,
          pageCount,
          itemCount,
-         items: JSON.parse(JSON.stringify(items)), // đảm bảo JSON-safe
+         items: toJson(items),
          filterable: [],
          sortable: [],
       };
@@ -115,7 +132,7 @@ export async function getProductByIdAction(id: string) {
 export async function createProductAction({ imageFromData, ...product }: TCreateProductReq) {
    try {
       const linkImage = await uploadImageToCloudinary(imageFromData);
-      console.log({linkImage});
+      console.log({ linkImage });
       if (!linkImage) throw new Error(`No file`);
 
       await connectDB();

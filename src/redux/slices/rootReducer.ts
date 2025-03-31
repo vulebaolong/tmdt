@@ -1,8 +1,10 @@
 import { combineReducers } from "redux";
 import user from "./user.slice";
+import product from "./product.slice";
 
 const combinedReducer = combineReducers({
    user,
+   product,
 });
 
 export const rootReducer = (state: any, action: any) => {
