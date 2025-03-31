@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
       await connectDB();
       const body = await req.json();
 
-      console.log("[SEEPAY WEBHOOK]", body);
+      console.log("[WEBHOOK]", body);
 
       const idMatch = body.transactionContent?.match(/--([a-f0-9]{24})-([a-f0-9]{24})--/i);
       const productId = idMatch ? idMatch[1] : null;
