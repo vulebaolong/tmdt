@@ -47,8 +47,8 @@ export const useCreateProduct = () => {
 
    return useMutation({
       mutationFn: async (payload: TCreateProductReq) => {
+         console.log({ useCreateProduct: payload });
          const linkImage = await createProductAction(payload);
-         console.log({ linkImage });
          return linkImage;
       },
       onSuccess: () => {

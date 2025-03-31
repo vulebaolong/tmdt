@@ -1,6 +1,5 @@
 import { buildFormDataOrObject, buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
 import { TResPagination } from "@/types/app.type";
-import { EProductTag } from "@/types/enum/product.enum";
 import { Box, Button, Center, Drawer, Group, Modal, NumberInput, Select, Stack, TagsInput, Text, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
@@ -13,7 +12,9 @@ export type TFieldCreate = {
    name: string;
    type: "text" | "number" | "select" | "date" | "custom" | "tags";
    options?: string[];
+   placeholder?: string;
    dataTags?: any;
+   enum?: any;
    onChangeTags?: any;
    withAsterisk?: boolean;
    defaultValue?: string | number;
@@ -150,6 +151,7 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                         return (
                            <TextInput
                               key={field.name}
+                              placeholder={field.placeholder || field.label}
                               withAsterisk={field.withAsterisk}
                               label={field.label}
                               name={field.name}
@@ -199,16 +201,16 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                      if (field.type === "tags") {
                         return (
                            <TagsInput
-                              placeholder="Nhãn"
+                              placeholder={field.placeholder || field.label}
                               key={field.name}
                               withAsterisk={field.withAsterisk}
                               label={field.label}
                               data={field.dataTags}
-                              value={(createForm.values[field.name] || []).map((item: number) => EProductTag[item])}
+                              value={(createForm.values[field.name] || []).map((item: number) => field.enum[item])}
                               onChange={(e) => {
                                  createForm.setFieldValue(
-                                    "tags",
-                                    e.map((item: any) => EProductTag[item as keyof typeof EProductTag] as number)
+                                    field.name,
+                                    e.map((item: any) => field.enum[item as keyof typeof field.enum] as number)
                                  );
                               }}
                               defaultValue={[`1`]}

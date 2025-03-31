@@ -20,6 +20,6 @@ export const useCheckTransaction = () => {
             return { hasNew: false };
          }
       },
-      refetchInterval: !!info?._id && 1000,
+      // refetchInterval: !!info?._id && 1000,
    });
 };

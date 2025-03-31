@@ -1,7 +1,8 @@
 import ProductList from "@/components/product/product-list/ProductList";
+import { Service } from "@/components/Service/Service";
 import { IProduct } from "@/schemas/product.schema";
 import { TResPagination } from "@/types/app.type";
-import { Box, Container } from "@mantine/core";
+import { Box, Container, Stack } from "@mantine/core";
 
 type TProps = {
    products?: TResPagination<IProduct>;
@@ -9,8 +10,15 @@ type TProps = {
 
 export default function Home({ products }: TProps) {
    return (
-      <Container py={100}>
-         <Box style={{ minHeight: `calc(100dvh - var(--height-header))` }}>{products && <ProductList products={products} />}</Box>
-      </Container>
+      <Box py={100}>
+         <Stack gap={50}>
+            <Container>
+               <Service />
+            </Container>
+            <Container>
+               <Box style={{ minHeight: `calc(100dvh - var(--height-header))` }}>{products && <ProductList products={products} />}</Box>
+            </Container>
+         </Stack>
+      </Box>
    );
 }

@@ -130,8 +130,9 @@ export async function getProductByIdAction(id: string) {
 }
 
 export async function createProductAction({ imageFromData, ...product }: TCreateProductReq) {
+   let linkImage = null;
    try {
-      const linkImage = await uploadImageToCloudinary(imageFromData);
+      linkImage = await uploadImageToCloudinary(imageFromData);
       console.log({ linkImage });
       if (!linkImage) throw new Error(`No file`);
 
@@ -142,18 +143,22 @@ export async function createProductAction({ imageFromData, ...product }: TCreate
          tags: product.tags,
          price: product.price,
          images: [linkImage.url],
-         imagePublicId: linkImage.public_id, // lưu thêm id để xóa sau này
+         imagePublicId: linkImage.public_id,
+         category: product.category,
+         shippingFee: product.shippingFee,
          sold: 0,
       });
 
       return toJson(productNew);
    } catch (error) {
+      if (linkImage) await deleteImageCloudinary(linkImage.public_id);
       console.error("Create Product Failed", error);
       throw error;
    }
 }
 
 export async function updateProductAction({ imageFromData, ...product }: any) {
+   let linkImage = null;
    try {
       await connectDB();
 
@@ -161,11 +166,13 @@ export async function updateProductAction({ imageFromData, ...product }: any) {
          name: product.name,
          tags: product.tags,
          price: product.price,
+         category: product.category,
+         shippingFee: product.shippingFee,
       };
 
       if (imageFromData) {
          await deleteImageCloudinary(product.imagePublicId);
-         const linkImage = await uploadImageToCloudinary(imageFromData);
+         linkImage = await uploadImageToCloudinary(imageFromData);
          if (linkImage) {
             updateData.images = [linkImage.url];
             updateData.imagePublicId = linkImage.public_id;
@@ -178,6 +185,7 @@ export async function updateProductAction({ imageFromData, ...product }: any) {
 
       return toJson(productUpdated);
    } catch (error) {
+      if (linkImage) await deleteImageCloudinary(linkImage.public_id);
       console.error("Update Product Failed", error);
       throw error;
    }

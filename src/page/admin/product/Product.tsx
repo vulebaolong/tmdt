@@ -8,8 +8,8 @@ import ProductUploadImage from "@/components/product/product-upload-image/Produc
 import { formatLocalTime, renderData } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { useCreateProduct, useDeleteProduct, useProducts, useUpdateProduct } from "@/tantask/product.tanstack";
-import { EProductTag } from "@/types/enum/product.enum";
-import { Text } from "@mantine/core";
+import { EProductCategory, EProductTag } from "@/types/enum/product.enum";
+import { Stack, Text } from "@mantine/core";
 import { IconCurrencyDollar } from "@tabler/icons-react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
@@ -47,6 +47,21 @@ export default function Product() {
             size: 150,
             cell: ({ cell }) => {
                return cell.getValue().map((tag: number, i: number) => <ProductTag tag={tag} key={i} />);
+            },
+         }),
+         columnHelper.accessor("category", {
+            header: "Danh mục",
+            size: 150,
+            cell: ({ cell }) => {
+               return (
+                  <Stack>
+                     {cell.getValue().map((cate: number, i: number) => (
+                        <Text key={i} truncate="end" maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
+                           {EProductCategory[cate]}
+                        </Text>
+                     ))}
+                  </Stack>
+               );
             },
          }),
          columnHelper.accessor("price", {
@@ -88,15 +103,34 @@ export default function Product() {
             type: "custom",
             component: ({ value, error, setValue }) => <ProductUploadImage value={value} onChange={setValue} error={error} />,
          },
-         { label: "Name", name: "name", type: "text", withAsterisk: true },
+         { label: "Tên sản phẩm", name: "name", type: "text", withAsterisk: true },
          {
             label: "Nhãn",
             name: "tags",
+            placeholder: "Nhãn",
             type: "tags",
+            enum: EProductTag,
             dataTags: Object.keys(EProductTag).filter((key) => isNaN(Number(key))),
          },
          {
-            label: "Price",
+            label: "Danh mục",
+            name: "category",
+            placeholder: "Danh mục",
+            type: "tags",
+            enum: EProductCategory,
+            dataTags: Object.keys(EProductCategory).filter((key) => isNaN(Number(key))),
+         },
+         {
+            label: "Phí vận chuyển",
+            name: "shippingFee",
+            type: "number",
+            suffix: "₫",
+            leftSection: <IconCurrencyDollar />,
+            thousandSeparator: ",",
+            defaultValue: 1_000_000,
+         },
+         {
+            label: "Giá",
             name: "price",
             type: "number",
             suffix: "₫",

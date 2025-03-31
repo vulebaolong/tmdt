@@ -7,6 +7,8 @@ export type TUser = {
    avatar?: string;
    facebookId?: string;
    googleId?: string;
+   address?: string;
+   phone?: string;
    role: number;
    createdAt: string;
    updatedAt: string;
@@ -20,6 +22,8 @@ const UserSchema = new Schema<TUser>(
       avatar: { type: String },
       facebookId: { type: String },
       googleId: { type: String },
+      phone: { type: String, default: "" },
+      address: { type: String, default: "" },
       role: { type: Number, required: true, default: 1 }, // 0: ADMIN / 1: USER
    },
    {
