@@ -53,9 +53,9 @@ export default function ProductDetail({ product }: TProps) {
    const handleOrder = async () => {
       if (!info?._id) return toast.warning(`Bạn cần đăng nhập để mua hàng`);
 
-      const vietQR = await createVietQR(total.totalPayment.toString(), `--${product._id}-${info._id}--`);
-      const qrMomo = await createQRMomopay(total.totalPayment.toString(), `--${product._id}-${info._id}--`);
-      const qrZalopay = await createQRZalopay(total.totalPayment.toString(), `--${product._id}-${info._id}--`);
+      const vietQR = await createVietQR(total.totalPayment.toString(), `tmdt${product._id}-${info._id}-`);
+      const qrMomo = await createQRMomopay(total.totalPayment.toString(), `tmdt${product._id}-${info._id}-`);
+      const qrZalopay = await createQRZalopay(total.totalPayment.toString(), `tmdt${product._id}-${info._id}-`);
 
       setVietQr(vietQR);
       setQrMomo(qrMomo);
