@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
       console.log("[WEBHOOK]", body);
 
-      const idMatch = body.content?.match(/--([a-f0-9]{24})-([a-f0-9]{24})--/i);
+      const idMatch = body.content?.match(/tmdt([a-f0-9]{24})-([a-f0-9]{24})-/i);
       const productId = idMatch ? idMatch[1] : null;
       const userId = idMatch ? idMatch[2] : null;
 
@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
          accountNumber: body.accountNumber,
          balance: Number(body.accumulated),
          amount: Number(body.transferAmount),
-         transactionContent: body.transactionContent,
+         transactionContent: body.content,
          transactionDate: body.transactionDate,
          asset: "VND",
          productId: productId,
