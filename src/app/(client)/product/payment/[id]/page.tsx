@@ -1,5 +1,5 @@
 import { getProductByIdAction } from "@/actions/product.action";
-import ProductDetail from "@/components/product/product-detail/ProductDetail";
+import ProductPayment from "@/components/product/product-payment/ProductPayment";
 import RootPage from "@/components/root-page/RootPage";
 
 type TProps = {
@@ -11,7 +11,7 @@ export default async function page({ params }: TProps) {
    const product = await getProductByIdAction(id);
    return (
       <RootPage>
-         <ProductDetail product={product} />
+         <ProductPayment product={product} />
       </RootPage>
    );
 }

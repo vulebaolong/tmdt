@@ -9,9 +9,10 @@ import * as Yup from "yup";
 type TProps = {
    opened: boolean;
    close: () => void;
+   onSuccess?: () => void;
 };
 
-export default function ModalAddReceivingInformation({ opened, close }: TProps) {
+export default function ModalAddReceivingInformation({ opened, close, onSuccess }: TProps) {
    const updateProfile = useUpdateProfile();
    const id = useAppSelector((state) => state.user.info?._id);
 
@@ -21,7 +22,10 @@ export default function ModalAddReceivingInformation({ opened, close }: TProps) 
          address: ``,
       },
       validationSchema: Yup.object().shape({
-         phone: Yup.string().trim().required(),
+         phone: Yup.string()
+            .trim()
+            .required("Vui lòng nhập số điện thoại")
+            .matches(/^\d{8,15}$/, "Số điện thoại không hợp lệ"),
          address: Yup.string().trim().required(),
       }),
       onSubmit: async (valuesRaw) => {
@@ -35,10 +39,13 @@ export default function ModalAddReceivingInformation({ opened, close }: TProps) 
          updateProfile.mutate(payload, {
             onSuccess: () => {
                close();
+               addReceivingForm.resetForm();
+               if (onSuccess) onSuccess();
             },
          });
       },
    });
+
    return (
       <Modal opened={opened} onClose={close} title="Receiving Information">
          <Box component="form" onSubmit={addReceivingForm.handleSubmit}>

@@ -4,9 +4,14 @@
 
 .box-2 {
    display: grid;
-   grid-template-columns: mobile-desktop(1fr 1fr = 1fr 1fr 1fr);
+   grid-template-columns: mobile-desktop(1fr = 1fr 1fr 1fr 1fr);
    gap: mobile-desktop(20px = 0);
    align-items: baseline;
+
+   &.ship {
+      grid-template-columns: mobile-desktop(1fr = 1fr 1.2fr 1fr);
+
+   }
 }
 
 .box-3 {
@@ -16,4 +21,8 @@
    width: 100%;
    height: 100%;
    background-color: light-dark(rgba(0, 0, 0, 0.3), rgba(255, 255, 255, 0.3));
+}
+
+.box-4{
+   flex-direction: mobile-desktop(row = column);
 }

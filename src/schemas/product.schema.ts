@@ -9,6 +9,9 @@ export interface IProduct extends Document {
    shippingFee: number;
    price: number;
    sold: number;
+   inStock: boolean;
+   brand: string;
+   description: string;
    createdAt: Date;
    updatedAt: Date;
 }
@@ -22,6 +25,9 @@ const ProductSchema = new Schema<IProduct>(
       shippingFee: { type: Number, required: true },
       price: { type: Number, required: true },
       sold: { type: Number, default: 0 },
+      inStock: { type: Boolean, default: true },
+      brand: { type: String },
+      description: { type: String },
    },
    {
       collection: "Products",

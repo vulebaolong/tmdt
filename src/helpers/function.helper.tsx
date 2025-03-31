@@ -192,3 +192,9 @@ export function buildFormDataOrObject(values: Record<string, any>) {
 
    return result;
 }
+
+export const wait = (miliseconds: number) => {
+   return new Promise(function (resolve) {
+      setTimeout(resolve, miliseconds);
+   });
+};

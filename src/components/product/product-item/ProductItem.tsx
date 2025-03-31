@@ -34,7 +34,7 @@ function ProductItem({ product, type = `show`, preview }: TProps) {
    };
 
    const handleClick = () => {
-      if (type === "show") router.push(`${ROUTER.PRODUCT}/${product._id}`);
+      if (type === "show") router.push(`${ROUTER.PRODUCT.ROOT}/${product._id}`);
    };
 
    return (

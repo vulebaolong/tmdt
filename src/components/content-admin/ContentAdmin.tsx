@@ -1,6 +1,6 @@
 import { buildFormDataOrObject, buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
 import { TResPagination } from "@/types/app.type";
-import { Box, Button, Center, Drawer, Group, Modal, NumberInput, Select, Stack, TagsInput, Text, TextInput } from "@mantine/core";
+import { Box, Button, Center, Drawer, Group, Modal, NumberInput, Select, Stack, TagsInput, Text, Textarea, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { FormikProps, useFormik } from "formik";
@@ -10,10 +10,11 @@ import TableCustom, { TPayload } from "../table-custom/TableCustom";
 export type TFieldCreate = {
    label: string;
    name: string;
-   type: "text" | "number" | "select" | "date" | "custom" | "tags";
+   type: "text" | "number" | "select" | "date" | "custom" | "tags" | "textArea";
    options?: string[];
    placeholder?: string;
    dataTags?: any;
+   dataSelect?: any;
    enum?: any;
    onChangeTags?: any;
    withAsterisk?: boolean;
@@ -21,6 +22,10 @@ export type TFieldCreate = {
    suffix?: string;
    leftSection?: ReactNode;
    thousandSeparator?: string | boolean;
+   autosize?: boolean;
+   minRows?: number;
+   maxRows?: number;
+   resize?: React.CSSProperties["resize"];
    validate?: (Yup: typeof import("yup"), base: any) => any;
    component?: (props: { value: any; error: string | undefined; setValue: (value: any) => void; createForm: FormikProps<any> }) => React.ReactElement;
 };
@@ -163,6 +168,26 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                         );
                      }
 
+                     if (field.type === "textArea") {
+                        return (
+                           <Textarea
+                              key={field.name}
+                              placeholder={field.placeholder || field.label}
+                              withAsterisk={field.withAsterisk}
+                              label={field.label}
+                              name={field.name}
+                              autosize={field.autosize}
+                              resize={field.resize}
+                              minRows={field.minRows}
+                              maxRows={field.maxRows}
+                              value={createForm.values[field.name]}
+                              onChange={createForm.handleChange}
+                              error={error}
+                              inputWrapperOrder={["label", "input", "error"]}
+                           />
+                        );
+                     }
+
                      if (field.type === "number") {
                         return (
                            <NumberInput
@@ -186,13 +211,18 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                         return (
                            <Select
                               key={field.name}
-                              withAsterisk={field.withAsterisk}
                               label={field.label}
-                              name={field.name}
-                              data={field.options || []}
-                              value={createForm.values[field.name]}
-                              onChange={(value) => createForm.setFieldValue(field.name, value)}
-                              error={error}
+                              placeholder={field.placeholder || field.label}
+                              withAsterisk={field.withAsterisk}
+                              data={field.dataTags}
+                              value={String(createForm.values[field.name])}
+                              onChange={(value) => {
+                                 if (value === "true" || value === "false") {
+                                    createForm.setFieldValue(field.name, value === "true");
+                                 } else {
+                                    createForm.setFieldValue(field.name, value);
+                                 }
+                              }}
                               inputWrapperOrder={["label", "input", "error"]}
                            />
                         );

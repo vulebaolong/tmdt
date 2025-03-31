@@ -43,3 +43,13 @@ export const createQRZalopay = async (amount: string, purpose: string) => {
    const content = zaloPayQR.build();
    return await QRCode.toDataURL(content);
 };
+
+// export const createVNPay = async (amount: string, purpose: string) => {
+//    const qrPay = QRPay.initVNPayQR({
+//       merchantId: '0102154778',
+//       merchantName: 'TUGIACOMPANY',
+//       store: 'TU GIA COMPUTER',
+//       terminal: 'TUGIACO1',
+//     })
+//     const content = qrPay.build()
+// };

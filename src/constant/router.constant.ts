@@ -2,7 +2,10 @@ const ROUTER = {
    HOME: `/`,
    LOGIN: `/login`,
    REGISTER: `/register`,
-   PRODUCT: `/product`,
+   PRODUCT: {
+      ROOT: `/product`,
+      PAYMENT: `/product/payment`,
+   },
    ADMIN: {
       ROOT: `/admin`,
       USER: `/admin/user`,

@@ -1,5 +1,7 @@
 import { connectDB } from "@/lib/mongoose";
+import Product from "@/schemas/product.schema";
 import Transaction from "@/schemas/transaction.schema";
+import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
 // {
@@ -32,6 +34,9 @@ import { NextRequest, NextResponse } from "next/server";
 //  }
 
 export async function POST(req: NextRequest) {
+   const session = await mongoose.startSession();
+   session.startTransaction();
+
    try {
       await connectDB();
       const body = await req.json();
@@ -41,6 +46,10 @@ export async function POST(req: NextRequest) {
       const idMatch = body.content?.match(/tmdt([a-f0-9]{24})-([a-f0-9]{24})-/i);
       const productId = idMatch ? idMatch[1] : null;
       const userId = idMatch ? idMatch[2] : null;
+
+      if (!productId || !userId) {
+         throw new Error("Invalid content format");
+      }
 
       const data = {
          accountNumber: body.accountNumber,
@@ -53,10 +62,21 @@ export async function POST(req: NextRequest) {
          userId: userId,
       };
 
-      await Transaction.create(data);
+      await Transaction.create([data], { session });
+
+      const updateResult = await Product.updateOne({ _id: productId }, { $inc: { sold: 1 } }, { session });
+
+      if (updateResult.modifiedCount === 0) {
+         throw new Error("Update product failed");
+      }
+
+      await session.commitTransaction();
+      session.endSession();
 
       return NextResponse.json({ success: true });
    } catch (error) {
+      await session.abortTransaction();
+      session.endSession();
       console.error("Webhook Error:", error);
       return NextResponse.json({ success: false, error: "Invalid Request" }, { status: 400 });
    }

@@ -42,6 +42,33 @@ export default function Product() {
             size: 150,
             cell: ({ cell }) => <ProductImage width="50px" src={cell.getValue()} />,
          }),
+         columnHelper.accessor("description", {
+            header: "Nội dung",
+            size: 150,
+            cell: ({ cell }) => (
+               <Text lineClamp={2} maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
+                  {cell.getValue()}
+               </Text>
+            ),
+         }),
+         columnHelper.accessor("brand", {
+            header: "Thương hiệu",
+            size: 150,
+            cell: ({ cell }) => (
+               <Text truncate="end" maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
+                  {cell.getValue()}
+               </Text>
+            ),
+         }),
+         columnHelper.accessor("inStock", {
+            header: "Tình trạng",
+            size: 150,
+            cell: ({ cell }) => (
+               <Text c={cell.getValue() ? `green` : `red`} truncate="end" maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
+                  {cell.getValue() ? `Còn hàng` : `Hết hàng`}
+               </Text>
+            ),
+         }),
          columnHelper.accessor("tags", {
             header: "Nhãn",
             size: 150,
@@ -104,6 +131,17 @@ export default function Product() {
             component: ({ value, error, setValue }) => <ProductUploadImage value={value} onChange={setValue} error={error} />,
          },
          { label: "Tên sản phẩm", name: "name", type: "text", withAsterisk: true },
+         { label: "Nội dung", name: "description", type: "textArea", maxRows: 5, resize: `vertical` },
+         { label: "Thương hiệu", name: "brand", type: "text" },
+         {
+            type: "select",
+            name: "inStock",
+            label: "Tình trạng",
+            dataTags: [
+              { value: "true", label: "Còn hàng" },
+              { value: "false", label: "Hết hàng" },
+            ],
+          },
          {
             label: "Nhãn",
             name: "tags",

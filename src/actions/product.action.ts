@@ -162,24 +162,25 @@ export async function updateProductAction({ imageFromData, ...product }: any) {
    try {
       await connectDB();
 
-      const updateData: any = {
-         name: product.name,
-         tags: product.tags,
-         price: product.price,
-         category: product.category,
-         shippingFee: product.shippingFee,
-      };
+      // const updateData: any = {
+      //    name: product.name,
+      //    tags: product.tags,
+      //    price: product.price,
+      //    category: product.category,
+      //    shippingFee: product.shippingFee,
+      //    brand: product.brand,
+      // };
 
       if (imageFromData) {
          await deleteImageCloudinary(product.imagePublicId);
          linkImage = await uploadImageToCloudinary(imageFromData);
          if (linkImage) {
-            updateData.images = [linkImage.url];
-            updateData.imagePublicId = linkImage.public_id;
+            product.images = [linkImage.url];
+            product.imagePublicId = linkImage.public_id;
          }
       }
 
-      const productUpdated = await Product.findByIdAndUpdate(product._id, updateData, { new: true });
+      const productUpdated = await Product.updateOne({ _id: product._id }, product, { new: true });
 
       if (!productUpdated) throw new Error("Product not found");
 
