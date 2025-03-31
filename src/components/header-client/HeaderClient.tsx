@@ -5,19 +5,19 @@ import ButtonToggleTheme from "@/components/toggle-theme/button/ButtonToggleThem
 import { MOBILE_HIDDEN_DESKTOP_VISIBLE, MOBILE_VISIBLE_DESKTOP_HIDDEN } from "@/constant/app.constant";
 import ROUTER from "@/constant/router.constant";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { SEARCH_PRODUCT } from "@/redux/slices/product.slice";
 import { useQueryInfo } from "@/tantask/auth.tanstack";
+import { useCartCountQuery } from "@/tantask/cart.tanstack";
 import { Box, Burger, Button, Container, Divider, Group, Indicator, Input, Loader, Stack, Text, useMantineTheme } from "@mantine/core";
 import { useDebouncedCallback, useDisclosure } from "@mantine/hooks";
 import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconSearch, IconShoppingCart } from "@tabler/icons-react";
+import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import LogoShopee from "../logo/LogoIconText";
 import SwitchLangV2 from "../switch-lang/SwitchLangV2";
 import UserControl from "../user-control/UserControl";
 import classes from "./HeaderClient.module.css";
-import { SEARCH_PRODUCT } from "@/redux/slices/product.slice";
-import { useCartCountQuery } from "@/tantask/cart.tanstack";
-import { motion } from "framer-motion";
 
 export default function HeaderClient() {
    const t = useTranslations(`header`);
@@ -121,25 +121,26 @@ export default function HeaderClient() {
                            cartCountQuery.isLoading ? (
                               <Loader size={10} />
                            ) : (
-                                 <motion.div
-                                    key={cartCountQuery.data}
-                                    initial={{ scale: 0.5 }}
-                                    animate={{ scale: 1 }}
-                                    exit={{ y: -30 }}
-                                    transition={{
-                                       type: "spring",
-                                       stiffness: 300,
-                                       damping: 10,
-                                       duration: 0.5,
-                                    }}
-                                 >
-                                    {cartCountQuery.data}
-                                 </motion.div>
+                              <motion.div
+                                 key={cartCountQuery.data}
+                                 initial={{ scale: 0.5 }}
+                                 animate={{ scale: 1 }}
+                                 exit={{ y: -30 }}
+                                 transition={{
+                                    type: "spring",
+                                    stiffness: 300,
+                                    damping: 10,
+                                    duration: 0.5,
+                                 }}
+                              >
+                                 {cartCountQuery.data || 0}
+                              </motion.div>
                            )
                         }
                         size={20}
                         color={`white`}
                         styles={{ indicator: { color: theme.colors.shopee[5], fontWeight: `bold`, fontSize: `15px` } }}
+                        disabled={cartCountQuery.isLoading || !cartCountQuery.data}
                      >
                         <IconShoppingCart stroke={2} size={30} color="white" />
                      </Indicator>
