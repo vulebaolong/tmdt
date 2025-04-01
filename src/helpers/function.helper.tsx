@@ -1,20 +1,19 @@
 import { TFieldCreate } from "@/components/content-admin/ContentAdmin";
-import { BASE_DOMAIN_API, BASE_DOMAIN_CLOUDINARY, FOLDER_IMAGE_BE } from "@/constant/app.constant";
 import { Loader } from "@mantine/core";
 import dayjs from "dayjs";
 import { ReactElement } from "react";
 import * as Yup from "yup";
 
-export const checkPathImage = (path: string | null | undefined) => {
-   if (!path) return path;
-   if (path.includes(`http`)) return path;
+// export const checkPathImage = (path: string | null | undefined) => {
+//    if (!path) return path;
+//    if (path.includes(`http`)) return path;
 
-   if (path.includes(`local`)) {
-      return `${BASE_DOMAIN_API}${FOLDER_IMAGE_BE}${path}`;
-   } else {
-      return `${BASE_DOMAIN_CLOUDINARY}${path}`;
-   }
-};
+//    if (path.includes(`local`)) {
+//       return `${BASE_DOMAIN_API}${FOLDER_IMAGE_BE}${path}`;
+//    } else {
+//       return `${BASE_DOMAIN_CLOUDINARY}${path}`;
+//    }
+// };
 
 export const resError = (error: any, defaultMes: string) => {
    let mes = error.response?.data?.message;

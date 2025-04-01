@@ -1,15 +1,11 @@
 "use server";
 
-import { NEXT_PUBLIC_GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "@/constant/app.constant";
-import { ENDPOINT } from "@/constant/endpoint.constant";
-import api from "@/helpers/api.helper";
+import { GOOGLE_CLIENT_SECRET, NEXT_PUBLIC_GOOGLE_CLIENT_ID } from "@/constant/app.constant";
 import { clearTokens, getAccessToken, setAccessToken, setRefreshToken } from "@/helpers/cookies.helper";
 import { signAccessToken, signRefreshToken, verifyAccessToken } from "@/lib/jwt";
 import { connectDB } from "@/lib/mongoose";
 import User, { TUser } from "@/schemas/user.schema";
-import { TRes } from "@/types/app.type";
-import { TLoginFormReq, TLoginRes, TRegisterReq } from "@/types/auth.type";
-import { TLoginFacebookReq } from "@/types/facebook.type";
+import { TLoginFormReq, TRegisterReq } from "@/types/auth.type";
 import bcrypt from "bcryptjs";
 import { OAuth2Client } from "google-auth-library";
 import jwt from "jsonwebtoken";
@@ -38,21 +34,21 @@ export async function registerAction({ email, fullName, password: rawPassword }:
    }
 }
 
-export async function loginFacebookction(payload: TLoginFacebookReq) {
-   try {
-      const { data } = await api.post<TRes<TLoginRes>>(ENDPOINT.AUTH.FACEBOOK_LOGIN, payload);
+// export async function loginFacebookction(payload: TLoginFacebookReq) {
+//    try {
+//       const { data } = await api.post<TRes<TLoginRes>>(ENDPOINT.AUTH.FACEBOOK_LOGIN, payload);
 
-      if (data?.accessToken && data?.refreshToken) {
-         await setAccessToken(data?.accessToken);
-         await setRefreshToken(data?.refreshToken);
-      }
+//       if (data?.accessToken && data?.refreshToken) {
+//          await setAccessToken(data?.accessToken);
+//          await setRefreshToken(data?.refreshToken);
+//       }
 
-      return data;
-   } catch (error) {
-      console.error("Login failed:", error);
-      throw error;
-   }
-}
+//       return data;
+//    } catch (error) {
+//       console.error("Login failed:", error);
+//       throw error;
+//    }
+// }
 
 export async function loginGooleAction(payload: { code: string }) {
    try {
@@ -132,21 +128,21 @@ export async function loginFormAction(payload: TLoginFormReq) {
    }
 }
 
-export async function loginGoogleAuthenticatorAction(payload: TLoginFormReq) {
-   try {
-      const { data } = await api.post<TRes<TLoginRes>>(ENDPOINT.AUTH.LOGIN_GOOGLE_AUTHENTICATOR, payload);
+// export async function loginGoogleAuthenticatorAction(payload: TLoginFormReq) {
+//    try {
+//       const { data } = await api.post<TRes<TLoginRes>>(ENDPOINT.AUTH.LOGIN_GOOGLE_AUTHENTICATOR, payload);
 
-      if (data?.accessToken && data?.refreshToken) {
-         await setAccessToken(data?.accessToken);
-         await setRefreshToken(data?.refreshToken);
-      }
+//       if (data?.accessToken && data?.refreshToken) {
+//          await setAccessToken(data?.accessToken);
+//          await setRefreshToken(data?.refreshToken);
+//       }
 
-      return data;
-   } catch (error) {
-      console.error("Login failed:", error);
-      throw error;
-   }
-}
+//       return data;
+//    } catch (error) {
+//       console.error("Login failed:", error);
+//       throw error;
+//    }
+// }
 
 export async function getInfoAction(): Promise<TUser | false> {
    try {
