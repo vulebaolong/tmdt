@@ -1,6 +1,6 @@
 "use server";
 
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "@/constant/app.constant";
+import { NEXT_PUBLIC_GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "@/constant/app.constant";
 import { ENDPOINT } from "@/constant/endpoint.constant";
 import api from "@/helpers/api.helper";
 import { clearTokens, getAccessToken, setAccessToken, setRefreshToken } from "@/helpers/cookies.helper";
@@ -60,7 +60,7 @@ export async function loginGooleAction(payload: { code: string }) {
 
       const { code } = payload;
 
-      const oAuth2Client = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, "postmessage");
+      const oAuth2Client = new OAuth2Client(NEXT_PUBLIC_GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, "postmessage");
 
       const { tokens } = await oAuth2Client.getToken(code);
       const decoded: any = jwt.decode(tokens.id_token || "");
@@ -70,7 +70,6 @@ export async function loginGooleAction(payload: { code: string }) {
       }
 
       const { sub, email, name, picture } = decoded;
-      console.log(decoded);
 
       let userExist = await User.findOne({ email });
 

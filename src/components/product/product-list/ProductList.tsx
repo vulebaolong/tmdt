@@ -23,7 +23,6 @@ function ProductList({ products: initialProducts }: TProps) {
    const totalPage = useRef(initialProducts.pageCount);
    const pathname = usePathname();
    const router = useRouter();
-   console.log({ pathname });
 
    const getProductList = useGetProductList();
 

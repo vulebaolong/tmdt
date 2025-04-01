@@ -180,7 +180,7 @@ export async function updateProductAction({ imageFromData, ...product }: any) {
          }
       }
 
-      const productUpdated = await Product.updateOne({ _id: product._id }, product, { new: true });
+      const productUpdated = await Product.updateOne({ _id: product._id }, { $set: product }, { new: true });
 
       if (!productUpdated) throw new Error("Product not found");
 

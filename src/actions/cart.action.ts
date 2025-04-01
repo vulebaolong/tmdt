@@ -55,7 +55,7 @@ export async function getCartCountAction() {
       if (!cart || !cart.products) return 0;
 
       const count = cart.products.reduce((acc, item) => acc + item.quantity, 0);
-      console.log({ count });
+      
       return count;
    } catch (error) {
       console.error("Get Cart Count Failed", error);

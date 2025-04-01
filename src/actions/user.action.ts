@@ -14,8 +14,6 @@ export async function updateProfileAction({ userId, phone, address }: TUpdatePro
    try {
       await connectDB();
 
-      console.log({ userId, phone, address });
-
       const updatedUser = await User.findByIdAndUpdate(
          userId,
          { ...(phone && { phone }), ...(address && { address }) },
@@ -25,8 +23,6 @@ export async function updateProfileAction({ userId, phone, address }: TUpdatePro
       if (!updatedUser) {
          throw new Error("User not found");
       }
-
-      console.log(updatedUser);
 
       return { success: true, data: toJson(updatedUser) };
    } catch (error) {

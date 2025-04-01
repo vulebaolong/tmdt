@@ -1,4 +1,3 @@
-// import { useLoginGoolge } from "@/tantask/auth.tanstack";
 import ROUTER from "@/constant/router.constant";
 import { useLoginGoolge } from "@/tantask/auth.tanstack";
 import { Button, ButtonProps } from "@mantine/core";
@@ -6,14 +5,6 @@ import { useGoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
-// import { useLoginGoolge } from "../../api/tanstack/auth.tanstack";
-// import { setAccessToken, setRefreshToken } from "../../../helpers/auth.helper";
-// import { useAppDispatch } from "../../../store/store";
-// import { UPDATE_IS_LOGIN } from "../../../store/slices/user/user.slice";
-// import rootRouter from "../../../routes/rootRouter";
-// import { ROUTER } from "../../../constant/router.constant";
-// import { toast } from "react-toastify";
-// import { resError } from "../../../helpers/function.helper";
 
 function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
    return (
