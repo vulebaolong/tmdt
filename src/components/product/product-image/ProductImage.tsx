@@ -28,7 +28,7 @@ export default function ProductImage({ src, preview, width = "100%", height = "a
             width={0}
             height={0}
             sizes="100vw"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             alt="product-image"
             priority={isHero}
             onError={() => setError(true)}

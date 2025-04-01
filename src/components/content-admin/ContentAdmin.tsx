@@ -236,7 +236,9 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                               withAsterisk={field.withAsterisk}
                               label={field.label}
                               data={field.dataTags}
-                              value={(createForm.values[field.name] || []).map((item: number) => field.enum[item])}
+                              value={(createForm.values[field.name] || [])
+                                 .map((item: number) => field.enum[item])
+                                 .filter(Boolean)} 
                               onChange={(e) => {
                                  createForm.setFieldValue(
                                     field.name,

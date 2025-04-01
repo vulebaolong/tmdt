@@ -1,5 +1,6 @@
 "use server";
 
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "@/constant/app.constant";
 import { ENDPOINT } from "@/constant/endpoint.constant";
 import api from "@/helpers/api.helper";
 import { clearTokens, getAccessToken, setAccessToken, setRefreshToken } from "@/helpers/cookies.helper";
@@ -10,6 +11,8 @@ import { TRes } from "@/types/app.type";
 import { TLoginFormReq, TLoginRes, TRegisterReq } from "@/types/auth.type";
 import { TLoginFacebookReq } from "@/types/facebook.type";
 import bcrypt from "bcryptjs";
+import { OAuth2Client } from "google-auth-library";
+import jwt from "jsonwebtoken";
 
 export async function getUsersAction() {
    await connectDB();
@@ -53,16 +56,53 @@ export async function loginFacebookction(payload: TLoginFacebookReq) {
 
 export async function loginGooleAction(payload: { code: string }) {
    try {
-      const { data } = await api.post<TRes<TLoginRes>>(ENDPOINT.AUTH.GOOGLE_LOGIN, payload);
+      await connectDB();
 
-      if (data?.accessToken && data?.refreshToken) {
-         await setAccessToken(data?.accessToken);
-         await setRefreshToken(data?.refreshToken);
+      const { code } = payload;
+
+      const oAuth2Client = new OAuth2Client(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, "postmessage");
+
+      const { tokens } = await oAuth2Client.getToken(code);
+      const decoded: any = jwt.decode(tokens.id_token || "");
+
+      if (!decoded || decoded.email_verified === false) {
+         throw new Error("Email verification failed");
       }
 
-      return data;
+      const { sub, email, name, picture } = decoded;
+      console.log(decoded);
+
+      let userExist = await User.findOne({ email });
+
+      if (userExist) {
+         await User.updateOne(
+            { _id: userExist._id },
+            {
+               $set: {
+                  avatar: userExist.avatar || picture,
+                  googleId: userExist.googleId || sub,
+                  fullName: userExist.fullName || name,
+               },
+            }
+         );
+      } else {
+         userExist = await User.create({
+            email,
+            googleId: sub,
+            fullName: name,
+            avatar: picture,
+         });
+      }
+
+      const accessToken = signAccessToken((userExist._id as any).toString());
+      const refreshToken = signRefreshToken((userExist._id as any).toString());
+
+      await setAccessToken(accessToken);
+      await setRefreshToken(refreshToken);
+
+      return true;
    } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Login google failed:", error);
       throw error;
    }
 }
@@ -72,8 +112,10 @@ export async function loginFormAction(payload: TLoginFormReq) {
       await connectDB();
 
       const userExist = await User.findOne({ email: payload.email }).select("+password").lean();
-      console.log({userExist});
+      console.log({ userExist });
       if (!userExist) throw new Error(`Login failed`);
+
+      if (!userExist.password) throw new Error(`Vui lòng đăng nhập bằng google hoặc facebook`);
 
       const match = await bcrypt.compare(payload.password, userExist.password);
       if (!match) throw new Error(`Login failed`);

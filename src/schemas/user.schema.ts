@@ -3,7 +3,7 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 export type TUser = {
    email: string;
    fullName: string;
-   password: string;
+   password?: string;
    avatar?: string;
    facebookId?: string;
    googleId?: string;
@@ -18,7 +18,7 @@ const UserSchema = new Schema<TUser>(
    {
       email: { type: String, required: true, unique: true },
       fullName: { type: String, required: true },
-      password: { type: String, required: true, select: false },
+      password: { type: String, select: false },
       avatar: { type: String },
       facebookId: { type: String },
       googleId: { type: String },

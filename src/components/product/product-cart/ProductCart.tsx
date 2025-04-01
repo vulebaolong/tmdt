@@ -1,11 +1,10 @@
 "use client";
 
 import ModalAddReceivingInformation from "@/components/modal/add-receiving-information/ModalAddReceivingInformation";
-import ProductImage from "@/components/product/product-image/ProductImage";
 import ROUTER from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { useAppSelector } from "@/redux/hooks";
-import { IProduct } from "@/schemas/product.schema";
+import { useGetCartList } from "@/tantask/cart.tanstack";
 import { useCheckTransaction } from "@/tantask/check-transaction.tanstack";
 import { useCreateQrMomo, useCreateQrZalopay, useCreateVietQR } from "@/tantask/qr.tanstack";
 import { ETypePayment } from "@/types/enum/payment.enum";
@@ -19,27 +18,24 @@ import {
    Divider,
    Group,
    LoadingOverlay,
-   NumberInput,
    Paper,
    Stack,
    Text,
    Transition,
    useMantineTheme,
 } from "@mantine/core";
-import { useCounter, useDisclosure } from "@mantine/hooks";
-import { IconAlertCircle, IconBuildingBank, IconChevronDown, IconChevronUp, IconEdit, IconMapPinFilled } from "@tabler/icons-react";
+import { useDisclosure } from "@mantine/hooks";
+import { IconAlertCircle, IconBuildingBank, IconEdit, IconMapPinFilled } from "@tabler/icons-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import classes from "./ProductPayment.module.css";
+import ProductListCart from "./product-list-cart/ProductListCart";
+import classes from './ProductCart.module.css'
 
-type TProps = {
-   product: IProduct;
-};
+export type TTotalPrice = { totalPriceItemCart: number; totalShipItemCart: number; totalPriceCart: number };
 
-export default function ProductPayment({ product }: TProps) {
-   const [quantity, { increment, decrement, set }] = useCounter(1, { min: 1 });
+export default function ProductCart() {
    const [vietQr, setVietQr] = useState<string | null>(null);
    const [qrMomo, setQrMomo] = useState<string | null>(null);
    const [qrZalopay, setQrZalopay] = useState<string | null>(null);
@@ -49,11 +45,15 @@ export default function ProductPayment({ product }: TProps) {
    const [openedModalAdd, handleModalAdd] = useDisclosure(false);
    const [openedQr, handleQr] = useDisclosure(false);
    const [typePayment, setTypePayment] = useState(ETypePayment[`Momo`]);
+   const [totalPrice, setTotalPrice] = useState<TTotalPrice>({ totalPriceItemCart: 0, totalShipItemCart: 0, totalPriceCart: 0 });
 
    const { data } = useCheckTransaction();
    const createQrMomo = useCreateQrMomo();
    const createQrZalopay = useCreateQrZalopay();
    const createVietQR = useCreateVietQR();
+   const [pagination] = useState({ pageIndex: 0, pageSize: 10 });
+
+   const getCartList = useGetCartList(pagination);
 
    useEffect(() => {
       if (!info?._id) return;
@@ -61,7 +61,7 @@ export default function ProductPayment({ product }: TProps) {
       if (typePayment === ETypePayment[`Momo`]) {
          if (qrMomo) return;
          createQrMomo.mutate(
-            { amount: total.totalPayment.toString(), purpose: `tmdt${product._id}-${info._id}-` },
+            { amount: totalPrice.totalPriceCart.toString(), purpose: `tmdtID_HOADON-${info._id}-` },
             {
                onSuccess: (data) => {
                   setQrMomo(data);
@@ -72,7 +72,7 @@ export default function ProductPayment({ product }: TProps) {
       if (typePayment === ETypePayment[`ZaloPay`]) {
          if (qrZalopay) return;
          createQrZalopay.mutate(
-            { amount: total.totalPayment.toString(), purpose: `tmdt${product._id}-${info._id}-` },
+            { amount: totalPrice.totalPriceCart.toString(), purpose: `tmdtID_HOADON-${info._id}-` },
             {
                onSuccess: (data) => {
                   setQrZalopay(data);
@@ -83,7 +83,7 @@ export default function ProductPayment({ product }: TProps) {
       if (typePayment === ETypePayment[`Bank`]) {
          if (vietQr) return;
          createVietQR.mutate(
-            { amount: total.totalPayment.toString(), purpose: `tmdt${product._id}-${info._id}-` },
+            { amount: totalPrice.totalPriceCart.toString(), purpose: `tmdtID_HOADON-${info._id}-` },
             {
                onSuccess: (data) => {
                   setVietQr(data);
@@ -99,24 +99,13 @@ export default function ProductPayment({ product }: TProps) {
       }
    }, [data?.hasNew]);
 
-   const total = useMemo(() => {
-      const productTotal = product.price * quantity;
-      const shippingFee = product.shippingFee;
-      const totalPayment = productTotal + shippingFee;
-      return {
-         productTotal,
-         shippingFee,
-         totalPayment,
-      };
-   }, [product.price, quantity, product.shippingFee]);
-
    const handleOrder = async () => {
       handleQr.open();
       // if (!info?._id) return toast.warning(`Bạn cần đăng nhập để mua hàng`);
 
-      // const vietQR = await createVietQR(total.totalPayment.toString(), `tmdt${product._id}-${info._id}-`);
-      // const qrMomo = await createQRMomopay(total.totalPayment.toString(), `tmdt${product._id}-${info._id}-`);
-      // const qrZalopay = await createQRZalopay(total.totalPayment.toString(), `tmdt${product._id}-${info._id}-`);
+      // const vietQR = await createVietQR(total.totalPayment.toString(), `tmdtID_HOADON-${info._id}-`);
+      // const qrMomo = await createQRMomopay(total.totalPayment.toString(), `tmdtID_HOADON-${info._id}-`);
+      // const qrZalopay = await createQRZalopay(total.totalPayment.toString(), `tmdtID_HOADON-${info._id}-`);
 
       // setVietQr(vietQR);
       // setQrMomo(qrMomo);
@@ -129,7 +118,7 @@ export default function ProductPayment({ product }: TProps) {
             <Stack>
                <Text
                   onClick={() => {
-                     router.push(`${ROUTER.PRODUCT.ROOT}/${product._id}`);
+                     router.push(ROUTER.PRODUCT);
                   }}
                   style={{ textDecoration: `underline`, cursor: `pointer`, opacity: 0.5 }}
                >
@@ -171,93 +160,7 @@ export default function ProductPayment({ product }: TProps) {
 
                <Paper pos={`relative`} shadow="md" radius="lg" withBorder p="xl" style={{ overflow: `hidden` }}>
                   <Stack>
-                     {[0, 1, 2, 3, 4, 5].map((item, i) => {
-                        return (
-                           <Fragment key={i}>
-                              <Stack>
-                                 <Box>
-                                    <Text style={{ fontSize: 14 }} opacity={0.5}>
-                                       Tên
-                                    </Text>
-                                    <Text>{product.name}</Text>
-                                 </Box>
-
-                                 <Box w={100}>
-                                    <ProductImage src={product.imagePublicId} />
-                                 </Box>
-
-                                 <Box className={`${classes[`box-2`]}`}>
-                                    <Stack className={`${classes[`box-4`]}`} align="baseline">
-                                       <Text style={{ fontSize: 14 }} opacity={0.5}>
-                                          Đơn Giá
-                                       </Text>
-                                       <Text>₫{renderData(product.price)}</Text>
-                                    </Stack>
-                                    <Stack className={`${classes[`box-4`]}`}>
-                                       <Text style={{ fontSize: 14 }} opacity={0.5}>
-                                          Số Lượng
-                                       </Text>
-                                       <Group gap={2}>
-                                          <ActionIcon disabled={openedQr} variant="default" size="md" radius="md" onClick={decrement}>
-                                             <IconChevronDown color="var(--mantine-color-red-text)" />
-                                          </ActionIcon>
-                                          <NumberInput
-                                             onChange={(e) => {
-                                                set(e as number);
-                                             }}
-                                             w={50}
-                                             value={quantity}
-                                             radius="md"
-                                             size="xs"
-                                             thousandSeparator=","
-                                             defaultValue={1_000_000}
-                                             hideControls
-                                          />
-                                          <ActionIcon disabled={openedQr} variant="default" size="md" radius="md" onClick={increment}>
-                                             <IconChevronUp color="var(--mantine-color-teal-text)" />
-                                          </ActionIcon>
-                                       </Group>
-                                    </Stack>
-                                    <Stack className={`${classes[`box-4`]}`} align="baseline">
-                                       <Text style={{ fontSize: 14 }} opacity={0.5}>
-                                          Thành Tiền
-                                       </Text>
-                                       <Text style={{ fontWeight: 900 }}>₫{renderData(total.productTotal)}</Text>
-                                    </Stack>
-                                    <Button variant="outline" w={100} size="xs">Xoá</Button>
-                                 </Box>
-                              </Stack>
-                              <Divider />
-                           </Fragment>
-                        );
-                     })}
-
-                     <Box className={`${classes[`box-2`]} ${classes[`ship`]}`}>
-                        <Text style={{ fontWeight: 900 }}>Phương thức vận chuyển</Text>
-                        <Stack>
-                           <Text style={{ fontSize: 14 }}>Giao hàng tận nơi</Text>
-                           <Group gap={2}>
-                              <Image
-                                 width={15}
-                                 height={15}
-                                 sizes="100vw"
-                                 alt="product-shipping"
-                                 src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/checkout/a714965e439d493ba00c.svg"
-                              />
-                              <Text h={15} style={{ color: `#26aa99`, fontSize: 12 }}>
-                                 Đảm bảo nhận hàng từ 28 Tháng 3 - 31 Tháng 3
-                              </Text>
-                           </Group>
-                        </Stack>
-                        <Stack>
-                           <Text style={{ fontSize: 14 }} opacity={0.5}>
-                              Phí Vận Chuyển
-                           </Text>
-                           <Text style={{ fontWeight: 900 }}>₫{renderData(product.shippingFee)}</Text>
-                        </Stack>
-                     </Box>
-
-                     <Divider />
+                     <ProductListCart cartList={getCartList} setTotalPrice={setTotalPrice} />
 
                      <Group justify="end">
                         <Stack maw={360} w={`100%`}>
@@ -267,7 +170,7 @@ export default function ProductPayment({ product }: TProps) {
                               </Text>
 
                               <Text style={{ fontSize: 14 }} opacity={0.5}>
-                                 ₫{renderData(total.productTotal)}
+                                 ₫{renderData(totalPrice.totalPriceItemCart)}
                               </Text>
                            </Group>
                            <Group align="baseline" justify="space-between">
@@ -276,7 +179,7 @@ export default function ProductPayment({ product }: TProps) {
                               </Text>
 
                               <Text style={{ fontSize: 14 }} opacity={0.5}>
-                                 ₫{renderData(total.shippingFee)}
+                                 ₫{renderData(totalPrice.totalShipItemCart)}
                               </Text>
                            </Group>
                            <Group align="baseline" justify="space-between">
@@ -284,7 +187,9 @@ export default function ProductPayment({ product }: TProps) {
                                  Tổng thanh toán:
                               </Text>
 
-                              <Text style={{ fontSize: 25, color: theme.colors.shopee[5], fontWeight: 900 }}>₫{renderData(total.totalPayment)}</Text>
+                              <Text style={{ fontSize: 25, color: theme.colors.shopee[5], fontWeight: 900 }}>
+                                 ₫{renderData(totalPrice.totalPriceCart)}
+                              </Text>
                            </Group>
                         </Stack>
                      </Group>
@@ -292,7 +197,13 @@ export default function ProductPayment({ product }: TProps) {
                      <Divider />
 
                      <Group justify="end">
-                        <Button disabled={openedQr} onClick={handleOrder} size="lg" w={150} color={theme.colors.shopee[5]}>
+                        <Button
+                           disabled={openedQr || !info?.address || !info?.phone || !getCartList.data?.items.length || getCartList.isError}
+                           onClick={handleOrder}
+                           size="lg"
+                           w={150}
+                           color={theme.colors.shopee[5]}
+                        >
                            Đặt Hàng
                         </Button>
                      </Group>
@@ -368,7 +279,11 @@ export default function ProductPayment({ product }: TProps) {
                                     <Center>
                                        <Paper shadow="sm" radius={25} withBorder p="sm" w={`min-content`}>
                                           <Box style={{ width: 300, height: 300, borderRadius: `20px`, overflow: `hidden`, position: `relative` }}>
-                                             <LoadingOverlay visible={createQrMomo.isPending} />
+                                             <LoadingOverlay
+                                                visible={createQrMomo.isPending}
+                                                zIndex={1000}
+                                                overlayProps={{ radius: "sm", bg: `transparent` }}
+                                             />
                                              {qrMomo && (
                                                 <Image
                                                    src={qrMomo}
@@ -397,7 +312,11 @@ export default function ProductPayment({ product }: TProps) {
                                     <Center>
                                        <Paper shadow="sm" radius={25} withBorder p="sm">
                                           <Box style={{ width: 300, height: 300, borderRadius: `20px`, overflow: `hidden`, position: `relative` }}>
-                                             <LoadingOverlay visible={createQrZalopay.isPending} />
+                                             <LoadingOverlay
+                                                visible={createQrZalopay.isPending}
+                                                zIndex={1000}
+                                                overlayProps={{ radius: "sm", bg: `transparent` }}
+                                             />
                                              {qrZalopay && (
                                                 <Image
                                                    src={qrZalopay}
@@ -426,7 +345,11 @@ export default function ProductPayment({ product }: TProps) {
                                     <Center>
                                        <Paper shadow="sm" radius={25} withBorder p="sm">
                                           <Box style={{ width: 300, height: 300, borderRadius: `20px`, overflow: `hidden`, position: `relative` }}>
-                                             <LoadingOverlay visible={createVietQR.isPending} />
+                                             <LoadingOverlay
+                                                visible={createVietQR.isPending}
+                                                zIndex={1000}
+                                                overlayProps={{ radius: "sm", bg: `transparent` }}
+                                             />
                                              {vietQr && (
                                                 <Image
                                                    src={vietQr}

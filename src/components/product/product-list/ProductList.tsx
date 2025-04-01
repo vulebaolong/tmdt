@@ -1,12 +1,13 @@
 "use client";
 
 import Nodata from "@/components/no-data/Nodata";
-import { useAppSelector } from "@/redux/hooks";
+import ROUTER from "@/constant/router.constant";
 import { IProduct } from "@/schemas/product.schema";
 import { useGetProductList } from "@/tantask/product.tanstack";
 import { TResPagination } from "@/types/app.type";
 import { Box, Button, Center, Group, NavLink, Stack, Text } from "@mantine/core";
 import { IconCategory } from "@tabler/icons-react";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ProductItem from "../product-item/ProductItem";
 import classes from "./ProductList.module.css";
@@ -20,22 +21,11 @@ function ProductList({ products: initialProducts }: TProps) {
    const [products, setProducts] = useState(initialProducts.items);
    const [page, setPage] = useState(1);
    const totalPage = useRef(initialProducts.pageCount);
-   const searchProduct = useAppSelector((state) => state.product.searchProduct);
+   const pathname = usePathname();
+   const router = useRouter();
+   console.log({ pathname });
 
    const getProductList = useGetProductList();
-
-   useEffect(() => {
-      if (category === ``) return;
-      getProductList.mutate(
-         { page: 1, category: undefined, searchProduct },
-         {
-            onSuccess: (data) => {
-               totalPage.current = data.pageCount;
-               setProducts(data.items);
-            },
-         }
-      );
-   }, [searchProduct]);
 
    useEffect(() => {
       if (category === null) return;
@@ -67,49 +57,56 @@ function ProductList({ products: initialProducts }: TProps) {
    }, [page]);
 
    const handleLoadMore = () => {
-      setPage((prev) => {
-         return prev + 1;
-      });
+      if (ROUTER.HOME === pathname) {
+         router.push(ROUTER.PRODUCT);
+      } else {
+         setPage((prev) => {
+            return prev + 1;
+         });
+      }
    };
 
    return (
       <Group wrap="nowrap" align="start">
-         <Stack style={{ flexShrink: 0, width: 200, height: `100%` }}>
-            <Group gap={2}>
-               <IconCategory />
-               <Text fw={700}>Danh mục sản phẩm</Text>
-            </Group>
-            <Stack gap={0}>
-               <NavLink
-                  active={category === null || category === undefined}
-                  onClick={() => {
-                     setCategory(() => undefined);
-                  }}
-                  label={`Tất cả`}
-               />
-               <NavLink
-                  active={category === `0`}
-                  onClick={() => {
-                     setCategory(() => `0`);
-                  }}
-                  label={`Thức ăn thú cưng`}
-               />
-               <NavLink
-                  active={category === `1`}
-                  onClick={() => {
-                     setCategory(() => `1`);
-                  }}
-                  label={`Phụ kiện & đồ chơi`}
-               />
-               <NavLink
-                  active={category === `2`}
-                  onClick={() => {
-                     setCategory(() => `2`);
-                  }}
-                  label={`Thuốc & mỹ phẩm`}
-               />
+         {ROUTER.PRODUCT === pathname && (
+            <Stack style={{ flexShrink: 0, width: 200, height: `100%` }}>
+               <Group gap={2}>
+                  <IconCategory />
+                  <Text fw={700}>Danh mục sản phẩm</Text>
+               </Group>
+               <Stack gap={0}>
+                  <NavLink
+                     active={category === null || category === undefined}
+                     onClick={() => {
+                        setCategory(() => undefined);
+                     }}
+                     label={`Tất cả`}
+                  />
+                  <NavLink
+                     active={category === `0`}
+                     onClick={() => {
+                        setCategory(() => `0`);
+                     }}
+                     label={`Thức ăn thú cưng`}
+                  />
+                  <NavLink
+                     active={category === `1`}
+                     onClick={() => {
+                        setCategory(() => `1`);
+                     }}
+                     label={`Phụ kiện & đồ chơi`}
+                  />
+                  <NavLink
+                     active={category === `2`}
+                     onClick={() => {
+                        setCategory(() => `2`);
+                     }}
+                     label={`Thuốc & mỹ phẩm`}
+                  />
+               </Stack>
             </Stack>
-         </Stack>
+         )}
+
          <Stack w={`100%`}>
             <Box className={`${classes[`box-container`]}`}>
                {products.map((product, i) => {

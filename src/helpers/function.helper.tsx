@@ -198,3 +198,13 @@ export const wait = (miliseconds: number) => {
       setTimeout(resolve, miliseconds);
    });
 };
+
+export function getDeliveryDateRange() {
+   const fromDate = dayjs().add(5, "day");
+   const toDate = fromDate.add(3, "day");
+
+   const formattedFromDate = fromDate.format("DD [Tháng] M");
+   const formattedToDate = toDate.format("DD [Tháng] M");
+
+   return `${formattedFromDate} - ${formattedToDate}`;
+}

@@ -1,6 +1,11 @@
 // import { useLoginGoolge } from "@/tantask/auth.tanstack";
+import ROUTER from "@/constant/router.constant";
+import { useLoginGoolge } from "@/tantask/auth.tanstack";
 import { Button, ButtonProps } from "@mantine/core";
-// import { useGoogleLogin } from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "react-toastify";
 // import { useLoginGoolge } from "../../api/tanstack/auth.tanstack";
 // import { setAccessToken, setRefreshToken } from "../../../helpers/auth.helper";
 // import { useAppDispatch } from "../../../store/store";
@@ -40,39 +45,39 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 }
 
 export function GoogleButton(props: ButtonProps & React.ComponentPropsWithoutRef<"button">) {
-   // const router = useRouter();
-   // const loginGoogle = useLoginGoolge();
-   // const [loading, setLoading] = useState(false);
+   const router = useRouter();
+   const loginGoogle = useLoginGoolge();
+   const [loading, setLoading] = useState(false);
 
-   // const login = useGoogleLogin({
-   //    flow: "auth-code",
-   //    onSuccess: async (codeResponse) => {
-   //       console.log(codeResponse);
-   //       loginGoogle.mutate(
-   //          { code: codeResponse.code },
-   //          {
-   //             onSuccess: () => {
-   //                router.push(ROUTER.HOME);
-   //                toast.success(`Login successfully`);
-   //             },
-   //             onSettled: () => {
-   //                setLoading(false);
-   //             },
-   //          }
-   //       );
-   //    },
-   //    onError: (errorResponse) => {
-   //       setLoading(false);
-   //       console.log(errorResponse);
-   //    },
-   // });
+   const login = useGoogleLogin({
+      flow: "auth-code",
+      onSuccess: async (codeResponse) => {
+         console.log({codeResponse});
+         loginGoogle.mutate(
+            { code: codeResponse.code },
+            {
+               onSuccess: () => {
+                  router.push(ROUTER.HOME);
+                  toast.success(`Login successfully`);
+               },
+               onSettled: () => {
+                  setLoading(false);
+               },
+            }
+         );
+      },
+      onError: (errorResponse) => {
+         setLoading(false);
+         console.log(errorResponse);
+      },
+   });
 
    return (
       <Button
-         // loading={loading}
+         loading={loading}
          onClick={() => {
-            // setLoading(true);
-            // login();
+            setLoading(true);
+            login();
          }}
          leftSection={<GoogleIcon />}
          variant="default"

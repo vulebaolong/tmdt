@@ -83,7 +83,7 @@ export default function ProductDetail({ product }: TProps) {
                      </Button>
                      <Button
                         onClick={() => {
-                           router.push(`${ROUTER.PRODUCT.PAYMENT}/${product._id}`);
+                           router.push(ROUTER.CART);
                         }}
                         bg={theme.colors.shopee[5]}
                         size="xl"

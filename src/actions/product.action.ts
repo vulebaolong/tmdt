@@ -12,15 +12,15 @@ import path from "path";
 
 export type TPayloadGetProductList = {
    page: number;
+   pageSize?: number;
    category?: string;
    searchProduct?: string;
 };
 
-export async function getProductListAction2({ page, category, searchProduct }: TPayloadGetProductList): Promise<TResPagination<IProduct>> {
+export async function getProductListAction2({ page = 1, pageSize = 9, category, searchProduct }: TPayloadGetProductList): Promise<TResPagination<IProduct>> {
    try {
       await connectDB();
 
-      const pageSize = 4;
       const skip = (page - 1) * pageSize;
 
       const filter: any = {};

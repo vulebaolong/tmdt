@@ -16,6 +16,7 @@ import { ReactNode } from "react";
 import { resolver, themeOverride } from "./mantine/theme";
 import ProviderRedux from "./redux/ProviderRedux";
 import ToastProvider from "./toast/ToastProvider";
+import GoogleProvider from "./google/GoogleProvider";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -42,7 +43,7 @@ export default function Provider({ children }: { children: ReactNode }) {
          <ProviderRedux>
             <MantineProvider theme={themeOverride} defaultColorScheme="dark" cssVariablesResolver={resolver}>
                <ToastProvider />
-               {children}
+               <GoogleProvider>{children}</GoogleProvider>
             </MantineProvider>
          </ProviderRedux>
       </QueryClientProvider>

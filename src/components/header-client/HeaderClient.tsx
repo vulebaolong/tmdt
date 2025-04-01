@@ -4,16 +4,16 @@ import DrawerNavbar from "@/components/drawer/drawer-navbar/DrawerNavbar";
 import ButtonToggleTheme from "@/components/toggle-theme/button/ButtonToggleTheme";
 import { MOBILE_HIDDEN_DESKTOP_VISIBLE, MOBILE_VISIBLE_DESKTOP_HIDDEN } from "@/constant/app.constant";
 import ROUTER from "@/constant/router.constant";
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { SEARCH_PRODUCT } from "@/redux/slices/product.slice";
+import { useAppSelector } from "@/redux/hooks";
 import { useQueryInfo } from "@/tantask/auth.tanstack";
 import { useCartCountQuery } from "@/tantask/cart.tanstack";
-import { Box, Burger, Button, Container, Divider, Group, Indicator, Input, Loader, Stack, Text, useMantineTheme } from "@mantine/core";
-import { useDebouncedCallback, useDisclosure } from "@mantine/hooks";
-import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconSearch, IconShoppingCart } from "@tabler/icons-react";
+import { Box, Burger, Container, Divider, Group, Indicator, Loader, Stack, Text, useMantineTheme } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconShoppingCart } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import InputSearchHeader from "../input-search-header/InputSearchHeader";
 import LogoShopee from "../logo/LogoIconText";
 import SwitchLangV2 from "../switch-lang/SwitchLangV2";
 import UserControl from "../user-control/UserControl";
@@ -25,17 +25,8 @@ export default function HeaderClient() {
    const info = useAppSelector((state) => state.user.info);
    const router = useRouter();
    const theme = useMantineTheme();
-   const dispatch = useAppDispatch();
    const cartCountQuery = useCartCountQuery();
    useQueryInfo();
-
-   const handleSearch = useDebouncedCallback(async (query: string) => {
-      dispatch(SEARCH_PRODUCT(query));
-   }, 500);
-
-   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      handleSearch(event.currentTarget.value);
-   };
 
    return (
       <>
@@ -92,27 +83,9 @@ export default function HeaderClient() {
                      </Group>
 
                      {/* center */}
-                     <Group
-                        style={{
-                           flex: `1`,
-                           backgroundColor: `white`,
-                           borderRadius: `var(--mantine-radius-md)`,
-                        }}
-                        gap={10}
-                        p={3}
-                        className={`${MOBILE_HIDDEN_DESKTOP_VISIBLE}`}
-                     >
-                        <Input
-                           style={{ flex: `1` }}
-                           onChange={handleChange}
-                           placeholder="Tìm Sản Phẩm"
-                           size="md"
-                           styles={{ input: { backgroundColor: `transparent`, border: `transparent`, color: `black` } }}
-                        />
-                        <Button size="md" color={theme.colors.shopee[5]}>
-                           <IconSearch stroke={1} />
-                        </Button>
-                     </Group>
+                     <Box style={{ flex: `1` }} className={`${MOBILE_HIDDEN_DESKTOP_VISIBLE}`}>
+                       <InputSearchHeader />
+                     </Box>
 
                      {/* right */}
                      <Indicator
@@ -142,7 +115,14 @@ export default function HeaderClient() {
                         styles={{ indicator: { color: theme.colors.shopee[5], fontWeight: `bold`, fontSize: `15px` } }}
                         disabled={cartCountQuery.isLoading || !cartCountQuery.data}
                      >
-                        <IconShoppingCart stroke={2} size={30} color="white" />
+                        <IconShoppingCart
+                           onClick={() => {
+                              router.push(ROUTER.CART);
+                           }}
+                           stroke={2}
+                           size={30}
+                           color="white"
+                        />
                      </Indicator>
                   </Group>
                </Stack>
