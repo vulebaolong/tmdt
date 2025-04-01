@@ -7,6 +7,10 @@ FROM node:22-alpine AS builder
 WORKDIR /tmdt
 COPY . .
 COPY --from=deps /tmdt/node_modules ./node_modules
+
+ARG NEXT_PUBLIC_GOOGLE_CLIENT_ID
+ENV NEXT_PUBLIC_GOOGLE_CLIENT_ID=${NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+
 RUN npm run build
 
 FROM node:22-alpine AS runner
