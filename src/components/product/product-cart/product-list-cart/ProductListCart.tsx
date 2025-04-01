@@ -1,8 +1,7 @@
 import { getCartListAction } from "@/actions/cart.action";
 import NodataOverlay from "@/components/no-data/NodataOverlay";
 import { getDeliveryDateRange, renderData } from "@/helpers/function.helper";
-import { IProduct } from "@/schemas/product.schema";
-import { useDeleteCartItem, useHandleCart } from "@/tantask/cart.tanstack";
+import { TItem, useDeleteCartItem, useHandleCart } from "@/tantask/cart.tanstack";
 import { ActionIcon, Box, Button, Divider, Group, LoadingOverlay, NumberInput, Stack, Text } from "@mantine/core";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import { UseQueryResult } from "@tanstack/react-query";
@@ -20,10 +19,7 @@ type TProps = {
    disabled?: boolean;
 };
 
-type TItem = {
-   productId: IProduct;
-   quantity: number;
-};
+
 
 export default function ProductListCart({ cartList, disabled, setTotalPrice }: TProps) {
    const deleteCartItem = useDeleteCartItem();
@@ -35,7 +31,7 @@ export default function ProductListCart({ cartList, disabled, setTotalPrice }: T
    }, [totalPriceItemCart]);
 
    return (
-      <Stack pos={"relative"} mih={500}>
+      <Stack pos={"relative"} mih={350}>
          <LoadingOverlay visible={cartList.isLoading} zIndex={1000} overlayProps={{ radius: "sm", bg: `transparent` }} />
          <NodataOverlay visiable={cartList.data?.items.length === 0 || cartList.isError} />
          {cartList.data?.items.map((item: TItem, i: number) => {

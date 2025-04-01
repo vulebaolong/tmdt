@@ -12,8 +12,7 @@ export interface IProduct extends Document {
    inStock: boolean;
    brand: string;
    description: string;
-   createdAt: Date;
-   updatedAt: Date;
+   createdAt: Date
 }
 
 const ProductSchema = new Schema<IProduct>(

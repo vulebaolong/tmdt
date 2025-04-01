@@ -3,6 +3,7 @@ import {
    deleteProductAction,
    getProductListAction,
    getProductListAction2,
+   TCreateProductAction,
    TGetProducts,
    updateProductAction,
 } from "@/actions/product.action";
@@ -46,8 +47,7 @@ export const useCreateProduct = () => {
    const queryClient = useQueryClient();
 
    return useMutation({
-      mutationFn: async (payload: TCreateProductReq) => {
-         console.log({ useCreateProduct: payload });
+      mutationFn: async (payload: TCreateProductAction) => {
          const linkImage = await createProductAction(payload);
          return linkImage;
       },

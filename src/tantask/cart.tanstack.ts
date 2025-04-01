@@ -56,7 +56,7 @@ export const useUpdateQuantity = () => {
    });
 };
 
-type TItem = {
+export type TItem = {
    productId: IProduct;
    quantity: number;
 };
@@ -70,7 +70,6 @@ type TCartState = Record<
    }
 >;
 export function useHandleCart(cartItems: TItem[]) {
-   console.log({ cartItems });
    const [cartState, setCartState] = useState<TCartState>({});
    const queryClient = useQueryClient();
 

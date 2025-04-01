@@ -4,8 +4,9 @@ import ModalAddReceivingInformation from "@/components/modal/add-receiving-infor
 import ROUTER from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { useAppSelector } from "@/redux/hooks";
-import { useGetCartList } from "@/tantask/cart.tanstack";
+import { TItem, useGetCartList } from "@/tantask/cart.tanstack";
 import { useCheckTransaction } from "@/tantask/check-transaction.tanstack";
+import { useCreateOrder } from "@/tantask/order.tanstack";
 import { useCreateQrMomo, useCreateQrZalopay, useCreateVietQR } from "@/tantask/qr.tanstack";
 import { ETypePayment } from "@/types/enum/payment.enum";
 import {
@@ -31,7 +32,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ProductListCart from "./product-list-cart/ProductListCart";
-import classes from './ProductCart.module.css'
+import classes from "./ProductCart.module.css";
 
 export type TTotalPrice = { totalPriceItemCart: number; totalShipItemCart: number; totalPriceCart: number };
 
@@ -54,6 +55,7 @@ export default function ProductCart() {
    const [pagination] = useState({ pageIndex: 0, pageSize: 10 });
 
    const getCartList = useGetCartList(pagination);
+   const createOrder = useCreateOrder();
 
    useEffect(() => {
       if (!info?._id) return;
@@ -100,7 +102,20 @@ export default function ProductCart() {
    }, [data?.hasNew]);
 
    const handleOrder = async () => {
-      handleQr.open();
+      if (!getCartList.data?.items) return;
+      console.log({ getCartList: getCartList.data.items });
+      createOrder.mutate({
+         products: getCartList.data.items.map((item: TItem) => ({
+            productId: item.productId._id,
+            quantity: item.quantity,
+            price: item.productId.price,
+            shippingFee: item.productId.shippingFee,
+         })),
+         totalPrice: totalPrice.totalPriceCart,
+         paymentMethod: "momo",
+      });
+
+      // handleQr.open();
       // if (!info?._id) return toast.warning(`Bạn cần đăng nhập để mua hàng`);
 
       // const vietQR = await createVietQR(total.totalPayment.toString(), `tmdtID_HOADON-${info._id}-`);

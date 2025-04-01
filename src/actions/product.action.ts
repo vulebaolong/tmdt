@@ -5,7 +5,6 @@ import { deleteImageCloudinary, uploadImageToCloudinary } from "@/lib/cloudinary
 import { connectDB } from "@/lib/mongoose";
 import Product, { IProduct } from "@/schemas/product.schema";
 import { TResPagination } from "@/types/app.type";
-import { TCreateProductReq } from "@/types/product.type";
 import fs from "fs";
 import { SortOrder } from "mongoose";
 import path from "path";
@@ -17,7 +16,12 @@ export type TPayloadGetProductList = {
    searchProduct?: string;
 };
 
-export async function getProductListAction2({ page = 1, pageSize = 9, category, searchProduct }: TPayloadGetProductList): Promise<TResPagination<IProduct>> {
+export async function getProductListAction2({
+   page = 1,
+   pageSize = 9,
+   category,
+   searchProduct,
+}: TPayloadGetProductList): Promise<TResPagination<IProduct>> {
    try {
       await connectDB();
 
@@ -129,7 +133,8 @@ export async function getProductByIdAction(id: string) {
    }
 }
 
-export async function createProductAction({ imageFromData, ...product }: TCreateProductReq) {
+export type TCreateProductAction = IProduct & { imageFromData: FormData };
+export async function createProductAction({ imageFromData, ...product }: TCreateProductAction) {
    let linkImage = null;
    try {
       linkImage = await uploadImageToCloudinary(imageFromData);
@@ -140,13 +145,15 @@ export async function createProductAction({ imageFromData, ...product }: TCreate
 
       const productNew = await Product.create({
          name: product.name,
-         tags: product.tags,
-         price: product.price,
-         images: [linkImage.url],
          imagePublicId: linkImage.public_id,
+         tags: product.tags,
          category: product.category,
          shippingFee: product.shippingFee,
+         price: product.price,
          sold: 0,
+         inStock: product.inStock,
+         brand: product.brand,
+         description: product.description,
       });
 
       return toJson(productNew);

@@ -83,7 +83,14 @@ export default function ProductDetail({ product }: TProps) {
                      </Button>
                      <Button
                         onClick={() => {
-                           router.push(ROUTER.CART);
+                           addToCart.mutate(
+                              { productId: product._id as string, quantity: 1 },
+                              {
+                                 onSuccess: () => {
+                                    router.push(ROUTER.CART);
+                                 },
+                              }
+                           );
                         }}
                         bg={theme.colors.shopee[5]}
                         size="xl"

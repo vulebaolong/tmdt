@@ -74,6 +74,9 @@ export async function getCartListAction(payload: TPayloadGetCart) {
    try {
       await connectDB();
 
+      const info = await getInfoAction();
+      if (!info) throw new Error("Unauthorized");
+
       const { page = 1, pageSize = 10, searchKey, searchValue } = payload;
       const skip = (page - 1) * pageSize;
 
@@ -82,7 +85,7 @@ export async function getCartListAction(payload: TPayloadGetCart) {
          filter[searchKey] = { $regex: searchValue, $options: "i" };
       }
 
-      const items = await Cart.findOne().populate("products.productId").skip(skip).limit(pageSize).lean();
+      const items = await Cart.findOne({userId: info._id }).populate("products.productId").skip(skip).limit(pageSize).lean();
       console.log({ items: items?.products });
 
       return {
