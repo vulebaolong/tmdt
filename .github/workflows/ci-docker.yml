@@ -32,8 +32,5 @@ jobs:
               --build-arg GOOGLE_CLIENT_SECRET=${{secrets.GOOGLE_CLIENT_SECRET}} \
               -t vulebaolong/img-tmdt:latest .
 
-         - name: Build the Docker image
-           run: docker build --env-file .env -t vulebaolong/img-tmdt:latest .
-
          - name: Push to DockerHub
            run: docker push vulebaolong/img-tmdt:latest
