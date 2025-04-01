@@ -18,7 +18,7 @@ jobs:
            run: rm -rf .next node_modules
 
          - name: Build the Docker image
-           run: docker build -t vulebaolong/img-tmdt:latest .
+           run: docker build --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }} -t vulebaolong/img-tmdt:latest .
 
          - name: Push to DockerHub
            run: docker push vulebaolong/img-tmdt:latest
