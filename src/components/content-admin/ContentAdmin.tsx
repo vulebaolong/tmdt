@@ -2,15 +2,17 @@ import { buildFormDataOrObject, buildInitialValues, buildValidationSchema } from
 import { TResPagination } from "@/types/app.type";
 import { Box, Button, Center, Drawer, Group, Modal, NumberInput, Select, Stack, TagsInput, Text, Textarea, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { RichTextEditor } from "@mantine/tiptap";
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
 import { FormikProps, useFormik } from "formik";
 import React, { ReactNode, useRef, useState } from "react";
 import TableCustom, { TPayload } from "../table-custom/TableCustom";
+import { useRichTextEditor } from "./hook";
 
 export type TFieldCreate = {
    label: string;
    name: string;
-   type: "text" | "number" | "select" | "date" | "custom" | "tags" | "textArea";
+   type: "text" | "number" | "select" | "date" | "custom" | "tags" | "textArea" | "edtior";
    options?: string[];
    placeholder?: string;
    dataTags?: any;
@@ -42,9 +44,11 @@ type TProps<T> = {
 export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, onDelete, fetchData }: TProps<T>) {
    const [opened, { open, close }] = useDisclosure(false);
    const [openedModalDelete, handleModalDelete] = useDisclosure(false);
+
    const [editData, setEditData] = useState(null);
    const resolveRef = useRef<(value: any) => void>(null);
    const rejectRef = useRef<(value: any) => void>(null);
+   const { editor, setContent } = useRichTextEditor(undefined);
 
    const create = onCreate();
    const update = onUpdate();
@@ -68,7 +72,7 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
          const payload = buildFormDataOrObject(values);
          console.log(payload);
          if (editData) {
-            update.mutate(payload, {
+            update.mutate({...payload, content: editor?.getHTML()}, {
                onSuccess: () => {
                   close();
                   createForm.resetForm();
@@ -109,6 +113,7 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                onEdit={(item: any) => {
                   setEditData(item);
                   createForm.setValues(item);
+                  setContent(item.content);
                   open();
                }}
                onDelete={async (item: any) => {
@@ -248,6 +253,59 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                               defaultValue={[`1`]}
                               inputWrapperOrder={["label", "input", "error"]}
                            />
+                        );
+                     }
+
+                     if (field.type === "edtior") {
+                        return (
+                           <RichTextEditor key={1} editor={editor} h={500}>
+                              <RichTextEditor.Toolbar sticky stickyOffset={60}>
+                                 <RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.Bold />
+                                    <RichTextEditor.Italic />
+                                    <RichTextEditor.Underline />
+                                    <RichTextEditor.Strikethrough />
+                                    <RichTextEditor.ClearFormatting />
+                                    <RichTextEditor.Highlight />
+                                    <RichTextEditor.Code />
+                                 </RichTextEditor.ControlsGroup>
+
+                                 <RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.H1 />
+                                    <RichTextEditor.H2 />
+                                    <RichTextEditor.H3 />
+                                    <RichTextEditor.H4 />
+                                 </RichTextEditor.ControlsGroup>
+
+                                 <RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.Blockquote />
+                                    <RichTextEditor.Hr />
+                                    <RichTextEditor.BulletList />
+                                    <RichTextEditor.OrderedList />
+                                    <RichTextEditor.Subscript />
+                                    <RichTextEditor.Superscript />
+                                 </RichTextEditor.ControlsGroup>
+
+                                 <RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.Link />
+                                    <RichTextEditor.Unlink />
+                                 </RichTextEditor.ControlsGroup>
+
+                                 <RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.AlignLeft />
+                                    <RichTextEditor.AlignCenter />
+                                    <RichTextEditor.AlignJustify />
+                                    <RichTextEditor.AlignRight />
+                                 </RichTextEditor.ControlsGroup>
+
+                                 <RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.Undo />
+                                    <RichTextEditor.Redo />
+                                 </RichTextEditor.ControlsGroup>
+                              </RichTextEditor.Toolbar>
+
+                              <RichTextEditor.Content />
+                           </RichTextEditor>
                         );
                      }
 

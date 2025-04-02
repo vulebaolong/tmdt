@@ -1,6 +1,7 @@
 "use client";
 import { MantineProvider } from "@mantine/core";
 import "@mantine/core/styles.css";
+import '@mantine/tiptap/styles.css';
 import "../../styles/animation.css";
 import "../../styles/global.css";
 

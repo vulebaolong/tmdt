@@ -3,7 +3,7 @@
 import { MOBILE_HIDDEN_DESKTOP_VISIBLE } from "@/constant/app.constant";
 import ROUTER from "@/constant/router.constant";
 import { Box, NavLink } from "@mantine/core";
-import { IconActivity, IconFingerprint, IconGauge } from "@tabler/icons-react";
+import { IconActivity, IconBrandAppleArcade, IconFingerprint, IconGauge } from "@tabler/icons-react";
 import { usePathname, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import classes from "./NavAdmin.module.css";
@@ -11,6 +11,7 @@ import classes from "./NavAdmin.module.css";
 const data = [
    { icon: IconGauge, label: "Dashboard", description: "Item with description", link: ROUTER.ADMIN.ROOT },
    { icon: IconFingerprint, label: "Product", link: ROUTER.ADMIN.PRODUCT },
+   { icon: IconBrandAppleArcade, label: "Service", link: ROUTER.ADMIN.SERVICE },
    { icon: IconActivity, label: "User", link: ROUTER.ADMIN.USER },
 ];
 

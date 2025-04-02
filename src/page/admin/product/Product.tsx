@@ -43,12 +43,28 @@ export default function Product() {
             cell: ({ cell }) => <ProductImage width="50px" src={cell.getValue()} />,
          }),
          columnHelper.accessor("description", {
-            header: "Nội dung",
+            header: "Mô tả",
             size: 150,
             cell: ({ cell }) => (
                <Text lineClamp={2} maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
                   {cell.getValue()}
                </Text>
+            ),
+         }),
+         columnHelper.accessor("content", {
+            header: "Nội dung",
+            size: 150,
+            cell: ({ cell }) => (
+               <div
+                  dangerouslySetInnerHTML={{ __html: cell.getValue() }}
+                  style={{
+                     whiteSpace: "nowrap",
+                     height: 50,
+                     overflow: "hidden",
+                     textOverflow: "ellipsis",
+                     maxWidth: 150,
+                  }}
+               />
             ),
          }),
          columnHelper.accessor("brand", {
@@ -132,16 +148,21 @@ export default function Product() {
          },
          { label: "Tên sản phẩm", name: "name", type: "text", withAsterisk: true },
          { label: "Nội dung", name: "description", type: "textArea", maxRows: 5, resize: `vertical` },
+         {
+            label: "Chi tiết sản phẩm",
+            name: "content",
+            type: "edtior",
+         },
          { label: "Thương hiệu", name: "brand", type: "text" },
          {
             type: "select",
             name: "inStock",
             label: "Tình trạng",
             dataTags: [
-              { value: "true", label: "Còn hàng" },
-              { value: "false", label: "Hết hàng" },
+               { value: "true", label: "Còn hàng" },
+               { value: "false", label: "Hết hàng" },
             ],
-          },
+         },
          {
             label: "Nhãn",
             name: "tags",

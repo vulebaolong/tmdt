@@ -20,6 +20,7 @@ export function useCountdown(expiresAt?: string | Date, onSuccess?: () => void) 
       const endTime = dayjs(expiresAt).valueOf();
 
       const updateCountdown = () => {
+         console.log(`updateCountdown`);
          const now = dayjs().valueOf();
          const diff = Math.max(0, Math.floor((endTime - now) / 1000));
 

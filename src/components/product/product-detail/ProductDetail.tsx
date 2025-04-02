@@ -1,5 +1,6 @@
 "use client";
 
+import NodataOverlay from "@/components/no-data/NodataOverlay";
 import TextBack from "@/components/text-back/TextBack";
 import TextContent from "@/components/text-content/TextContent";
 import { BASE_DOMAIN_CLOUDINARY } from "@/constant/app.constant";
@@ -106,6 +107,33 @@ export default function ProductDetail({ product }: TProps) {
                   </Stack>
                </Box>
             </Paper>
+
+            <Paper shadow="md" radius="lg" withBorder p="xl" style={{ overflow: `hidden` }} pos={`relative`} mih={300}>
+               <NodataOverlay visiable={!product.content} />
+               <Stack>
+                  <Box>
+                     <Text fz={`h2`} fw={700}>
+                        CHI TIẾT SẢN PHẨM
+                     </Text>
+                     {product.content && <div dangerouslySetInnerHTML={{ __html: product.content }} />}
+                  </Box>
+                  {/* <Box>
+                     <Text fz={`h2`} fw={700}>
+                        MÔ TẢ SẢN PHẨM
+                     </Text>
+                     <div dangerouslySetInnerHTML={{ __html: product.content }} />
+                  </Box> */}
+               </Stack>
+            </Paper>
+
+            {/* <Paper shadow="md" radius="lg" withBorder p="xl" style={{ overflow: `hidden` }}>
+               <Stack>
+                  <Text fz={`h2`} fw={700}>
+                     ĐÁNH GIÁ SẢN PHẨM
+                  </Text>
+                  <div dangerouslySetInnerHTML={{ __html: product.content }} />
+               </Stack>
+            </Paper> */}
          </Stack>
       </Container>
    );

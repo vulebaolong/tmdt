@@ -10,6 +10,7 @@ const ROUTER = {
       ROOT: `/admin`,
       USER: `/admin/user`,
       PRODUCT: `/admin/product`,
+      SERVICE: `/admin/service`,
    },
 };
 

@@ -12,6 +12,7 @@ export interface IProduct extends Document {
    inStock: boolean;
    brand: string;
    description: string;
+   content: string;
    createdAt: Date
 }
 
@@ -27,6 +28,7 @@ const ProductSchema = new Schema<IProduct>(
       inStock: { type: Boolean, default: true },
       brand: { type: String },
       description: { type: String },
+      content: { type: String },
    },
    {
       collection: "Products",
