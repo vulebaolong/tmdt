@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
 
       console.log("[WEBHOOK]", body);
 
-      const idMatch = body.content?.match(/tmdt-([a-f0-9]{24})-([a-f0-9]{24})-/i);
+      const idMatch = body.content?.match(/tmdt([a-f0-9]{24})-([a-f0-9]{24})-/i);
       const orderId = idMatch ? idMatch[1] : null;
       const userId = idMatch ? idMatch[2] : null;
 

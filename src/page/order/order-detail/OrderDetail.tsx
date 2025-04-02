@@ -58,7 +58,7 @@ export default function OrderDetail({ id }: TProps) {
    useEffect(() => {
       if (!getOrderById.data?.data || !info) return;
 
-      const purpose = `tmdt-${getOrderById.data.data._id}-${info._id}-`;
+      const purpose = `tmdt${getOrderById.data.data._id}-${info._id}-`;
       const amount = getOrderById.data.data.totalPrice.toString();
 
       if (getOrderById.data.data.paymentMethod === EOrderPaymentMethod[`Momo`]) {
