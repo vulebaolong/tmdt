@@ -1,11 +1,12 @@
 import { getCartListAction } from "@/actions/cart.action";
 import NodataOverlay from "@/components/no-data/NodataOverlay";
-import { getDeliveryDateRange, renderData } from "@/helpers/function.helper";
+import ROUTER from "@/constant/router.constant";
+import { renderData } from "@/helpers/function.helper";
 import { TItem, useDeleteCartItem, useHandleCart } from "@/tantask/cart.tanstack";
 import { ActionIcon, Box, Button, Divider, Group, LoadingOverlay, NumberInput, Stack, Text } from "@mantine/core";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import { UseQueryResult } from "@tanstack/react-query";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { Dispatch, Fragment, SetStateAction, useEffect } from "react";
 import ProductImage from "../../product-image/ProductImage";
 import { TTotalPrice } from "../ProductCart";
@@ -16,14 +17,17 @@ type TCartList = UseQueryResult<Awaited<ReturnType<typeof getCartListAction>>, u
 type TProps = {
    cartList: TCartList;
    setTotalPrice: Dispatch<SetStateAction<TTotalPrice>>;
+   setLoadingChange: Dispatch<SetStateAction<boolean>>;
    disabled?: boolean;
 };
 
-
-
-export default function ProductListCart({ cartList, disabled, setTotalPrice }: TProps) {
+export default function ProductListCart({ cartList, disabled, setTotalPrice, setLoadingChange }: TProps) {
+   const router = useRouter();
    const deleteCartItem = useDeleteCartItem();
-   const { cartState, handleQuantityChange, totalPriceItemCart, totalShipItemCart, totalPriceCart } = useHandleCart(cartList.data?.items || []);
+   const { cartState, handleQuantityChange, totalPriceItemCart, totalShipItemCart, totalPriceCart } = useHandleCart({
+      cartItems: cartList.data?.items || [],
+      setLoadingChange,
+   });
    useEffect(() => {
       setTotalPrice(() => {
          return { totalPriceItemCart, totalShipItemCart, totalPriceCart };
@@ -31,7 +35,7 @@ export default function ProductListCart({ cartList, disabled, setTotalPrice }: T
    }, [totalPriceItemCart]);
 
    return (
-      <Stack pos={"relative"} mih={350}>
+      <Stack pos={"relative"} mih={270}>
          <LoadingOverlay visible={cartList.isLoading} zIndex={1000} overlayProps={{ radius: "sm", bg: `transparent` }} />
          <NodataOverlay visiable={cartList.data?.items.length === 0 || cartList.isError} />
          {cartList.data?.items.map((item: TItem, i: number) => {
@@ -43,7 +47,14 @@ export default function ProductListCart({ cartList, disabled, setTotalPrice }: T
                            Tên
                         </Text>
                         <Group wrap="nowrap">
-                           <Text style={{ flex: `1` }}>{item.productId.name}</Text>
+                           <Text
+                              onClick={() => {
+                                 router.push(`${ROUTER.PRODUCT}/${item.productId._id}`);
+                              }}
+                              style={{ flex: `1`, cursor: `pointer` }}
+                           >
+                              {item.productId.name}
+                           </Text>
                            <Button
                               onClick={() => {
                                  deleteCartItem.mutate({ productId: item.productId._id as string });
@@ -116,35 +127,14 @@ export default function ProductListCart({ cartList, disabled, setTotalPrice }: T
                            </Text>
                            <Text style={{ fontWeight: 900 }}>₫{renderData(cartState[item.productId._id as string]?.priceItemCart || `--`)}</Text>
                         </Stack>
+                        <Stack className={`${classes[`box-4`]}`} align="baseline">
+                           <Text style={{ fontSize: 14 }} opacity={0.5}>
+                              Phí Vận Chuyển
+                           </Text>
+                           <Text style={{ fontWeight: 900 }}>₫{renderData(item.productId.shippingFee)}</Text>
+                        </Stack>
                      </Box>
                   </Stack>
-
-                  <Box className={`${classes[`box-2`]}`}>
-                     <Text style={{ fontWeight: 900 }}>Phương thức vận chuyển</Text>
-                     <Stack>
-                        <Text style={{ fontSize: 14 }}>Giao hàng tận nơi</Text>
-                        <Group gap={2} align="center">
-                           <Image
-                              width={15}
-                              height={15}
-                              sizes="100vw"
-                              alt="product-shipping"
-                              src="https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/checkout/a714965e439d493ba00c.svg"
-                              style={{ display: `block` }}
-                           />
-                           <Text h={15} style={{ color: `#26aa99`, fontSize: 12, lineHeight: 1.3 }}>
-                              Nhận hàng từ {getDeliveryDateRange()}
-                           </Text>
-                        </Group>
-                     </Stack>
-                     <Stack>
-                        <Text style={{ fontSize: 14 }} opacity={0.5}>
-                           Phí Vận Chuyển
-                        </Text>
-                        <Text style={{ fontWeight: 900 }}>₫{renderData(item.productId.shippingFee)}</Text>
-                     </Stack>
-                  </Box>
-
                   <Divider />
                </Fragment>
             );

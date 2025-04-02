@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import user from "./user.slice";
-import product from "./product.slice";
+import transaction from "./transaction.slice";
 
 const combinedReducer = combineReducers({
+   transaction,
    user,
-   product,
 });
 
 export const rootReducer = (state: any, action: any) => {

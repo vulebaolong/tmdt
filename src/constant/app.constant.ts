@@ -24,6 +24,8 @@ export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
 export const NEXT_PUBLIC_GOOGLE_CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
+export const TIME_LEFT_ORDER = 1 * 60 * 1000;
+
 export const SHIPPING_FEE = 0;
 
 console.log({

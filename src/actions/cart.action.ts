@@ -5,6 +5,7 @@ import Cart from "@/schemas/cart.schema";
 import { getInfoAction } from "./auth.action";
 import mongoose from "mongoose";
 import { toJson } from "@/helpers/function.helper";
+import { IProduct } from "@/schemas/product.schema";
 
 export type TAddToCartAction = { productId: string; quantity: number };
 
@@ -70,6 +71,16 @@ export type TPayloadGetCart = {
    searchValue?: string;
 };
 
+
+export interface ICartItemPopulated {
+   productId: IProduct;
+   quantity: number;
+}
+
+export interface ICartPopulated {
+   userId: string;
+   products: ICartItemPopulated[];
+}
 export async function getCartListAction(payload: TPayloadGetCart) {
    try {
       await connectDB();
@@ -85,7 +96,7 @@ export async function getCartListAction(payload: TPayloadGetCart) {
          filter[searchKey] = { $regex: searchValue, $options: "i" };
       }
 
-      const items = await Cart.findOne({userId: info._id }).populate("products.productId").skip(skip).limit(pageSize).lean();
+      const items = await Cart.findOne({userId: info._id }).populate("products.productId").skip(skip).limit(pageSize).lean<ICartPopulated>();
       console.log({ items: items?.products });
 
       return {

@@ -11,7 +11,7 @@ import { resError } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 export function useCartCountQuery() {
@@ -69,7 +69,12 @@ type TCartState = Record<
       shipItemCart: number;
    }
 >;
-export function useHandleCart(cartItems: TItem[]) {
+
+type TuseHandleCart = {
+   cartItems: TItem[];
+   setLoadingChange: Dispatch<SetStateAction<boolean>>;
+};
+export function useHandleCart({ cartItems, setLoadingChange }: TuseHandleCart) {
    const [cartState, setCartState] = useState<TCartState>({});
    const queryClient = useQueryClient();
 
@@ -104,6 +109,9 @@ export function useHandleCart(cartItems: TItem[]) {
                   },
                }));
             }
+         })
+         .finally(() => {
+            setLoadingChange(false);
          });
    }, 500);
 
@@ -138,8 +146,8 @@ export function useDeleteCartItem() {
          queryClient.invalidateQueries({ queryKey: ["cart-list"] });
          queryClient.invalidateQueries({ queryKey: [`cart-count`] });
       },
-      onError: () => {
-         toast.error(`Xoá sản phẩm thất bại`);
+      onError: (error) => {
+         toast.error(resError(error, `Xoá sản phẩm thất bại`));
       },
    });
 }

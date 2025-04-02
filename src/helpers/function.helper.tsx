@@ -16,11 +16,31 @@ import * as Yup from "yup";
 // };
 
 export const resError = (error: any, defaultMes: string) => {
-   let mes = error.response?.data?.message;
-   if (!mes) mes = defaultMes;
+   let mes = defaultMes;
+
+   // Axios Error
+   if (error.response?.data?.message) {
+      mes = error.response.data.message;
+   }
+   // Error Next.js API 
+   else if (error.message) {
+      mes = error.message;
+   }
+   //  Mongoose Validation Error
+   else if (error.errors) {
+      const firstErrorKey = Object.keys(error.errors)[0];
+      mes = error.errors[firstErrorKey]?.message || defaultMes;
+   }
+   // MongoDB Duplicate Key Error
+   else if (error.code === 11000) {
+      mes = `Dữ liệu đã tồn tại: ${Object.keys(error.keyPattern).join(", ")}`;
+   }
+   // If message is array
    if (Array.isArray(mes)) mes = mes[0];
+
    return mes;
 };
+
 
 export const formatLocalTime = (time?: dayjs.ConfigType, format = "HH:mm:ss DD/MM/YYYY") => {
    if (typeof time === "string") {
@@ -123,7 +143,7 @@ export function fBeautifulNumber(str: any, length = 0) {
    }
 }
 
-export function toJson(params: any) {
+export function toJson<T>(params: T): T {
    return JSON.parse(JSON.stringify(params));
 }
 

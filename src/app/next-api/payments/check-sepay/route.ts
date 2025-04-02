@@ -1,6 +1,9 @@
 import { connectDB } from "@/lib/mongoose";
+import Cart from "@/schemas/cart.schema";
+import Order from "@/schemas/order.schema";
 import Product from "@/schemas/product.schema";
 import Transaction from "@/schemas/transaction.schema";
+import { EOrderStatus } from "@/types/enum/order.enum";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -33,6 +36,55 @@ import { NextRequest, NextResponse } from "next/server";
 //    id: 10481786
 //  }
 
+// export async function POST(req: NextRequest) {
+//    const session = await mongoose.startSession();
+//    session.startTransaction();
+
+//    try {
+//       await connectDB();
+//       const body = await req.json();
+
+//       console.log("[WEBHOOK]", body);
+
+//       const idMatch = body.content?.match(/tmdt([a-f0-9]{24})-([a-f0-9]{24})-/i);
+//       const productId = idMatch ? idMatch[1] : null;
+//       const userId = idMatch ? idMatch[2] : null;
+
+//       if (!productId || !userId) {
+//          throw new Error("Invalid content format");
+//       }
+
+//       const data = {
+//          accountNumber: body.accountNumber,
+//          balance: Number(body.accumulated),
+//          amount: Number(body.transferAmount),
+//          transactionContent: body.content,
+//          transactionDate: body.transactionDate,
+//          asset: "VND",
+//          productId: productId,
+//          userId: userId,
+//       };
+
+//       await Transaction.create([data], { session });
+
+//       const updateResult = await Product.updateOne({ _id: productId }, { $inc: { sold: 1 } }, { session });
+
+//       if (updateResult.modifiedCount === 0) {
+//          throw new Error("Update product failed");
+//       }
+
+//       await session.commitTransaction();
+//       session.endSession();
+
+//       return NextResponse.json({ success: true });
+//    } catch (error) {
+//       await session.abortTransaction();
+//       session.endSession();
+//       console.error("Webhook Error:", error);
+//       return NextResponse.json({ success: false, error: "Invalid Request" }, { status: 400 });
+//    }
+// }
+
 export async function POST(req: NextRequest) {
    const session = await mongoose.startSession();
    session.startTransaction();
@@ -43,32 +95,33 @@ export async function POST(req: NextRequest) {
 
       console.log("[WEBHOOK]", body);
 
-      const idMatch = body.content?.match(/tmdt([a-f0-9]{24})-([a-f0-9]{24})-/i);
-      const productId = idMatch ? idMatch[1] : null;
+      const idMatch = body.content?.match(/tmdt-([a-f0-9]{24})-([a-f0-9]{24})-/i);
+      const orderId = idMatch ? idMatch[1] : null;
       const userId = idMatch ? idMatch[2] : null;
 
-      if (!productId || !userId) {
-         throw new Error("Invalid content format");
+      if (!orderId || !userId) throw new Error("Invalid content format");
+
+      const order = await Order.findById(orderId).session(session);
+      if (!order) throw new Error("Order not found");
+
+      // Cập nhật trạng thái đơn hàng
+      await Order.updateOne({ _id: orderId }, { status: EOrderStatus.Paid, $unset: { expiresAt: "" } }, { session });
+
+      // Tăng sold cho từng product
+      for (const item of order.products) {
+         const result = await Product.updateOne({ _id: item.productId }, { $inc: { sold: item.quantity } }, { session });
+         if (result.modifiedCount === 0) throw new Error(`Update sold failed for product ${item.productId}`);
       }
 
-      const data = {
-         accountNumber: body.accountNumber,
-         balance: Number(body.accumulated),
-         amount: Number(body.transferAmount),
-         transactionContent: body.content,
-         transactionDate: body.transactionDate,
-         asset: "VND",
-         productId: productId,
-         userId: userId,
-      };
+      // Clear Cart
+      await Cart.deleteOne({ userId: order.userId }).session(session);
 
-      await Transaction.create([data], { session });
-
-      const updateResult = await Product.updateOne({ _id: productId }, { $inc: { sold: 1 } }, { session });
-
-      if (updateResult.modifiedCount === 0) {
-         throw new Error("Update product failed");
-      }
+      // Lưu Transaction (không dùng session)
+      await Transaction.create({
+         ...body,
+         orderId,
+         userId,
+      });
 
       await session.commitTransaction();
       session.endSession();

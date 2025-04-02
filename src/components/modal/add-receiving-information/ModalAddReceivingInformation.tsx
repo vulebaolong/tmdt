@@ -15,11 +15,14 @@ type TProps = {
 export default function ModalAddReceivingInformation({ opened, close, onSuccess }: TProps) {
    const updateProfile = useUpdateProfile();
    const id = useAppSelector((state) => state.user.info?._id);
+   const phone = useAppSelector((state) => state.user.info?.phone);
+   const address = useAppSelector((state) => state.user.info?.address);
 
    const addReceivingForm = useFormik({
+      enableReinitialize: true,
       initialValues: {
-         phone: ``,
-         address: ``,
+         phone: phone || ``,
+         address: address || ``,
       },
       validationSchema: Yup.object().shape({
          phone: Yup.string()
@@ -35,6 +38,11 @@ export default function ModalAddReceivingInformation({ opened, close, onSuccess 
             phone: valuesRaw.phone.trim(),
             address: valuesRaw.address.trim(),
          };
+
+         if (payload.phone === phone && payload.address === address) {
+            close();
+            return;
+         }
 
          updateProfile.mutate(payload, {
             onSuccess: () => {

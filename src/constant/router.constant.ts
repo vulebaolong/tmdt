@@ -3,6 +3,7 @@ const ROUTER = {
    LOGIN: `/login`,
    REGISTER: `/register`,
    PRODUCT: `/product`,
+   ORDER: `/order`,
    CART: `/cart`,
    ADMIN: {
       ROOT: `/admin`,

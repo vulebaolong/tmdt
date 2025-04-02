@@ -1,3 +1,4 @@
+import { EOrderPaymentMethod, EOrderStatus } from "@/types/enum/order.enum";
 import mongoose, { Document, Model, Schema, Types } from "mongoose";
 
 export interface IOrderItem {
@@ -11,8 +12,10 @@ export interface IOrder extends Document {
    userId: Types.ObjectId;
    products: IOrderItem[];
    totalPrice: number;
-   status: "pending" | "paid";
-   paymentMethod: "momo" | "zalopay" | "vietqr";
+   totalPriceItemCart: number,
+   totalShipItemCart: number,
+   status: EOrderStatus;
+   paymentMethod: EOrderPaymentMethod;
    expiresAt?: Date;
 }
 
@@ -30,20 +33,15 @@ const OrderSchema = new Schema<IOrder>(
    {
       userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
       products: { type: [OrderItemSchema], required: true },
+      totalPriceItemCart: { type: Number, required: true },
+      totalShipItemCart: { type: Number, required: true },
       totalPrice: { type: Number, required: true },
-      status: { type: String, enum: ["pending", "paid", "cancelled"], default: "pending" },
-      paymentMethod: { type: String, enum: ["momo", "zalopay", "vietqr"], required: true },
+      status: { type: Number, enum: Object.values(EOrderStatus).filter((v) => typeof v === "number"), default: EOrderStatus.Pending },
+      paymentMethod: { type: Number, enum: Object.values(EOrderPaymentMethod).filter((v) => typeof v === "number"), required: true },
       expiresAt: { type: Date, index: { expireAfterSeconds: 0 } },
    },
    { timestamps: true, collection: "Orders" }
 );
-
-OrderSchema.pre("save", function (next) {
-   if (this.status === "pending" && !this.expiresAt) {
-      this.expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 phút
-   }
-   next();
-});
 
 const Order: Model<IOrder> = mongoose.models.Order || mongoose.model<IOrder>("Order", OrderSchema);
 

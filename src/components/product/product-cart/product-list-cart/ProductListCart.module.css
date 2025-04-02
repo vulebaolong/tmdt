@@ -1,6 +1,6 @@
 .box-2 {
    display: grid;
-   grid-template-columns: mobile-desktop(1fr = 1fr 1fr 1fr);
+   grid-template-columns: mobile-desktop(1fr = 1fr 1fr 1fr 1fr);
    gap: mobile-desktop(20px = 0);
    align-items: baseline;
 

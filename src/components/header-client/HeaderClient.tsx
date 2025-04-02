@@ -7,6 +7,7 @@ import ROUTER from "@/constant/router.constant";
 import { useAppSelector } from "@/redux/hooks";
 import { useQueryInfo } from "@/tantask/auth.tanstack";
 import { useCartCountQuery } from "@/tantask/cart.tanstack";
+import { useCheckTransaction } from "@/tantask/check-transaction.tanstack";
 import { Box, Burger, Container, Divider, Group, Indicator, Loader, Stack, Text, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconShoppingCart } from "@tabler/icons-react";
@@ -26,7 +27,9 @@ export default function HeaderClient() {
    const router = useRouter();
    const theme = useMantineTheme();
    const cartCountQuery = useCartCountQuery();
+
    useQueryInfo();
+   useCheckTransaction();
 
    return (
       <>
@@ -84,7 +87,7 @@ export default function HeaderClient() {
 
                      {/* center */}
                      <Box style={{ flex: `1` }} className={`${MOBILE_HIDDEN_DESKTOP_VISIBLE}`}>
-                       <InputSearchHeader />
+                        <InputSearchHeader />
                      </Box>
 
                      {/* right */}
@@ -122,6 +125,7 @@ export default function HeaderClient() {
                            stroke={2}
                            size={30}
                            color="white"
+                           style={{ cursor: `pointer` }}
                         />
                      </Indicator>
                   </Group>
