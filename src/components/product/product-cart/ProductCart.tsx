@@ -2,22 +2,24 @@
 
 import { TCreateOrder } from "@/actions/order.action";
 import ModalAddReceivingInformation from "@/components/modal/add-receiving-information/ModalAddReceivingInformation";
+import ModalCheckOrderPending from "@/components/modal/check-order-pending/ModalCheckOrderPending";
+import TextBack from "@/components/text-back/TextBack";
 import ROUTER from "@/constant/router.constant";
 import { getDeliveryDateRange, renderData } from "@/helpers/function.helper";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { SET_IS_CHECK_TRANSACTION } from "@/redux/slices/transaction.slice";
 import { useGetCartList } from "@/tantask/cart.tanstack";
-import { useCreateOrder } from "@/tantask/order.tanstack";
+import { useCheckPendingOrder, useCreateOrder } from "@/tantask/order.tanstack";
+import { EOrderPaymentMethod } from "@/types/enum/order.enum";
 import { ActionIcon, Box, Button, Center, Container, Divider, Group, Paper, Radio, Stack, Text, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconEdit, IconMapPinFilled } from "@tabler/icons-react";
+import { useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import ProductListCart from "./product-list-cart/ProductListCart";
 import classes from "./ProductCart.module.css";
-import { EOrderPaymentMethod } from "@/types/enum/order.enum";
-import Image from "next/image";
-import { SET_IS_CHECK_TRANSACTION } from "@/redux/slices/transaction.slice";
-import { useQueryClient } from "@tanstack/react-query";
 
 export type TTotalPrice = { totalPriceItemCart: number; totalShipItemCart: number; totalPriceCart: number };
 
@@ -27,30 +29,26 @@ export default function ProductCart() {
    const router = useRouter();
    const dispatch = useAppDispatch();
    const [openedModalAdd, handleModalAdd] = useDisclosure(false);
+   const [openedModalCheck, handleModalCheck] = useDisclosure(false);
    const [totalPrice, setTotalPrice] = useState<TTotalPrice>({ totalPriceItemCart: 0, totalShipItemCart: 0, totalPriceCart: 0 });
    const [pagination] = useState({ pageIndex: 0, pageSize: 10 });
    const [value, setValue] = useState(0);
    const [loadingChange, setLoadingChange] = useState(false);
-   const onlyOne = useRef(false);
 
    const getCartList = useGetCartList(pagination);
    const createOrder = useCreateOrder();
    const queryClient = useQueryClient();
+   const checkPendingOrder = useCheckPendingOrder();
 
-   useEffect(() => {
-      if (totalPrice.totalPriceCart === 0) return;
+   const handleOrder = async () => {
+      const isOrder = await checkPendingOrder.mutateAsync();
 
-      if (!onlyOne.current) {
-         onlyOne.current = true;
+      if (isOrder) {
+         handleModalCheck.open();
          return;
       }
 
-      setLoadingChange(true);
-   }, [totalPrice]);
-
-   const handleOrder = async () => {
       await queryClient.fetchQuery({ queryKey: [`cart-count`] });
-
       if (!getCartList.data?.items) return;
       console.log({ getCartList: getCartList.data.items });
       const payload: TCreateOrder = {
@@ -80,14 +78,7 @@ export default function ProductCart() {
       <>
          <Container pt={50} pb={100}>
             <Stack>
-               <Text
-                  onClick={() => {
-                     router.push(ROUTER.PRODUCT);
-                  }}
-                  style={{ textDecoration: `underline`, cursor: `pointer`, opacity: 0.5 }}
-               >
-                  Quay lại
-               </Text>
+               <TextBack />
 
                <Paper pos={`relative`} shadow="md" radius="lg" withBorder p="xl" style={{ overflow: `hidden` }}>
                   <Stack style={{ filter: `blur(${!info?.address || !info?.phone ? `2px` : `0px`})` }}>
@@ -229,6 +220,17 @@ export default function ProductCart() {
             </Stack>
          </Container>
          <ModalAddReceivingInformation opened={openedModalAdd} close={handleModalAdd.close} />
+         {checkPendingOrder.data && (
+            <ModalCheckOrderPending
+               opened={openedModalCheck}
+               close={handleModalCheck.close}
+               onCancel={handleModalCheck.close}
+               onSubmit={() => {
+                  router.push(`${ROUTER.ORDER}/${checkPendingOrder.data}`);
+               }}
+               title="Bạn Có Đơn Hàng Đang Chờ Thanh Toán"
+            />
+         )}
       </>
    );
 }

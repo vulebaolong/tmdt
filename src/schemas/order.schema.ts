@@ -1,8 +1,9 @@
 import { EOrderPaymentMethod, EOrderStatus } from "@/types/enum/order.enum";
 import mongoose, { Document, Model, Schema, Types } from "mongoose";
+import { IProduct } from "./product.schema";
 
 export interface IOrderItem {
-   productId: Types.ObjectId;
+   productId: IProduct;
    quantity: number;
    price: number;
    shippingFee: number;

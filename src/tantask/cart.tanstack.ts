@@ -93,6 +93,7 @@ export function useHandleCart({ cartItems, setLoadingChange }: TuseHandleCart) {
 
    const debouncedUpdate = useDebouncedCallback((productId: string, quantity: number) => {
       console.log(`calling updateQuantityAction with productId: ${productId}, quantity: ${quantity}`);
+
       updateQuantityAction({ productId, quantity })
          .then(() => {
             queryClient.invalidateQueries({ queryKey: [`cart-count`] });
@@ -118,6 +119,7 @@ export function useHandleCart({ cartItems, setLoadingChange }: TuseHandleCart) {
    const handleQuantityChange = (productId: string, quantity: number) => {
       const product = cartItems.find((item) => item.productId._id === productId);
       if (!product) return;
+
       setCartState((prev) => ({
          ...prev,
          [productId]: {
@@ -126,6 +128,8 @@ export function useHandleCart({ cartItems, setLoadingChange }: TuseHandleCart) {
             shipItemCart: product.productId.shippingFee,
          },
       }));
+      setLoadingChange(true);
+
       debouncedUpdate(productId, quantity);
    };
 

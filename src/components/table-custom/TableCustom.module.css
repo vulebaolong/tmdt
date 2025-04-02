@@ -4,7 +4,7 @@
    justify-content: space-between;
    position: relative;
    gap: 20px;
-   padding: 20px;
+   /* padding: 20px; */
    /* background: var(--mantine-color-3); */
    border-radius: 15px;
 

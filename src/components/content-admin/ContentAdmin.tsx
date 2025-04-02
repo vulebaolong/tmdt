@@ -98,28 +98,30 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                Create
             </Button>
          </Box>
-         <TableCustom<T>
-            styleTableTh={{ textAlign: `center` }}
-            styleTableTd={{ textAlign: `center` }}
-            heightScroll={400}
-            columns={columns}
-            fetchData={fetchData}
-            // filters={{ type: `1` }}
-            onEdit={(item: any) => {
-               setEditData(item);
-               createForm.setValues(item);
-               open();
-            }}
-            onDelete={async (item: any) => {
-               await waitForDelete();
-               console.log({ item });
-               deletee.mutate(item._id, {
-                  onSuccess: () => {
-                     handleModalDelete.close();
-                  },
-               });
-            }}
-         />
+         <Box p={20}>
+            <TableCustom<T>
+               styleTableTh={{ textAlign: `center` }}
+               styleTableTd={{ textAlign: `center` }}
+               heightScroll={400}
+               columns={columns}
+               fetchData={fetchData}
+               // filters={{ type: `1` }}
+               onEdit={(item: any) => {
+                  setEditData(item);
+                  createForm.setValues(item);
+                  open();
+               }}
+               onDelete={async (item: any) => {
+                  await waitForDelete();
+                  console.log({ item });
+                  deletee.mutate(item._id, {
+                     onSuccess: () => {
+                        handleModalDelete.close();
+                     },
+                  });
+               }}
+            />
+         </Box>
          <Drawer
             position={`right`}
             opened={opened}
@@ -236,9 +238,7 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                               withAsterisk={field.withAsterisk}
                               label={field.label}
                               data={field.dataTags}
-                              value={(createForm.values[field.name] || [])
-                                 .map((item: number) => field.enum[item])
-                                 .filter(Boolean)} 
+                              value={(createForm.values[field.name] || []).map((item: number) => field.enum[item]).filter(Boolean)}
                               onChange={(e) => {
                                  createForm.setFieldValue(
                                     field.name,

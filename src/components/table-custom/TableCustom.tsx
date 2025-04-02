@@ -14,7 +14,7 @@ import {
    TableTd,
    TableTh,
    TableThead,
-   TableTr
+   TableTr,
 } from "@mantine/core";
 import { IconEdit, IconTrashFilled } from "@tabler/icons-react";
 import { UseQueryResult } from "@tanstack/react-query";
@@ -67,6 +67,8 @@ function TableCustom<T>(props: TProps<T>) {
       styleTableTh = {},
       styleTableTr = {},
       styleTableTd = {},
+      onEdit,
+      onDelete,
    } = props;
 
    const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
@@ -114,16 +116,22 @@ function TableCustom<T>(props: TProps<T>) {
                         </TableTd>
                      );
                   })}
-                  <TableTd style={{ ...styleTableTd }}>
-                     <Group wrap="nowrap">
-                        <ActionIcon onClick={() => props.onEdit?.(row.original)} variant="light" aria-label="Settings">
-                           <IconEdit style={{ width: "70%", height: "70%" }} stroke={1.5} />
-                        </ActionIcon>
-                        <ActionIcon onClick={() => props.onDelete?.(row.original)} variant="light" aria-label="Settings">
-                           <IconTrashFilled style={{ width: "70%", height: "70%" }} stroke={1.5} />
-                        </ActionIcon>
-                     </Group>
-                  </TableTd>
+                  {(onEdit || onDelete) && (
+                     <TableTd style={{ ...styleTableTd }}>
+                        <Group wrap="nowrap">
+                           {onEdit && (
+                              <ActionIcon onClick={() => onEdit?.(row.original)} variant="light" aria-label="Settings">
+                                 <IconEdit style={{ width: "70%", height: "70%" }} stroke={1.5} />
+                              </ActionIcon>
+                           )}
+                           {onDelete && (
+                              <ActionIcon onClick={() => onDelete?.(row.original)} variant="light" aria-label="Settings">
+                                 <IconTrashFilled style={{ width: "70%", height: "70%" }} stroke={1.5} />
+                              </ActionIcon>
+                           )}
+                        </Group>
+                     </TableTd>
+                  )}
                </TableTr>
             ))}
          </>

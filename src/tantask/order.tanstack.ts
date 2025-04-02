@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getOrderByIdAction } from "@/actions/order.action";
+import { checkPendingOrderAction, deleteOrderAction, getOrderByIdAction } from "@/actions/order.action";
 import { createOrderAction, TCreateOrder } from "@/actions/order.action";
 import { resError } from "@/helpers/function.helper";
 import { useMutation } from "@tanstack/react-query";
@@ -26,8 +26,8 @@ export function useCreateOrder() {
 }
 
 export function useGetOrderById(id?: string) {
-      const router = useRouter();
-   
+   const router = useRouter();
+
    return useQuery({
       queryKey: ["get-order-by-id", id],
       queryFn: async () => {
@@ -41,4 +41,29 @@ export function useGetOrderById(id?: string) {
       },
       enabled: !!id,
    });
+}
+
+export function useDeleteOrder() {
+   return useMutation({
+      mutationFn: (id: string) => deleteOrderAction(id),
+      onSuccess: (res) => {
+         if (res.success) {
+            toast.success(res.message);
+         } else {
+            toast.error(res.message);
+         }
+      },
+      onError: (error) => {
+         toast.error(resError(error, `Lỗi xoá đơn hàng!`));
+      },
+   });
+}
+
+export function useCheckPendingOrder() {
+   return useMutation({
+      mutationFn: () => checkPendingOrderAction(),
+      onError: (error) => {
+         toast.error(resError(error, `Lỗi kiểm tra đơn hàng!`));
+      },
+   })
 }

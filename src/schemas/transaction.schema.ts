@@ -1,4 +1,4 @@
-import mongoose, { Schema, Types, Document, Model } from "mongoose";
+import mongoose, { Document, Model, Schema, Types } from "mongoose";
 
 export interface ITransaction extends Document {
    gateway: string;
@@ -13,6 +13,7 @@ export interface ITransaction extends Document {
    accumulated: number;
    orderId?: Types.ObjectId;
    userId?: Types.ObjectId;
+   createdAt: Date
 }
 
 const TransactionSchema = new Schema<ITransaction>(

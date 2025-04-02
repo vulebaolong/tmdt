@@ -1,12 +1,12 @@
 "use server";
 
-import { connectDB } from "@/lib/mongoose";
-import { getInfoAction } from "./auth.action";
-import Order, { IOrder } from "@/schemas/order.schema";
-import { Types } from "mongoose";
-import { toJson } from "@/helpers/function.helper";
-import { EOrderPaymentMethod } from "@/types/enum/order.enum";
 import { TIME_LEFT_ORDER } from "@/constant/app.constant";
+import { toJson } from "@/helpers/function.helper";
+import { connectDB } from "@/lib/mongoose";
+import Order, { IOrder } from "@/schemas/order.schema";
+import { EOrderPaymentMethod } from "@/types/enum/order.enum";
+import { Types } from "mongoose";
+import { getInfoAction } from "./auth.action";
 
 export type TCreateOrder = {
    products: { productId: string; quantity: number; price: number; shippingFee: number }[];
@@ -61,5 +61,43 @@ export async function getOrderByIdAction(id: string) {
    } catch (error) {
       console.error("Get Order By Id Failed", error);
       return { success: false, message: "Failed to get order" };
+   }
+}
+
+export async function deleteOrderAction(id: string) {
+   try {
+      await connectDB();
+      const deletedOrder = await Order.findByIdAndDelete(id).lean();
+
+      if (!deletedOrder) {
+         return { success: false, message: "Không tìm thấy đơn hàng" };
+      }
+
+      return { success: true, message: "Xoá đơn hàng thành công!" };
+   } catch (error) {
+      console.error("Delete Order Error:", error);
+      throw error;
+   }
+}
+
+export async function checkPendingOrderAction() {
+   try {
+      await connectDB();
+
+      const info = await getInfoAction();
+      if (!info) throw new Error("Unauthorized");
+
+      const pendingOrder = await Order.findOne({
+         userId: info._id,
+         status: 0, // Pending
+         expiresAt: { $gt: new Date() },
+      }).lean();
+
+      if (!pendingOrder) return false;
+
+      return pendingOrder._id.toString();
+   } catch (error) {
+      console.error("Check Pending Order Error:", error);
+      throw error;
    }
 }

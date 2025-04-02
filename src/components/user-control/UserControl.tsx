@@ -19,10 +19,6 @@ export default function UserControl() {
          <Menu.Target>{<Avatar color="white" style={{ cursor: `pointer` }} variant="transparent" radius="sm" />}</Menu.Target>
 
          <Menu.Dropdown>
-            {/* <Box className={classes.textAvatar}>
-               <Badge user={info} w={`100%`} />
-            </Box> */}
-
             <Group gap={0} className={classes.textAvatar} wrap="nowrap">
                <Text className={classes.widthText} c="dimmed" size="xs" component="div">
                   {effectText(`Name`)}
@@ -57,12 +53,11 @@ export default function UserControl() {
 
             <Menu.Item
                onClick={() => {
-                  // router.push(ROUTER.ROLE);
-                  toast.warning(`Coming Soon`);
+                  router.push(ROUTER.TRANSACTION);
                }}
                leftSection={<IconUserCheck size={14} />}
             >
-               Role
+               Lịch sử thanh toán
             </Menu.Item>
 
             <Menu.Item
