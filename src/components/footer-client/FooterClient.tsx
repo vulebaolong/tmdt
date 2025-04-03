@@ -71,7 +71,7 @@ export default function FooterClient() {
             <div className={classes.logo}>
                <LogoIcon />
                <Text size="xs" c="dimmed" className={classes.description}>
-                  Build fully functional accessible web applications faster than ever
+                  Build fully 1
                </Text>
             </div>
             <div className={classes.groups}>{groups}</div>

@@ -4,6 +4,7 @@ export interface IService extends Document {
    thumbnail: string;
    title: string;
    content: string;
+   category: number;
    createdAt: Date;
    updatedAt: Date;
 }
@@ -13,6 +14,7 @@ const ServiceSchema = new Schema<IService>(
       thumbnail: { type: String, required: true },
       title: { type: String, required: true },
       content: { type: String, required: true },
+      category: { type: Number, required: true }, 
    },
    { timestamps: true, collection: "Services" }
 );

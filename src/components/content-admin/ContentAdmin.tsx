@@ -1,6 +1,6 @@
 import { buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
 import { TResPagination } from "@/types/app.type";
-import { Box, Button, Center, Drawer, Group, Modal, NumberInput, Select, Stack, TagsInput, Text, Textarea, TextInput } from "@mantine/core";
+import { Box, Button, Center, Drawer, Group, Modal, NumberInput, Radio, Select, Stack, TagsInput, Text, Textarea, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { RichTextEditor } from "@mantine/tiptap";
 import { UseMutationResult, UseQueryResult } from "@tanstack/react-query";
@@ -12,7 +12,7 @@ import { useRichTextEditor } from "./hook";
 export type TFieldCreate = {
    label: string;
    name: string;
-   type: "text" | "number" | "select" | "date" | "custom" | "tags" | "textArea" | "edtior";
+   type: "text" | "number" | "select" | "date" | "custom" | "tags" | "textArea" | "edtior" | "radio";
    options?: string[];
    placeholder?: string;
    dataTags?: any;
@@ -349,6 +349,26 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                                  <RichTextEditor.Content />
                               </RichTextEditor>
                            </Box>
+                        );
+                     }
+
+                     if (field.type === "radio") {
+                        return (
+                           <Radio.Group
+                              key={field.name}
+                              label={field.label}
+                              value={String(createForm.values[field.name])}
+                              onChange={(value) => {
+                                 createForm.setFieldValue(field.name, Number(value));
+                              }}
+                              withAsterisk={field.withAsterisk}
+                           >
+                              <Stack gap={10}>
+                                 {field.dataTags.map((option: any) => (
+                                    <Radio key={option.value} value={option.value} label={option.label} />
+                                 ))}
+                              </Stack>
+                           </Radio.Group>
                         );
                      }
 

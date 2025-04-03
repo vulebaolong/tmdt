@@ -113,7 +113,8 @@
    "Follow on Twitter": "Theo dõi trên Twitter",
    "Email newsletter": "Bản tin Email",
    "GitHub discussions": "Thảo luận trên GitHub",
-   "Build fully functional accessible web applications faster than ever": "Xây dựng các ứng dụng web có thể truy cập đầy đủ chức năng nhanh hơn bao giờ hết",
+   "Build fully 1": "Xây dựng các ứng dụng web có thể truy cập đầy đủ chức năng nhanh hơn bao giờ hết",
+   "Build fully 2": "Xây dựng các ứng dụng web có đầy đủ chức năng và có thể truy cập nhanh hơn bao giờ hết, Mantine bao gồm hơn 120 thành phần và móc tùy chỉnh để hỗ trợ bạn trong mọi tình huống",
    "All rights reserved": "Mọi quyền được bảo lưu",
    "Image": "Hình",
    "Name": "Tên",
@@ -132,5 +133,9 @@
    "Update service successfully": "Cập nhật dịch vụ thành công",
    "Update service failed": "Cập nhật dịch vụ thất bại",
    "Delete service successfully": "Xoá dịch vụ thành công",
-   "Delete service failed": "Xoá dịch vụ thất bại"
+   "Delete service failed": "Xoá dịch vụ thất bại",
+   "Pet Product": "Sản Phẩm Thú Cưng",
+   "High-Quality & Essential Pet Products": "Sản Phẩm Chất Lượng & Cần Thiết Cho Thú Cưng",
+   "We offer": "Chúng tôi cung cấp đa dạng sản phẩm thú cưng được chọn lọc kỹ lưỡng như thức ăn, đồ chơi, phụ kiện và sản phẩm chăm sóc sức khỏe. Tất cả đều được thiết kế nhằm đảm bảo sức khỏe, sự thoải mái và hạnh phúc cho thú cưng của bạn mỗi ngày",
+   "A fully featured React components library": "Một thư viện thành phần React đầy đủ tính năng"
 }

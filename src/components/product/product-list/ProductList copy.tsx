@@ -1,17 +1,17 @@
 "use client";
 
 import Nodata from "@/components/no-data/Nodata";
-import Text from "@/components/text-custom/TextCustom";
-import Title from "@/components/title-custom/TitleCustom";
+import ROUTER from "@/constant/router.constant";
 import { IProduct } from "@/schemas/product.schema";
 import { useGetProductList } from "@/tantask/product.tanstack";
 import { TResPagination } from "@/types/app.type";
-import { EProductCategory } from "@/types/enum/product.enum";
-import { Badge, Box, Button, Center, Group, Stack, Tabs } from "@mantine/core";
-import { useTranslations } from "next-intl";
+import { Box, Button, Center, Group, NavLink, Stack, Text } from "@mantine/core";
+import { IconCategory } from "@tabler/icons-react";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ProductItem from "../product-item/ProductItem";
 import classes from "./ProductList.module.css";
+import { useTranslations } from "next-intl";
 
 type TProps = {
    products: TResPagination<IProduct>;
@@ -23,6 +23,8 @@ function ProductList({ products: initialProducts }: TProps) {
    const [products, setProducts] = useState(initialProducts.items);
    const [page, setPage] = useState(1);
    const totalPage = useRef(initialProducts.pageCount);
+   const pathname = usePathname();
+   const router = useRouter();
 
    const getProductList = useGetProductList();
 
@@ -56,59 +58,61 @@ function ProductList({ products: initialProducts }: TProps) {
    }, [page]);
 
    const handleLoadMore = () => {
-      setPage((prev) => {
-         return prev + 1;
-      });
+      if (ROUTER.HOME === pathname) {
+         router.push(ROUTER.PRODUCT);
+      } else {
+         setPage((prev) => {
+            return prev + 1;
+         });
+      }
    };
 
    return (
-      <Stack style={{ minHeight: `calc(100dvh - var(--height-header))` }} gap={50}>
-         <Box>
-            <Group justify="center">
-               <Badge variant="filled" size="lg">
-                  {t(`Pet Product`)}
-               </Badge>
-            </Group>
-
-            <Title order={2} className={classes.title} ta="center" mt="sm">
-               High-Quality & Essential Pet Products
-            </Title>
-
-            <Text c="dimmed" className={classes.description} ta="center" mt="md">
-               We offer
-            </Text>
-         </Box>
-
-         <Stack>
-            <Tabs value={category} onChange={setCategory}>
-               <Tabs.List>
-                  {Object.keys(EProductCategory)
-                     .filter((key) => !isNaN(Number(key)))
-                     .map((key) => {
-                        return (
-                           <Tabs.Tab key={key} value={key}>
-                              {EProductCategory[Number(key)]}
-                           </Tabs.Tab>
-                        );
-                     })}
-               </Tabs.List>
-            </Tabs>
+      <Box style={{ minHeight: `calc(100dvh - var(--height-header))` }}>
+         <Group wrap="nowrap" align="start">
+            {ROUTER.PRODUCT === pathname && (
+               <Stack style={{ flexShrink: 0, width: 200, height: `100%` }}>
+                  <Group gap={2}>
+                     <IconCategory />
+                     <Text fw={700}>Danh mục sản phẩm</Text>
+                  </Group>
+                  <Stack gap={0}>
+                     <NavLink
+                        active={category === null || category === undefined}
+                        onClick={() => {
+                           setCategory(() => undefined);
+                        }}
+                        label={`Tất cả`}
+                     />
+                     <NavLink
+                        active={category === `0`}
+                        onClick={() => {
+                           setCategory(() => `0`);
+                        }}
+                        label={`Thức ăn thú cưng`}
+                     />
+                     <NavLink
+                        active={category === `1`}
+                        onClick={() => {
+                           setCategory(() => `1`);
+                        }}
+                        label={`Phụ kiện & đồ chơi`}
+                     />
+                     <NavLink
+                        active={category === `2`}
+                        onClick={() => {
+                           setCategory(() => `2`);
+                        }}
+                        label={`Thuốc & mỹ phẩm`}
+                     />
+                  </Stack>
+               </Stack>
+            )}
 
             <Stack w={`100%`}>
                <Box className={`${classes[`box-container`]}`}>
                   {products.map((product, i) => {
-                     return (
-                        <Box
-                           key={product._id as string}
-                           style={{
-                              opacity: "0",
-                              animation: "fadeInUp 0.5s forwards",
-                              animationDelay: `${50 * i}ms`,
-                           }}
-                        >
-                           <ProductItem product={product} />
-                        </Box>
-                     );
+                     return <ProductItem key={i} product={product} />;
                   })}
                </Box>
                {products.length > 0 ? (
@@ -129,8 +133,8 @@ function ProductList({ products: initialProducts }: TProps) {
                   </Center>
                )}
             </Stack>
-         </Stack>
-      </Stack>
+         </Group>
+      </Box>
    );
 }
 

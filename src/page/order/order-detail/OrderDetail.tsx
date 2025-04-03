@@ -190,6 +190,24 @@ export default function OrderDetail({ id }: TProps) {
                               </Center>
                            </Stack>
                         )}
+                        {getOrderById.data?.data?.paymentMethod === EOrderPaymentMethod[`Cash on Delivery`] && (
+                           <Stack>
+                              <Center>
+                                 <IconCircleCheckFilled color="green" size={100} />
+                              </Center>
+                              <Center>
+                                 <Box>
+                                    <Text ta={`center`} fz={`h2`} fw={600}>
+                                       Thanh toán khi nhận hàng
+                                    </Text>
+                                    <Group>
+                                       <Text opacity={0.5}>Đơn hàng</Text>
+                                       <Text fw={600}>{getOrderById.data.data._id as string}</Text>
+                                    </Group>
+                                 </Box>
+                              </Center>
+                           </Stack>
+                        )}
 
                         <Collapse in={openedQr}>
                            <Stack>
@@ -273,9 +291,11 @@ export default function OrderDetail({ id }: TProps) {
                            </Stack>
                         ) : (
                            <Center>
-                              <Button onClick={handleConfirmAction.open} variant="outline">
-                                 Huỷ
-                              </Button>
+                              {getOrderById.data?.data?.paymentMethod !== EOrderPaymentMethod[`Cash on Delivery`] && (
+                                 <Button onClick={handleConfirmAction.open} variant="outline">
+                                    Huỷ
+                                 </Button>
+                              )}
                            </Center>
                         )}
 

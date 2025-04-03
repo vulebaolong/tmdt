@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@greatsumini/react-facebook-login": "^3.4.0",
+    "@mantine/carousel": "^7.17.3",
     "@mantine/core": "^7.17.3",
     "@mantine/dropzone": "^7.17.3",
     "@mantine/hooks": "^7.17.3",
@@ -31,6 +32,8 @@
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.6.0",
     "dayjs": "^1.11.13",
+    "embla-carousel-autoplay": "^7.1.0",
+    "embla-carousel-react": "^7.1.0",
     "formik": "^2.4.6",
     "framer-motion": "^12.6.0",
     "google-auth-library": "^9.15.1",

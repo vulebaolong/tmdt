@@ -114,7 +114,8 @@
    "Follow on Twitter": "Follow on Twitter",
    "Email newsletter": "Email newsletter",
    "GitHub discussions": "GitHub discussions",
-   "Build fully functional accessible web applications faster than ever": "Build fully functional accessible web applications faster than ever",
+   "Build fully 1": "Build fully functional accessible web applications faster than ever",
+   "Build fully 2": "Build fully functional accessible web applications faster than ever,Mantine includes more than 120 customizable components and hooks to cover you in any situation",
    "All rights reserved": "All rights reserved",
    "Image": "Image",
    "Name": "Name",
@@ -133,5 +134,9 @@
    "Update service successfully": "Update service successfully",
    "Update service failed": "Update service failed",
    "Delete service successfully": "Delete service successfully",
-   "Delete service failed": "Delete service failed"
+   "Delete service failed": "Delete service failed",
+   "Pet Product": "Pet Product",
+   "High-Quality & Essential Pet Products": "High-Quality & Essential Pet Products",
+   "We offer": "We offer a wide range of carefully selected pet products including food, toys, accessories, and healthcare items. All products are designed to ensure the well-being, comfort, and happiness of your beloved pets every day",
+   "A fully featured React components library": "A fully featured React components library"
 }

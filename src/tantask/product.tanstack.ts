@@ -23,7 +23,6 @@ export const useGetProductList = () => {
 
    return useMutation({
       mutationFn: async (payload: TPayloadGetProductList) => {
-         console.log({ payload });
          const products = await getProductListAction2(payload);
          if (!products.items) products.items = [];
          return products;

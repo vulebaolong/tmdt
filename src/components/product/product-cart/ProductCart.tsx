@@ -32,7 +32,7 @@ export default function ProductCart() {
    const [openedModalCheck, handleModalCheck] = useDisclosure(false);
    const [totalPrice, setTotalPrice] = useState<TTotalPrice>({ totalPriceItemCart: 0, totalShipItemCart: 0, totalPriceCart: 0 });
    const [pagination] = useState({ pageIndex: 0, pageSize: 10 });
-   const [value, setValue] = useState(0);
+   const [paymentMethod, setPaymentMethod] = useState(0);
    const [loadingChange, setLoadingChange] = useState(false);
 
    const getCartList = useGetCartList(pagination);
@@ -43,7 +43,7 @@ export default function ProductCart() {
    const handleOrder = async () => {
       const isOrder = await checkPendingOrder.mutateAsync();
 
-      if (isOrder) {
+      if (isOrder && (paymentMethod !== EOrderPaymentMethod[`Cash on Delivery`])) {
          handleModalCheck.open();
          return;
       }
@@ -61,11 +61,12 @@ export default function ProductCart() {
          totalPriceItemCart: totalPrice.totalPriceItemCart,
          totalShipItemCart: totalPrice.totalShipItemCart,
          totalPrice: totalPrice.totalPriceCart,
-         paymentMethod: value,
+         paymentMethod: paymentMethod,
       };
       await createOrder.mutateAsync(payload, {
          onSuccess: (res) => {
             if (res.data.paymentMethod === EOrderPaymentMethod[`Cash on Delivery`]) {
+               router.push(`${ROUTER.ORDER}/${res.data._id}`);
             } else {
                dispatch(SET_IS_CHECK_TRANSACTION(2000));
                router.push(`${ROUTER.ORDER}/${res.data._id}`);
@@ -141,9 +142,9 @@ export default function ProductCart() {
 
                      <Stack>
                         <Radio.Group
-                           value={value.toString()}
+                           value={paymentMethod.toString()}
                            onChange={(e) => {
-                              setValue(Number(e));
+                              setPaymentMethod(Number(e));
                            }}
                            label={<Text style={{ fontWeight: 900 }}>Phương thức thanh toán</Text>}
                         >

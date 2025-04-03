@@ -11,6 +11,7 @@ import { useMemo } from "react";
 import { Text } from "@mantine/core";
 import classes from "./Service.module.css";
 import { useTranslations } from "next-intl";
+import { EServiceCategory } from "@/types/enum/service.enum";
 
 export default function Service() {
    const t = useTranslations();
@@ -37,6 +38,15 @@ export default function Service() {
             cell: ({ cell }) => (
                <Text lineClamp={2} maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
                   {cell.getValue()}
+               </Text>
+            ),
+         }),
+         columnHelper.accessor("category", {
+            header: t("Category"),
+            size: 150,
+            cell: ({ cell }) => (
+               <Text lineClamp={2} maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
+                  {EServiceCategory[cell.getValue()]}
                </Text>
             ),
          }),
@@ -88,6 +98,17 @@ export default function Service() {
          },
          { label: t("Title"), name: "title", type: "text", withAsterisk: true },
          { label: t("Content"), name: "content", type: "edtior" },
+         {
+            label: "Category",
+            name: "category",
+            type: "radio",
+            dataTags: Object.entries(EServiceCategory)
+               .filter(([, value]) => !isNaN(Number(value))) 
+               .map(([key, value]) => ({
+                  label: key,
+                  value: String(value),
+               })),
+         },
       ],
       []
    );

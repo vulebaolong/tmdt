@@ -43,15 +43,15 @@ function ProductItem({ product, type = `show`, preview }: TProps) {
       <Box style={{ cursor: type === `show` ? `pointer` : `default` }} className={`${classes[`box-item`]}`} onClick={handleClick}>
          <ProductImage src={product.imagePublicId} preview={preview} />
          <Stack p={5}>
-            <Box h={50}>
-               <Text lineClamp={2} opacity={!product.name ? 0.7 : 1}>
+            <Box h={30}>
+               <Text fz={12} lineClamp={2} opacity={!product.name ? 0.7 : 1}>
                   {getDisplayName()}
                </Text>
             </Box>
 
-            <Group>
+            <Group wrap="nowrap">
                {product.tags.length === 0 && (
-                  <Text fz={12} opacity={0.7}>
+                  <Text fz={8} opacity={0.7}>
                      Nhãn sản phẩm
                   </Text>
                )}
@@ -60,7 +60,7 @@ function ProductItem({ product, type = `show`, preview }: TProps) {
                })}
             </Group>
             <Group align="center" justify="space-between">
-               <Text truncate style={{ fontWeight: 900 }} fz={18} c={`shopee`}>
+               <Text truncate style={{ fontWeight: 900 }} fz={14} c={`shopee`}>
                   ₫{renderData(product.price)}
                </Text>
                <Text fz={14}>{t(`Sold`)} {renderData(product.sold)}</Text>
