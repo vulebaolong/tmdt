@@ -1,13 +1,14 @@
 import CustomPasswordInput, { validatePassword } from "@/components/password-input/CustomPasswordInput";
+import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import ROUTER from "@/constant/router.constant";
 import { useLoginForm } from "@/tantask/auth.tanstack";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
 import { ERole } from "@/types/enum/role.enum";
-import { Anchor, Box, Button, Group, TextInput } from "@mantine/core";
+import { Anchor, Box, Button, Group, TextInput, useMantineTheme } from "@mantine/core";
 import { useFormik } from "formik";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 type TProps = {
@@ -16,7 +17,10 @@ type TProps = {
 };
 
 export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
+   const toast = useAppToast();
    const router = useRouter();
+   const theme = useMantineTheme();
+   const t = useTranslations();
 
    const useloginForm = useLoginForm();
 
@@ -28,30 +32,30 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
          password: ``,
       },
       validationSchema: Yup.object().shape({
-         email: Yup.string().trim().email().required(),
+         email: Yup.string().trim().email(t("Email is invalid")).required(t("Email is required")),
          password: Yup.string()
-            .trim()
-            .required("Password is required.")
-            .test("includes-number", validatePassword[0].label, (value) => {
-               if (!value) return false;
-               return validatePassword[0].re.test(value);
-            })
-            .test("includes-lowercase", validatePassword[1].label, (value) => {
-               if (!value) return false;
-               return validatePassword[1].re.test(value);
-            })
-            .test("includes-uppercase", validatePassword[2].label, (value) => {
-               if (!value) return false;
-               return validatePassword[2].re.test(value);
-            })
-            .test("includes-special-symbol", validatePassword[3].label, (value) => {
-               if (!value) return false;
-               return validatePassword[3].re.test(value);
-            })
-            .test("includes-6-characters", validatePassword[4].label, (value) => {
-               if (!value) return false;
-               return validatePassword[4].re.test(value);
-            }),
+                    .trim()
+                    .required(t("Password is required"))
+                    .test("includes-number", t("Password must contain at least one number"), (value) => {
+                       if (!value) return false;
+                       return validatePassword[0].re.test(value);
+                    })
+                    .test("includes-lowercase", t("Password must contain a lowercase letter"), (value) => {
+                       if (!value) return false;
+                       return validatePassword[1].re.test(value);
+                    })
+                    .test("includes-uppercase", t("Password must contain an uppercase letter"), (value) => {
+                       if (!value) return false;
+                       return validatePassword[2].re.test(value);
+                    })
+                    .test("includes-special-symbol", t("Password must contain a special character"), (value) => {
+                       if (!value) return false;
+                       return validatePassword[3].re.test(value);
+                    })
+                    .test("includes-6-characters", t("Password must be at least 6 characters"), (value) => {
+                       if (!value) return false;
+                       return validatePassword[4].re.test(value);
+                    }),
       }),
       onSubmit: async (valuesRaw) => {
          const payload = {
@@ -95,8 +99,8 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
 
             <Box style={{ height: `85px` }}>
                <CustomPasswordInput
-                  label="Password"
-                  placeholder="Your password"
+                  label={t(`Password`)}
+                  placeholder={t(`Your password`)}
                   withAsterisk
                   name="password"
                   value={loginForm.values.password}
@@ -114,13 +118,13 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
                   component="button"
                   size="sm"
                >
-                  Forgot password?
+                  {t(`Forgot password?`)}
                </Anchor>
             </Group>
          </Box>
 
-         <Button mt={10} loading={useloginForm.isPending} type="submit" fullWidth style={{ flexShrink: `0` }}>
-            Login
+         <Button color={theme.colors.shopee[5]} mt={10} loading={useloginForm.isPending} type="submit" fullWidth style={{ flexShrink: `0` }}>
+            {t(`Login`)}
          </Button>
       </Box>
    );

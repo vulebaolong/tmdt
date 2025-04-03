@@ -20,6 +20,9 @@ export async function registerAction({ email, fullName, password: rawPassword }:
    try {
       await connectDB();
 
+      const userExist = await User.findOne({ email }).select("+password").lean();
+      if (userExist) throw new Error(`Email already exist`);
+
       const passwordHashed = await bcrypt.hash(rawPassword, 10);
 
       const newUser = await User.create({
@@ -31,6 +34,7 @@ export async function registerAction({ email, fullName, password: rawPassword }:
       return JSON.parse(JSON.stringify(newUser));
    } catch (error) {
       console.error("Register failed:", error);
+      throw error;
    }
 }
 
@@ -97,7 +101,7 @@ export async function loginGooleAction(payload: { code: string }) {
 
       return true;
    } catch (error) {
-      console.error("Login google failed:", error);
+      console.error("Login google failed", error);
       throw error;
    }
 }
@@ -110,7 +114,7 @@ export async function loginFormAction(payload: TLoginFormReq) {
       console.log({ userExist });
       if (!userExist) throw new Error(`Login failed`);
 
-      if (!userExist.password) throw new Error(`Vui lòng đăng nhập bằng google hoặc facebook`);
+      if (!userExist.password) throw new Error(`Please login with google or facebook`);
 
       const match = await bcrypt.compare(payload.password, userExist.password);
       if (!match) throw new Error(`Login failed`);

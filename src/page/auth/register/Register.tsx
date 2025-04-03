@@ -2,19 +2,24 @@
 import LogoIconText from "@/components/logo/LogoIconText";
 import CustomPasswordInput, { validatePassword } from "@/components/password-input/CustomPasswordInput";
 import CustomRePasswordInput from "@/components/password-input/CustomRePasswordInput";
+import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { useRegister } from "@/tantask/auth.tanstack";
-import { Anchor, Box, Button, Center, Paper, Stack, Text, TextInput, Title } from "@mantine/core";
+import { Anchor, Box, Button, Center, Paper, Stack, TextInput, useMantineTheme } from "@mantine/core";
 import { useFormik } from "formik";
 import { useRouter } from "next/navigation";
 import { Suspense } from "react";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
 import classes from "./../Auth.module.css";
+import Text from "@/components/text-custom/TextCustom";
+import { useTranslations } from "next-intl";
+import Title from "@/components/title-custom/TitleCustom";
 
 export default function Register() {
+   const toast = useAppToast();
    const router = useRouter();
-
+   const theme = useMantineTheme();
    const register = useRegister();
+   const t = useTranslations();
 
    const registerForm = useFormik({
       initialValues: {
@@ -28,40 +33,40 @@ export default function Register() {
          // rePassword: "aA@123",
       },
       validationSchema: Yup.object().shape({
-         fullName: Yup.string().trim().required("Username is required."),
-         email: Yup.string().trim().email().required(),
+         fullName: Yup.string().trim().required(t("Username is required")),
+         email: Yup.string().trim().email().required(t("Email is required")),
          password: Yup.string()
             .trim()
-            .required("Password is required")
-            .test("includes-number", validatePassword[0].label, (value) => {
+            .required(t("Password is required"))
+            .test("includes-number", t("Password must contain at least one number"), (value) => {
                if (!value) return false;
                return validatePassword[0].re.test(value);
             })
-            .test("includes-lowercase", validatePassword[1].label, (value) => {
+            .test("includes-lowercase", t("Password must contain a lowercase letter"), (value) => {
                if (!value) return false;
                return validatePassword[1].re.test(value);
             })
-            .test("includes-uppercase", validatePassword[2].label, (value) => {
+            .test("includes-uppercase", t("Password must contain an uppercase letter"), (value) => {
                if (!value) return false;
                return validatePassword[2].re.test(value);
             })
-            .test("includes-special-symbol", validatePassword[3].label, (value) => {
+            .test("includes-special-symbol", t("Password must contain a special character"), (value) => {
                if (!value) return false;
                return validatePassword[3].re.test(value);
             })
-            .test("includes-6-characters", validatePassword[4].label, (value) => {
+            .test("includes-6-characters", t("Password must be at least 6 characters"), (value) => {
                if (!value) return false;
                return validatePassword[4].re.test(value);
             }),
          rePassword: Yup.string()
             .trim()
-            .required(`Re-enter Password is required.`)
-            .test("password-is-valid", `Password must be valid before matching.`, function () {
+            .required(t("Re-enter Password is required"))
+            .test("password-is-valid", t("Password must be valid before matching"), function () {
                const { password } = this.parent;
                return validatePassword.every((rule) => rule.re.test(password || ""));
             })
-            .test("passwords-match", `Passwords must match.`, function (value) {
-               const { password } = this.parent; // Lấy giá trị của password từ form
+            .test("passwords-match", t("Passwords must match"), function (value) {
+               const { password } = this.parent;
                return value === password;
             }),
       }),
@@ -114,8 +119,8 @@ export default function Register() {
                <Box>
                   <TextInput
                      withAsterisk
-                     label="Full name"
-                     placeholder="Full name"
+                     label={t("Full name")}
+                     placeholder={t("Full name")}
                      name="fullName"
                      value={registerForm.values.fullName}
                      onChange={registerForm.handleChange}
@@ -138,8 +143,8 @@ export default function Register() {
 
                   <Box style={{ height: `85px` }}>
                      <CustomPasswordInput
-                        label="Password"
-                        placeholder="Your password"
+                        label={t("Password")}
+                        placeholder={t("Your password")}
                         withAsterisk
                         name="password"
                         value={registerForm.values.password}
@@ -154,8 +159,8 @@ export default function Register() {
                      <CustomRePasswordInput
                         rePassword={registerForm.values.rePassword}
                         password={registerForm.values.password}
-                        label={`Re-enter password`}
-                        placeholder={`Your Password`}
+                        label={t(`Re-enter password`)}
+                        placeholder={t(`Your password`)}
                         withAsterisk
                         name="rePassword"
                         value={registerForm.values.rePassword}
@@ -166,13 +171,13 @@ export default function Register() {
                      />
                   </Box>
                </Box>
-               <Button loading={register.isPending} type="submit" fullWidth style={{ flexShrink: `0` }}>
-                  Register
+               <Button color={theme.colors.shopee[5]} loading={register.isPending} type="submit" fullWidth style={{ flexShrink: `0` }}>
+                  {t(`Register`)}
                </Button>
             </Paper>
 
             <Text ta="center">
-               Don&apos;t have an account?{" "}
+               {t(`Already have an account?`)}{" "}
                <Anchor<"a">
                   href="#"
                   fw={700}
@@ -181,7 +186,7 @@ export default function Register() {
                      router.push("/login");
                   }}
                >
-                  Login
+                  {t(`Login`)}
                </Anchor>
             </Text>
          </Stack>

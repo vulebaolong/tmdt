@@ -21,7 +21,7 @@ export async function createOrderAction(payload: TCreateOrder) {
       await connectDB();
 
       const info = await getInfoAction();
-      if (!info) throw new Error("Unauthorized");
+      if (!info) throw new Error("Please login");
 
       console.log({ createOrderAction: payload });
 
@@ -69,11 +69,9 @@ export async function deleteOrderAction(id: string) {
       await connectDB();
       const deletedOrder = await Order.findByIdAndDelete(id).lean();
 
-      if (!deletedOrder) {
-         return { success: false, message: "Không tìm thấy đơn hàng" };
-      }
+      if (!deletedOrder) return { success: false, message: "Order not found" };
 
-      return { success: true, message: "Xoá đơn hàng thành công!" };
+      return { success: true, message: "Order deleted successfully" };
    } catch (error) {
       console.error("Delete Order Error:", error);
       throw error;
@@ -85,7 +83,7 @@ export async function checkPendingOrderAction() {
       await connectDB();
 
       const info = await getInfoAction();
-      if (!info) throw new Error("Unauthorized");
+      if (!info) throw new Error("Please login");
 
       const pendingOrder = await Order.findOne({
          userId: info._id,

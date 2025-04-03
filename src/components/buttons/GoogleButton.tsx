@@ -4,7 +4,7 @@ import { Button, ButtonProps } from "@mantine/core";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { useAppToast } from "../provider/toast/Toasti18n";
 
 function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
    return (
@@ -36,6 +36,7 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 }
 
 export function GoogleButton(props: ButtonProps & React.ComponentPropsWithoutRef<"button">) {
+   const toast = useAppToast();
    const router = useRouter();
    const loginGoogle = useLoginGoolge();
    const [loading, setLoading] = useState(false);
@@ -43,7 +44,7 @@ export function GoogleButton(props: ButtonProps & React.ComponentPropsWithoutRef
    const login = useGoogleLogin({
       flow: "auth-code",
       onSuccess: async (codeResponse) => {
-         console.log({codeResponse});
+         console.log({ codeResponse });
          loginGoogle.mutate(
             { code: codeResponse.code },
             {

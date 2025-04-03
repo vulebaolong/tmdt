@@ -5,17 +5,21 @@ import { FacebookButton } from "@/components/buttons/FacebookButton";
 import { GoogleButton } from "@/components/buttons/GoogleButton";
 import LogoIconText from "@/components/logo/LogoIconText";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
-import { Anchor, Box, Center, Divider, Group, Loader, Paper, Text, Title, Transition } from "@mantine/core";
+import { Anchor, Box, Center, Divider, Group, Loader, Paper, Transition } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import { Suspense, useState } from "react";
 import classes from "./../Auth.module.css";
 import LoginForm from "./login-form/LoginForm";
 import LoginGoogleAuthenticator from "./login-google-authenticator/LoginGoogleAuthenticator";
+import Title from "@/components/title-custom/TitleCustom";
+import Text from "@/components/text-custom/TextCustom";
+import { useTranslations } from "next-intl";
 
 export default function Login() {
    const router = useRouter();
    const [step, setStep] = useState<TStepLogin>("login-form");
    const [payloadLogin, setPayloadLogin] = useState<TPayloadLoginGoogleAuthenticator | null>(null);
+   const t = useTranslations()
 
    return (
       <Suspense fallback={<Loader />}>
@@ -32,7 +36,7 @@ export default function Login() {
                <FacebookButton radius="xl">Facebook</FacebookButton>
             </Group>
 
-            <Divider label="Or continue with email" labelPosition="center" my="lg" />
+            <Divider label={t(`Or continue with email`)} labelPosition="center" my="lg" />
 
             <Paper
                withBorder
@@ -72,7 +76,7 @@ export default function Login() {
             </Paper>
 
             <Text ta="center" mt="md">
-               Don&apos;t have an account?{" "}
+               {t(`Don&apos;t have an account?`)}{" "}
                <Anchor<"a">
                   href="#"
                   fw={700}
@@ -81,7 +85,7 @@ export default function Login() {
                      router.push("/register");
                   }}
                >
-                  Register
+                  {t(`Register`)}
                </Anchor>
             </Text>
          </Box>

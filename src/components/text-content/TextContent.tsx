@@ -1,7 +1,8 @@
 "use client";
 
-import { Box, Text } from "@mantine/core";
+import { Box, Text as TextMantine } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
+import Text from "../text-custom/TextCustom";
 
 type TProps = {
    text: string;
@@ -12,9 +13,9 @@ export default function TextContent({ text }: TProps) {
 
    return (
       <Box>
-         <Text style={{ overflowWrap: `break-word` }} lineClamp={lineClamp}>
+         <TextMantine style={{ overflowWrap: `break-word` }} lineClamp={lineClamp}>
             {text}
-         </Text>
+         </TextMantine>
          {(text?.length || 0) > 80 && (
             <>
                {lineClamp === 0 ? (
@@ -26,7 +27,7 @@ export default function TextContent({ text }: TProps) {
                      fw={700}
                      style={{ cursor: `pointer` }}
                   >
-                     Ẩn bớt
+                     Hide
                   </Text>
                ) : (
                   <Text
@@ -37,7 +38,7 @@ export default function TextContent({ text }: TProps) {
                      fw={700}
                      style={{ cursor: `pointer` }}
                   >
-                     Xem Thêm
+                     See more
                   </Text>
                )}
             </>

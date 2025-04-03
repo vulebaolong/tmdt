@@ -7,10 +7,10 @@ import {
    TGetProducts,
    updateProductAction,
 } from "@/actions/product.action";
+import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { resError } from "@/helpers/function.helper";
 import { TCreateProductReq } from "@/types/product.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
 export type TPayloadGetProductList = {
    page: number;
@@ -19,6 +19,8 @@ export type TPayloadGetProductList = {
 };
 
 export const useGetProductList = () => {
+   const toast = useAppToast();
+
    return useMutation({
       mutationFn: async (payload: TPayloadGetProductList) => {
          console.log({ payload });
@@ -28,7 +30,7 @@ export const useGetProductList = () => {
       },
       onError: (error) => {
          console.error("Error fetching product list:", error);
-         toast.error(resError(error, `Register failed`));
+         toast.error(resError(error, `Get product list failed`));
       },
    });
 };
@@ -44,6 +46,7 @@ export const useProducts = (params: TGetProducts) => {
 };
 
 export const useCreateProduct = () => {
+   const toast = useAppToast();
    const queryClient = useQueryClient();
 
    return useMutation({
@@ -53,15 +56,16 @@ export const useCreateProduct = () => {
       },
       onSuccess: () => {
          queryClient.invalidateQueries({ queryKey: [`products`] });
-         toast.success(`Create success`);
+         toast.success(`Create product successfully`);
       },
       onError: (error) => {
-         toast.error(resError(error, `Create failed`));
+         toast.error(resError(error, `Create product failed`));
       },
    });
 };
 
 export const useUpdateProduct = () => {
+   const toast = useAppToast();
    const queryClient = useQueryClient();
 
    return useMutation({
@@ -72,15 +76,16 @@ export const useUpdateProduct = () => {
       },
       onSuccess: () => {
          queryClient.invalidateQueries({ queryKey: [`products`] });
-         toast.success(`Update success`);
+         toast.success(`Update product successfully`);
       },
       onError: (error) => {
-         toast.error(resError(error, `Update failed`));
+         toast.error(resError(error, `Update product failed`));
       },
    });
 };
 
 export const useDeleteProduct = () => {
+   const toast = useAppToast();
    const queryClient = useQueryClient();
 
    return useMutation({
@@ -89,10 +94,10 @@ export const useDeleteProduct = () => {
       },
       onSuccess: () => {
          queryClient.invalidateQueries({ queryKey: [`products`] });
-         toast.success(`Delete success`);
+         toast.success(`Delete product successfully`);
       },
       onError: (error) => {
-         toast.error(resError(error, `Delete failed`));
+         toast.error(resError(error, `Delete product failed`));
       },
    });
 };

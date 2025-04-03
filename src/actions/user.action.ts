@@ -20,13 +20,11 @@ export async function updateProfileAction({ userId, phone, address }: TUpdatePro
          { new: true }
       ).lean();
 
-      if (!updatedUser) {
-         throw new Error("User not found");
-      }
+      if (!updatedUser) throw new Error("User not found");
 
       return { success: true, data: toJson(updatedUser) };
    } catch (error) {
       console.error("Update Profile Error", error);
-      return { success: false, message: "Failed to update profile" };
+      return { success: false, message: "Update profile failed" };
    }
 }

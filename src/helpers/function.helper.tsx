@@ -149,10 +149,19 @@ export function toJson<T>(params: T): T {
 
 export function buildInitialValues(fields: TFieldCreate[]) {
    return fields.reduce((acc, field) => {
-      acc[field.name] = field.type === "number" ? 0 : "";
+      if (field.type === "number") {
+         acc[field.name] = 0;
+      } else if (field.type === "tags") {
+         acc[field.name] = [];
+      } else if (field.type === "select" && field.dataTags?.some((item: any) => item.value === "true" || item.value === "false")) {
+         acc[field.name] = false;
+      } else {
+         acc[field.name] = "";
+      }
       return acc;
    }, {} as Record<string, any>);
 }
+
 
 export function buildValidationSchema(fields: TFieldCreate[]) {
    const shape: Record<string, any> = {};
@@ -226,4 +235,20 @@ export function getDeliveryDateRange() {
    const formattedToDate = toDate.format("DD [Tháng] M");
 
    return `${formattedFromDate} - ${formattedToDate}`;
+}
+
+export function responseSuccess (data: any, message: string = `ok`) {
+   return {
+      success: true,
+      data,
+      message
+   }
+}
+
+export function responseError (error: any, message: string = `ok`) {
+   return {
+      success: false,
+      message: message,
+      error
+   }
 }

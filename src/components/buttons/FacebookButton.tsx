@@ -2,7 +2,7 @@
 import FacebookLogin from "@greatsumini/react-facebook-login";
 import { Button, ButtonProps } from "@mantine/core";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { useAppToast } from "../provider/toast/Toasti18n";
 
 function FacebookIcon(props: React.ComponentPropsWithoutRef<"svg">) {
    return (
@@ -22,6 +22,8 @@ function FacebookIcon(props: React.ComponentPropsWithoutRef<"svg">) {
 const appId = "379865718525321";
 
 export function FacebookButton(props: ButtonProps & React.ComponentPropsWithoutRef<"button">) {
+   const toast = useAppToast();
+
    // const router = useRouter();
    // const loginFacebook = useLoginFacebook();
    const [loading, setLoading] = useState(false);

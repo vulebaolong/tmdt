@@ -1,9 +1,9 @@
 import { checkTransactionAction } from "@/actions/transaction.action";
+import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { SET_IS_CHECK_TRANSACTION, SET_TIME_LEFT } from "@/redux/slices/transaction.slice";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useRef } from "react";
-import { toast } from "react-toastify";
 
 export const useCheckTransaction = () => {
    const lastIdRef = useRef<string | undefined | null>(undefined);
@@ -11,6 +11,7 @@ export const useCheckTransaction = () => {
    const isCheckTransaction = useAppSelector((state) => state.transaction.isCheckTransaction);
    const dispatch = useAppDispatch();
    const queryClient = useQueryClient();
+   const toast = useAppToast();
 
    return useQuery({
       queryKey: ["check-transaction", info?._id, isCheckTransaction],
@@ -26,7 +27,7 @@ export const useCheckTransaction = () => {
                dispatch(SET_TIME_LEFT(-2));
                queryClient.invalidateQueries({ queryKey: [`get-order-by-id`] });
                queryClient.invalidateQueries({ queryKey: [`cart-count`] });
-               toast.success("💰 Giao dịch mới vừa được ghi nhận!", { autoClose: false });
+               toast.success("💰 New transaction just recorded", { autoClose: false });
             }
 
             return res;

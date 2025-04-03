@@ -7,12 +7,12 @@ import {
    TPayloadGetCart,
    updateQuantityAction,
 } from "@/actions/cart.action";
+import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { resError } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { useDebouncedCallback } from "@mantine/hooks";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 export function useCartCountQuery() {
    return useQuery({
@@ -25,6 +25,7 @@ export function useCartCountQuery() {
 
 export function useAddToCart() {
    const queryClient = useQueryClient();
+   const toast = useAppToast()
 
    return useMutation({
       mutationFn: async (payload: TAddToCartAction) => {
@@ -33,6 +34,7 @@ export function useAddToCart() {
       },
       onSuccess: () => {
          queryClient.invalidateQueries({ queryKey: [`cart-count`] });
+         toast.success(`Add to cart successfully`);
       },
       onError: (error) => {
          console.error("useAddToCart:", error);
@@ -141,17 +143,18 @@ export function useHandleCart({ cartItems, setLoadingChange }: TuseHandleCart) {
 }
 
 export function useDeleteCartItem() {
+   const toast = useAppToast();
    const queryClient = useQueryClient();
 
    return useMutation({
       mutationFn: deleteCartItemAction,
       onSuccess: () => {
-         toast.success(`Đã xoá sản phẩm khỏi giỏ hàng`);
+         toast.success(`Product removed from cart`);
          queryClient.invalidateQueries({ queryKey: ["cart-list"] });
          queryClient.invalidateQueries({ queryKey: [`cart-count`] });
       },
       onError: (error) => {
-         toast.error(resError(error, `Xoá sản phẩm thất bại`));
+         toast.error(resError(error, `Delete product failed`));
       },
    });
 }

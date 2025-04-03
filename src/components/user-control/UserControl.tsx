@@ -6,11 +6,14 @@ import { effectText } from "@/helpers/motion.helper";
 import { useAppSelector } from "@/redux/hooks";
 import { Avatar, Group, Menu, Text } from "@mantine/core";
 import { IconDiamond, IconLogout, IconSettings, IconUserCheck, IconUserSearch } from "@tabler/icons-react";
-import { toast } from "react-toastify";
-import classes from "./UserControl.module.css";
 import { useRouter } from "next/navigation";
+import { useAppToast } from "../provider/toast/Toasti18n";
+import classes from "./UserControl.module.css";
+import { useTranslations } from "next-intl";
 
 export default function UserControl() {
+   const t = useTranslations();
+   const toast = useAppToast();
    const router = useRouter();
    const info = useAppSelector((state) => state.user.info);
 
@@ -38,7 +41,7 @@ export default function UserControl() {
 
             <Menu.Divider />
 
-            <Menu.Label>Application</Menu.Label>
+            <Menu.Label>{t(`Application`)}</Menu.Label>
 
             {info?.role === 0 && (
                <Menu.Item
@@ -47,7 +50,7 @@ export default function UserControl() {
                   }}
                   leftSection={<IconDiamond size={14} />}
                >
-                  Admin
+                  {t(`Admin`)}
                </Menu.Item>
             )}
 
@@ -57,7 +60,7 @@ export default function UserControl() {
                }}
                leftSection={<IconUserCheck size={14} />}
             >
-               Lịch sử thanh toán
+               {t(`History payment`)}
             </Menu.Item>
 
             <Menu.Item
@@ -67,7 +70,7 @@ export default function UserControl() {
                }}
                leftSection={<IconUserSearch size={14} />}
             >
-               Profile
+               {t(`Profile`)}
             </Menu.Item>
 
             <Menu.Item
@@ -77,13 +80,13 @@ export default function UserControl() {
                }}
                leftSection={<IconSettings size={14} />}
             >
-               Settings
+               {t(`Setting`)}
             </Menu.Item>
 
             <Menu.Divider />
 
             <Menu.Item onClick={logout} color="red" leftSection={<IconLogout size={14} />}>
-               Logout
+               {t(`Logout`)}
             </Menu.Item>
          </Menu.Dropdown>
       </Menu>

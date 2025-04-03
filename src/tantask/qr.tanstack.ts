@@ -1,9 +1,11 @@
+import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { resError } from "@/helpers/function.helper";
 import { createQRMomopay, createQRZalopay, createVietQR } from "@/helpers/qr-payment.helper";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 
 export const useCreateQrMomo = () => {
+   const toast = useAppToast();
+
    return useMutation({
       mutationFn: async (payload: { amount: string; purpose: string }) => {
          const data = await createQRMomopay(payload.amount, payload.purpose);
@@ -16,6 +18,7 @@ export const useCreateQrMomo = () => {
    });
 };
 export const useCreateQrZalopay = () => {
+   const toast = useAppToast();
    return useMutation({
       mutationFn: async (payload: { amount: string; purpose: string }) => {
          const data = await createQRZalopay(payload.amount, payload.purpose);
@@ -28,6 +31,7 @@ export const useCreateQrZalopay = () => {
    });
 };
 export const useCreateVietQR = () => {
+   const toast = useAppToast();
    return useMutation({
       mutationFn: async (payload: { amount: string; purpose: string }) => {
          const data = await createVietQR(payload.amount, payload.purpose);

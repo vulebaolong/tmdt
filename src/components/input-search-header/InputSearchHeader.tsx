@@ -9,11 +9,13 @@ import NodataOverlay from "../no-data/NodataOverlay";
 import ProductImage from "../product/product-image/ProductImage";
 import classes from "./InputSearchHeader.module.css";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function InputSearchHeader() {
    const theme = useMantineTheme();
    const [opened, setOpened] = useState(false);
    const router = useRouter();
+   const t = useTranslations()
 
    const getProductList = useGetProductList();
 
@@ -42,7 +44,7 @@ export default function InputSearchHeader() {
                <Input
                   style={{ flex: `1` }}
                   onChange={handleChange}
-                  placeholder="Tìm Sản Phẩm"
+                  placeholder={t(`Search`)}
                   size="md"
                   styles={{ input: { backgroundColor: `transparent`, border: `transparent`, color: `black` } }}
                />

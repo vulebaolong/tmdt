@@ -11,12 +11,14 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import ProductItem from "../product-item/ProductItem";
 import classes from "./ProductList.module.css";
+import { useTranslations } from "next-intl";
 
 type TProps = {
    products: TResPagination<IProduct>;
 };
 
 function ProductList({ products: initialProducts }: TProps) {
+   const t = useTranslations()
    const [category, setCategory] = useState<string | undefined | null>(null);
    const [products, setProducts] = useState(initialProducts.items);
    const [page, setPage] = useState(1);
@@ -115,7 +117,7 @@ function ProductList({ products: initialProducts }: TProps) {
             {products.length > 0 ? (
                <Center>
                   <Button loading={getProductList.isPending} disabled={page === totalPage.current} onClick={handleLoadMore} variant="default" w={300}>
-                     Xem Thêm
+                     {t(`See more`)}
                   </Button>
                </Center>
             ) : (

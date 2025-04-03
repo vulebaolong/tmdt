@@ -3,29 +3,32 @@ import { checkPendingOrderAction, deleteOrderAction, getOrderByIdAction } from "
 import { createOrderAction, TCreateOrder } from "@/actions/order.action";
 import { resError } from "@/helpers/function.helper";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "react-toastify";
 import ROUTER from "@/constant/router.constant";
 import { useRouter } from "next/navigation";
+import { useAppToast } from "@/components/provider/toast/Toasti18n";
 
 export function useCreateOrder() {
+   const toast = useAppToast();
+
    return useMutation({
       mutationFn: async (payload: TCreateOrder) => {
          return await createOrderAction(payload);
       },
       onSuccess: (res) => {
          if (res.success) {
-            toast.success("Tạo đơn hàng thành công!");
+            toast.success("Create order successfully");
          } else {
-            toast.error("Tạo đơn hàng thất bại!");
+            toast.error("Create order failed");
          }
       },
       onError: (error) => {
-         toast.error(resError(error, `Lỗi tạo đơn hàng!`));
+         toast.error(resError(error, `Create order error`));
       },
    });
 }
 
 export function useGetOrderById(id?: string) {
+   const toast = useAppToast();
    const router = useRouter();
 
    return useQuery({
@@ -35,7 +38,7 @@ export function useGetOrderById(id?: string) {
          const res = await getOrderByIdAction(id);
          if (!res.success) {
             router.push(ROUTER.CART);
-            toast.error(`Đơn hàng đã hết hạn thanh toán`);
+            toast.error(`Order has expired payment`);
          }
          return res;
       },
@@ -44,6 +47,7 @@ export function useGetOrderById(id?: string) {
 }
 
 export function useDeleteOrder() {
+   const toast = useAppToast();
    return useMutation({
       mutationFn: (id: string) => deleteOrderAction(id),
       onSuccess: (res) => {
@@ -54,16 +58,17 @@ export function useDeleteOrder() {
          }
       },
       onError: (error) => {
-         toast.error(resError(error, `Lỗi xoá đơn hàng!`));
+         toast.error(resError(error, `Error deleting order`));
       },
    });
 }
 
 export function useCheckPendingOrder() {
+   const toast = useAppToast();
    return useMutation({
       mutationFn: () => checkPendingOrderAction(),
       onError: (error) => {
-         toast.error(resError(error, `Lỗi kiểm tra đơn hàng!`));
+         toast.error(resError(error, `Order Check Error`));
       },
    })
 }

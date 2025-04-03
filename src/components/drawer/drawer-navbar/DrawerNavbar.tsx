@@ -65,7 +65,7 @@ export default function DrawerNavbar({ opened, close }: TProps) {
                         variant="default"
                         color="indigo"
                      >
-                        {t("header.login")}
+                        {t("login")}
                      </Button>
                   )}
                   <Group wrap="nowrap" gap={5}>
@@ -76,7 +76,7 @@ export default function DrawerNavbar({ opened, close }: TProps) {
                            }}
                            color="indigo"
                         >
-                           {t("header.joinMobile")}
+                           {t("JoinMobile")}
                         </Button>
                      )}
                      <ButtonToggleTheme />

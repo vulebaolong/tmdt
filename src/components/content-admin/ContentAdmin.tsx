@@ -55,6 +55,7 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
    const deletee = onDelete();
 
    const initialValues = buildInitialValues(creates);
+   console.log({ initialValues });
    const validationSchema = buildValidationSchema(creates);
 
    const waitForDelete = () => {
@@ -72,12 +73,15 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
          const payload = buildFormDataOrObject(values);
          console.log(payload);
          if (editData) {
-            update.mutate({...payload, content: editor?.getHTML()}, {
-               onSuccess: () => {
-                  close();
-                  createForm.resetForm();
-               },
-            });
+            update.mutate(
+               { ...payload, content: editor?.getHTML() },
+               {
+                  onSuccess: () => {
+                     close();
+                     createForm.resetForm();
+                  },
+               }
+            );
          } else {
             create.mutate(payload, {
                onSuccess: () => {
@@ -112,8 +116,13 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                // filters={{ type: `1` }}
                onEdit={(item: any) => {
                   setEditData(item);
-                  createForm.setValues(item);
-                  setContent(item.content);
+
+                  const fullValues = { ...createForm.initialValues, ...item };
+                  createForm.setValues(fullValues);
+
+                  if (item.content) {
+                     setContent(item.content);
+                  }
                   open();
                }}
                onDelete={async (item: any) => {
@@ -243,14 +252,18 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                               withAsterisk={field.withAsterisk}
                               label={field.label}
                               data={field.dataTags}
-                              value={(createForm.values[field.name] || []).map((item: number) => field.enum[item]).filter(Boolean)}
+                              // value={(createForm.values[field.name] || []).map((item: number) => field.enum[item]).filter(Boolean)}
+                              value={
+                                 Array.isArray(createForm.values[field.name])
+                                    ? createForm.values[field.name].map((item: number) => field.enum[item])
+                                    : []
+                              }
                               onChange={(e) => {
                                  createForm.setFieldValue(
                                     field.name,
                                     e.map((item: any) => field.enum[item as keyof typeof field.enum] as number)
                                  );
                               }}
-                              defaultValue={[`1`]}
                               inputWrapperOrder={["label", "input", "error"]}
                            />
                         );
@@ -258,54 +271,57 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
 
                      if (field.type === "edtior") {
                         return (
-                           <RichTextEditor key={1} editor={editor} h={500}>
-                              <RichTextEditor.Toolbar sticky stickyOffset={60}>
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.Bold />
-                                    <RichTextEditor.Italic />
-                                    <RichTextEditor.Underline />
-                                    <RichTextEditor.Strikethrough />
-                                    <RichTextEditor.ClearFormatting />
-                                    <RichTextEditor.Highlight />
-                                    <RichTextEditor.Code />
-                                 </RichTextEditor.ControlsGroup>
+                           <Box key={field.name}>
+                              <label>{field.label}</label>
+                              <RichTextEditor key={1} editor={editor}>
+                                 <RichTextEditor.Toolbar sticky stickyOffset={60}>
+                                    <RichTextEditor.ControlsGroup>
+                                       <RichTextEditor.Bold />
+                                       <RichTextEditor.Italic />
+                                       <RichTextEditor.Underline />
+                                       <RichTextEditor.Strikethrough />
+                                       <RichTextEditor.ClearFormatting />
+                                       <RichTextEditor.Highlight />
+                                       <RichTextEditor.Code />
+                                    </RichTextEditor.ControlsGroup>
 
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.H1 />
-                                    <RichTextEditor.H2 />
-                                    <RichTextEditor.H3 />
-                                    <RichTextEditor.H4 />
-                                 </RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.ControlsGroup>
+                                       <RichTextEditor.H1 />
+                                       <RichTextEditor.H2 />
+                                       <RichTextEditor.H3 />
+                                       <RichTextEditor.H4 />
+                                    </RichTextEditor.ControlsGroup>
 
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.Blockquote />
-                                    <RichTextEditor.Hr />
-                                    <RichTextEditor.BulletList />
-                                    <RichTextEditor.OrderedList />
-                                    <RichTextEditor.Subscript />
-                                    <RichTextEditor.Superscript />
-                                 </RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.ControlsGroup>
+                                       <RichTextEditor.Blockquote />
+                                       <RichTextEditor.Hr />
+                                       <RichTextEditor.BulletList />
+                                       <RichTextEditor.OrderedList />
+                                       <RichTextEditor.Subscript />
+                                       <RichTextEditor.Superscript />
+                                    </RichTextEditor.ControlsGroup>
 
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.Link />
-                                    <RichTextEditor.Unlink />
-                                 </RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.ControlsGroup>
+                                       <RichTextEditor.Link />
+                                       <RichTextEditor.Unlink />
+                                    </RichTextEditor.ControlsGroup>
 
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.AlignLeft />
-                                    <RichTextEditor.AlignCenter />
-                                    <RichTextEditor.AlignJustify />
-                                    <RichTextEditor.AlignRight />
-                                 </RichTextEditor.ControlsGroup>
+                                    <RichTextEditor.ControlsGroup>
+                                       <RichTextEditor.AlignLeft />
+                                       <RichTextEditor.AlignCenter />
+                                       <RichTextEditor.AlignJustify />
+                                       <RichTextEditor.AlignRight />
+                                    </RichTextEditor.ControlsGroup>
 
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.Undo />
-                                    <RichTextEditor.Redo />
-                                 </RichTextEditor.ControlsGroup>
-                              </RichTextEditor.Toolbar>
+                                    <RichTextEditor.ControlsGroup>
+                                       <RichTextEditor.Undo />
+                                       <RichTextEditor.Redo />
+                                    </RichTextEditor.ControlsGroup>
+                                 </RichTextEditor.Toolbar>
 
-                              <RichTextEditor.Content />
-                           </RichTextEditor>
+                                 <RichTextEditor.Content />
+                              </RichTextEditor>
+                           </Box>
                         );
                      }
 

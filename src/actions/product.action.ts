@@ -130,6 +130,7 @@ export async function getProductByIdAction(id: string) {
       return JSON.parse(JSON.stringify(product));
    } catch (error) {
       console.error("Get Product By Id Failed", error);
+      throw error;
    }
 }
 

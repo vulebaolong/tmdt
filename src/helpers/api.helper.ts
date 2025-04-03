@@ -102,7 +102,7 @@ export async function logout() {
 //       if (response.status === 401) {
 //          console.log(`(${response.status}) không có quyền truy cập tài nguyên ngay cả khi đã đăng nhập -> Logout`);
 //          await logout();
-//          throw new Error("Unauthorized, logging out...");
+//          throw new Error("Vui lòng đăng nhập, logging out...");
 //       }
 
 //       if (!response.ok) {

@@ -1,9 +1,9 @@
 import { TUpdateProfile } from "@/actions/user.action";
+import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { useAppSelector } from "@/redux/hooks";
 import { useUpdateProfile } from "@/tantask/user.tantack";
 import { Box, Button, Modal, Stack, TextInput } from "@mantine/core";
 import { useFormik } from "formik";
-import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 type TProps = {
@@ -13,6 +13,7 @@ type TProps = {
 };
 
 export default function ModalAddReceivingInformation({ opened, close, onSuccess }: TProps) {
+   const toast = useAppToast();
    const updateProfile = useUpdateProfile();
    const id = useAppSelector((state) => state.user.info?._id);
    const phone = useAppSelector((state) => state.user.info?.phone);

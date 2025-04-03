@@ -15,7 +15,7 @@ export async function addToCartAction({ productId, quantity }: TAddToCartAction)
       await connectDB();
 
       const info = await getInfoAction();
-      if (!info) throw new Error("Unauthorized");
+      if (!info) throw new Error("Please login");
 
       const cart = await Cart.findOne({ userId: info._id });
 
@@ -42,7 +42,7 @@ export async function addToCartAction({ productId, quantity }: TAddToCartAction)
       return { success: true };
    } catch (error) {
       console.error("Add to cart failed", error);
-      throw new Error("Add to cart failed");
+      throw error
    }
 }
 
@@ -51,7 +51,7 @@ export async function getCartCountAction() {
       await connectDB();
 
       const info = await getInfoAction();
-      if (!info) throw new Error("Unauthorized");
+      if (!info) throw new Error("Please login");
 
       const cart = await Cart.findOne({ userId: info._id }).lean();
       if (!cart || !cart.products) return 0;
@@ -61,7 +61,7 @@ export async function getCartCountAction() {
       return count;
    } catch (error) {
       console.error("Get Cart Count Failed", error);
-      throw new Error("Get Cart Count Failed");
+      throw error
    }
 }
 
@@ -87,7 +87,7 @@ export async function getCartListAction(payload: TPayloadGetCart) {
       await connectDB();
 
       const info = await getInfoAction();
-      if (!info) throw new Error("Unauthorized");
+      if (!info) throw new Error("Please login");
 
       const { page = 1, pageSize = 10, searchKey, searchValue } = payload;
       const skip = (page - 1) * pageSize;
@@ -117,7 +117,7 @@ export async function updateQuantityAction(payload: { productId: string; quantit
    try {
       await connectDB();
       const info = await getInfoAction();
-      if (!info) throw new Error("Unauthorized");
+      if (!info) throw new Error("Please login");
 
       const cart = await Cart.findOne({ userId: info._id });
       if (!cart) throw new Error("Cart not found");
@@ -143,7 +143,7 @@ export async function deleteCartItemAction(payload: TPayloadDeleteCart) {
    try {
       await connectDB();
       const info = await getInfoAction();
-      if (!info) throw new Error("Unauthorized");
+      if (!info) throw new Error("Please login");
 
       await Cart.updateOne({ userId: info._id }, { $pull: { products: { productId: payload.productId } } });
 

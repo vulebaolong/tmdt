@@ -1,10 +1,13 @@
 "use client";
 
-import { ActionIcon, Container, Group, rem, Text } from "@mantine/core";
+import { ActionIcon, Container, Group, rem } from "@mantine/core";
 import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
 import { LogoIcon } from "../logo/LogoIcon";
 import classes from "./FooterClient.module.css";
+import Text from "../text-custom/TextCustom";
+import { TITLE } from "@/constant/app.constant";
+import { useTranslations } from "next-intl";
 
 const data = [
    {
@@ -38,6 +41,7 @@ const data = [
 
 export default function FooterClient() {
    const router = useRouter();
+   const t = useTranslations()
 
    const groups = data.map((group) => {
       const links = group.links.map((link, index) => (
@@ -74,7 +78,7 @@ export default function FooterClient() {
          </Container>
          <Container className={classes.afterFooter}>
             <Text c="dimmed" size="sm">
-               © 2020 mantine.dev. All rights reserved.
+               © 2025 {TITLE}. {t(`All rights reserved`)}.
             </Text>
 
             <Group gap={0} className={classes.social} justify="flex-end" wrap="nowrap">

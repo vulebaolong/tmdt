@@ -11,7 +11,6 @@ import { useAddToCart } from "@/tantask/cart.tanstack";
 import { Box, Button, Container, Divider, Group, Paper, Stack, Text, useMantineTheme } from "@mantine/core";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import classes from "./ProductDetail.module.css";
 
 type TProps = {
@@ -23,6 +22,10 @@ export default function ProductDetail({ product }: TProps) {
    const router = useRouter();
 
    const addToCart = useAddToCart();
+
+   const handleAddToCart = () => {
+      addToCart.mutate({ productId: product._id as string, quantity: 1 });
+   };
 
    return (
       <Container pt={50} pb={100}>
@@ -68,22 +71,7 @@ export default function ProductDetail({ product }: TProps) {
                      <TextContent text={product.description} />
 
                      <Group>
-                        <Button
-                           onClick={() => {
-                              addToCart.mutate(
-                                 { productId: product._id as string, quantity: 1 },
-                                 {
-                                    onSuccess: () => {
-                                       toast.success(`Add to cart successfully`);
-                                    },
-                                 }
-                              );
-                           }}
-                           c={theme.colors.shopee[5]}
-                           size="xl"
-                           w={`min-content`}
-                           variant="outline"
-                        >
+                        <Button onClick={handleAddToCart} c={theme.colors.shopee[5]} size="xl" w={`min-content`} variant="outline">
                            Thêm vào giao hàng
                         </Button>
                         <Button
@@ -113,7 +101,7 @@ export default function ProductDetail({ product }: TProps) {
                <Stack>
                   <Box>
                      <Text fz={`h2`} fw={700}>
-                        CHI TIẾT SẢN PHẨM
+                        NỘI DUNG SẢN PHẨM
                      </Text>
                      {product.content && <div dangerouslySetInnerHTML={{ __html: product.content }} />}
                   </Box>

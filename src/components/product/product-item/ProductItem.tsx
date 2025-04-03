@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import ProductImage from "../product-image/ProductImage";
 import ProductTag from "../product-tag/ProductTag";
 import classes from "./ProductItem.module.css";
+import { useTranslations } from "next-intl";
 
 type TProps = {
    product: IProduct;
@@ -17,6 +18,7 @@ type TProps = {
 
 function ProductItem({ product, type = `show`, preview }: TProps) {
    const router = useRouter();
+   const t = useTranslations()
 
    const getDisplayName = () => {
       if (type === "review") {
@@ -61,7 +63,7 @@ function ProductItem({ product, type = `show`, preview }: TProps) {
                <Text truncate style={{ fontWeight: 900 }} fz={18} c={`shopee`}>
                   ₫{renderData(product.price)}
                </Text>
-               <Text fz={14}>Đã bán {renderData(product.sold)}</Text>
+               <Text fz={14}>{t(`Sold`)} {renderData(product.sold)}</Text>
             </Group>
          </Stack>
       </Box>

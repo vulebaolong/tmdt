@@ -8,20 +8,19 @@ import { useAppSelector } from "@/redux/hooks";
 import { useQueryInfo } from "@/tantask/auth.tanstack";
 import { useCartCountQuery } from "@/tantask/cart.tanstack";
 import { useCheckTransaction } from "@/tantask/check-transaction.tanstack";
-import { Box, Burger, Container, Divider, Group, Indicator, Loader, Stack, Text, useMantineTheme } from "@mantine/core";
+import { Box, Burger, Container, Divider, Group, Indicator, Loader, Stack, useMantineTheme } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconShoppingCart } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import InputSearchHeader from "../input-search-header/InputSearchHeader";
 import LogoShopee from "../logo/LogoIconText";
 import SwitchLangV2 from "../switch-lang/SwitchLangV2";
+import Text from "../text-custom/TextCustom";
 import UserControl from "../user-control/UserControl";
 import classes from "./HeaderClient.module.css";
 
 export default function HeaderClient() {
-   const t = useTranslations(`header`);
    const [opened, handleDrawerNavbar] = useDisclosure(false);
    const info = useAppSelector((state) => state.user.info);
    const router = useRouter();
@@ -38,11 +37,11 @@ export default function HeaderClient() {
                <Stack>
                   <Group mt={-10} align="center" justify="space-between" h={40} className={`${MOBILE_HIDDEN_DESKTOP_VISIBLE}`}>
                      <Group align="center" gap={5}>
-                        <Text className={`${classes[`text-1`]}`}>Kênh Người Bán</Text>
+                        <Text className={`${classes[`text-1`]}`}>Seller Channel</Text>
                         <Divider style={{ alignSelf: `unset` }} color="white" opacity={0.7} h={15} orientation="vertical" />
-                        <Text className={`${classes[`text-1`]}`}>Tải ứng dụng</Text>
+                        <Text className={`${classes[`text-1`]}`}>Download App</Text>
                         <Divider style={{ alignSelf: `unset` }} color="white" opacity={0.7} h={15} orientation="vertical" />
-                        <Text className={`${classes[`text-1`]}`}>Kết nối</Text>
+                        <Text className={`${classes[`text-1`]}`}>Connect</Text>
                         <IconBrandFacebookFilled color="white" size={18} />
                         <IconBrandInstagramFilled color="white" size={18} />
                      </Group>
@@ -60,7 +59,7 @@ export default function HeaderClient() {
                                  style={{ cursor: "pointer" }}
                                  className={`${classes[`text-2`]}`}
                               >
-                                 {t("register")}
+                                 Register
                               </Text>
                               <Text
                                  onClick={() => {
@@ -69,7 +68,7 @@ export default function HeaderClient() {
                                  style={{ cursor: "pointer" }}
                                  className={`${classes[`text-2`]}`}
                               >
-                                 {t("login")}
+                                 Login
                               </Text>
                            </>
                         )}

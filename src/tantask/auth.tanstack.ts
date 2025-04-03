@@ -1,16 +1,11 @@
-import {
-   getInfoAction,
-   loginFormAction,
-   loginGooleAction,
-   registerAction,
-} from "@/actions/auth.action";
+import { getInfoAction, loginFormAction, loginGooleAction, registerAction } from "@/actions/auth.action";
+import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { resError } from "@/helpers/function.helper";
 import { useAppDispatch } from "@/redux/hooks";
 import { SET_INFO } from "@/redux/slices/user.slice";
 import { TLoginFormReq, TRegisterReq } from "@/types/auth.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 
 export const useGetInfo = () => {
    const dispatch = useAppDispatch();
@@ -39,7 +34,7 @@ export const useQueryInfo = () => {
       queryFn: async () => {
          try {
             const data = await getInfoAction();
-            if(!data) return null
+            if (!data) return null;
             console.log({ useGetInfo: data });
             dispatch(SET_INFO(data));
             return data;
@@ -52,6 +47,8 @@ export const useQueryInfo = () => {
 };
 
 export const useRegister = () => {
+   const toast = useAppToast();
+
    return useMutation({
       mutationFn: async (payload: TRegisterReq) => {
          const data = await registerAction(payload);
@@ -65,6 +62,8 @@ export const useRegister = () => {
 };
 
 export const useLoginForm = () => {
+   const toast = useAppToast();
+
    // const getInfo = useGetInfo();
 
    return useMutation({
@@ -107,6 +106,8 @@ export const useLoginForm = () => {
 // };
 
 export const useLoginGoolge = () => {
+   const toast = useAppToast();
+
    return useMutation({
       mutationFn: async (payload: { code: string }) => {
          const data = await loginGooleAction(payload);
