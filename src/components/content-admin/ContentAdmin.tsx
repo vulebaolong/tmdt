@@ -1,4 +1,4 @@
-import { buildFormDataOrObject, buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
+import { buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
 import { TResPagination } from "@/types/app.type";
 import { Box, Button, Center, Drawer, Group, Modal, NumberInput, Select, Stack, TagsInput, Text, Textarea, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -55,7 +55,6 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
    const deletee = onDelete();
 
    const initialValues = buildInitialValues(creates);
-   console.log({ initialValues });
    const validationSchema = buildValidationSchema(creates);
 
    const waitForDelete = () => {
@@ -70,18 +69,38 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
       initialValues,
       validationSchema,
       onSubmit: async (values) => {
-         const payload = buildFormDataOrObject(values);
-         console.log(payload);
+         const payload = { ...values };
+         let formData: FormData | null = null;
+
+         console.log({ values });
+         Object.entries(payload).forEach(([key, value]) => {
+            if (value instanceof File) {
+               formData = new FormData();
+               formData.append(key, value);
+               payload[key] = formData;
+            }
+         });
+
+         const editorField = creates.find((field) => field.type === "edtior");
+
+         if (editorField) {
+            payload[editorField.name] = editor?.getHTML();
+
+            if (!payload[editorField.name]) {
+               createForm.setFieldError(editorField.name, `${editorField.label} không được để trống`);
+               return;
+            }
+         }
+
+         console.log({ payload });
+
          if (editData) {
-            update.mutate(
-               { ...payload, content: editor?.getHTML() },
-               {
-                  onSuccess: () => {
-                     close();
-                     createForm.resetForm();
-                  },
-               }
-            );
+            update.mutate(payload, {
+               onSuccess: () => {
+                  close();
+                  createForm.resetForm();
+               },
+            });
          } else {
             create.mutate(payload, {
                onSuccess: () => {
@@ -117,12 +136,16 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                onEdit={(item: any) => {
                   setEditData(item);
 
+                  // Merge đầy đủ field
                   const fullValues = { ...createForm.initialValues, ...item };
                   createForm.setValues(fullValues);
 
-                  if (item.content) {
-                     setContent(item.content);
+                  // Tìm field editor và set content
+                  const editorField = creates.find((field) => field.type === "edtior");
+                  if (editorField && item[editorField.name]) {
+                     setContent(item[editorField.name]);
                   }
+
                   open();
                }}
                onDelete={async (item: any) => {
@@ -143,6 +166,7 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                close();
                createForm.resetForm();
                setEditData(null);
+               setContent("");
             }}
             title={editData ? "Update" : "Create"}
          >
@@ -161,7 +185,10 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                               {field.component({
                                  value: createForm.values[field.name],
                                  error,
-                                 setValue: (value) => createForm.setFieldValue(field.name, value),
+                                 setValue: (value) => {
+                                    console.log({ value, field: field.name });
+                                    createForm.setFieldValue(field.name, value);
+                                 },
                                  createForm,
                               })}
                            </Box>

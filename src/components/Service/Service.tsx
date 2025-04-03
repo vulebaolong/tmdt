@@ -6,6 +6,8 @@ import classes from "./Service.module.css";
 import Text from "../text-custom/TextCustom";
 import Title from "../title-custom/TitleCustom";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import ROUTER from "@/constant/router.constant";
 
 const mockdata = [
    {
@@ -28,8 +30,18 @@ const mockdata = [
 export function Service() {
    const theme = useMantineTheme();
    const t = useTranslations();
+   const router = useRouter();
    const features = mockdata.map((feature) => (
-      <Card key={feature.title} shadow="md" radius="md" className={classes.card} padding="xl">
+      <Card
+         onClick={() => {
+            router.push(ROUTER.SERVICE);
+         }}
+         key={feature.title}
+         shadow="md"
+         radius="md"
+         className={classes.card}
+         padding="xl"
+      >
          <feature.icon size={50} stroke={2} color={theme.colors.blue[6]} />
          <Text fz="lg" fw={500} className={classes.cardTitle} mt="md">
             {feature.title}

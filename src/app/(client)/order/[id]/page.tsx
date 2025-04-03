@@ -6,7 +6,9 @@ type TProps = {
 };
 
 export default async function page({ params }: TProps) {
-   return <RootPage>
-      <OrderDetail id={(await params).id} />
-   </RootPage>;
+   return (
+      <RootPage>
+         <OrderDetail id={(await params).id} />
+      </RootPage>
+   );
 }

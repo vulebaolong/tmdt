@@ -14,8 +14,11 @@ import { IconCurrencyDollar } from "@tabler/icons-react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useMemo } from "react";
 import classes from "./Product.module.css";
+import { useTranslations } from "next-intl";
 
 export default function Product() {
+   const t = useTranslations()
+
    const columnHelper = createColumnHelper<IProduct>();
    const columns = useMemo(
       () => [
@@ -29,7 +32,7 @@ export default function Product() {
             ),
          }),
          columnHelper.accessor("name", {
-            header: "Tên",
+            header: t("Name"),
             size: 150,
             cell: ({ cell }) => (
                <Text truncate="end" maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
@@ -38,12 +41,12 @@ export default function Product() {
             ),
          }),
          columnHelper.accessor("imagePublicId", {
-            header: "Hình",
+            header: t("Image"),
             size: 150,
             cell: ({ cell }) => <ProductImage width="50px" src={cell.getValue()} />,
          }),
          columnHelper.accessor("description", {
-            header: "Mô tả",
+            header: t("Description"),
             size: 150,
             cell: ({ cell }) => (
                <Text lineClamp={2} maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
@@ -52,7 +55,7 @@ export default function Product() {
             ),
          }),
          columnHelper.accessor("content", {
-            header: "Nội dung",
+            header: t("Content"),
             size: 150,
             cell: ({ cell }) => (
                <div
@@ -68,7 +71,7 @@ export default function Product() {
             ),
          }),
          columnHelper.accessor("brand", {
-            header: "Thương hiệu",
+            header: t("Brand"),
             size: 150,
             cell: ({ cell }) => (
                <Text truncate="end" maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
@@ -77,7 +80,7 @@ export default function Product() {
             ),
          }),
          columnHelper.accessor("inStock", {
-            header: "Tình trạng",
+            header: t("InStock"),
             size: 150,
             cell: ({ cell }) => (
                <Text c={cell.getValue() ? `green` : `red`} truncate="end" maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
@@ -86,14 +89,14 @@ export default function Product() {
             ),
          }),
          columnHelper.accessor("tags", {
-            header: "Nhãn",
+            header: t("Tags"),
             size: 150,
             cell: ({ cell }) => {
                return cell.getValue().map((tag: number, i: number) => <ProductTag tag={tag} key={i} />);
             },
          }),
          columnHelper.accessor("category", {
-            header: "Danh mục",
+            header: t("Category"),
             size: 150,
             cell: ({ cell }) => {
                return (
@@ -108,7 +111,18 @@ export default function Product() {
             },
          }),
          columnHelper.accessor("price", {
-            header: "Giá",
+            header: t("Price"),
+            size: 150,
+            cell: ({ cell }) => {
+               return (
+                  <Text style={{ fontWeight: 900 }} fz={18} c={`shopee`}>
+                     ₫{renderData(cell.getValue())}
+                  </Text>
+               );
+            },
+         }),
+         columnHelper.accessor("shippingFee", {
+            header: t("Shipping Fee"),
             size: 150,
             cell: ({ cell }) => {
                return (
@@ -119,14 +133,14 @@ export default function Product() {
             },
          }),
          columnHelper.accessor("sold", {
-            header: "Đã bán",
+            header: t("Sold"),
             size: 150,
             cell: ({ cell }) => {
                return <Text fz={14}>{renderData(cell.getValue())}</Text>;
             },
          }),
          columnHelper.accessor("createdAt", {
-            header: "CreatedAt",
+            header: t("CreatedAt"),
             size: 150,
             cell: ({ cell }) => (
                <Text truncate="end" maw={150} className={`${classes[`text`]}`} size="sm">
@@ -141,30 +155,30 @@ export default function Product() {
    const fields: TFieldCreate[] = useMemo(
       () => [
          {
-            label: "Image",
-            name: "imageFromData",
+            label: t("Image"),
+            name: "imagePublicId",
             type: "custom",
             component: ({ value, error, setValue }) => <ProductUploadImage value={value} onChange={setValue} error={error} />,
          },
-         { label: "Tên sản phẩm", name: "name", type: "text", withAsterisk: true },
-         { label: "Nội dung", name: "description", type: "textArea", maxRows: 5, resize: `vertical` },
+         { label: t("Name"), name: "name", type: "text", withAsterisk: true },
+         { label: t("Description"), name: "description", type: "textArea", maxRows: 5, resize: `vertical` },
          {
-            label: "Chi tiết sản phẩm",
+            label: t("Content"),
             name: "content",
             type: "edtior",
          },
-         { label: "Thương hiệu", name: "brand", type: "text" },
+         { label: t("Brand"), name: "brand", type: "text" },
          {
             type: "select",
             name: "inStock",
-            label: "Tình trạng",
+            label: t("InStock"),
             dataTags: [
                { value: "true", label: "Còn hàng" },
                { value: "false", label: "Hết hàng" },
             ],
          },
          {
-            label: "Nhãn",
+            label: t("Tags"),
             name: "tags",
             placeholder: "Nhãn",
             type: "tags",
@@ -172,7 +186,7 @@ export default function Product() {
             dataTags: Object.keys(EProductTag).filter((key) => isNaN(Number(key))),
          },
          {
-            label: "Danh mục",
+            label: t("Category"),
             name: "category",
             placeholder: "Danh mục",
             type: "tags",
@@ -180,7 +194,7 @@ export default function Product() {
             dataTags: Object.keys(EProductCategory).filter((key) => isNaN(Number(key))),
          },
          {
-            label: "Phí vận chuyển",
+            label: t("Shipping Fee"),
             name: "shippingFee",
             type: "number",
             suffix: "₫",
@@ -189,7 +203,7 @@ export default function Product() {
             defaultValue: 1_000_000,
          },
          {
-            label: "Giá",
+            label: t("Price"),
             name: "price",
             type: "number",
             suffix: "₫",

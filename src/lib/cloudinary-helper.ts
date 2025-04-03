@@ -7,14 +7,13 @@ cloudinary.config({
   api_secret: CLOUDINARY_API_SECRET,
 });
 
-export async function uploadImageToCloudinary(formData: FormData) {
-   const file = formData.get("file") as File;
+export async function uploadImageToCloudinary(file: File, folder: string) {
    if (!file) return null;
 
    const buffer = Buffer.from(await file.arrayBuffer());
 
    return new Promise<{ url: string; public_id: string }>((resolve, reject) => {
-      const stream = cloudinary.uploader.upload_stream({ folder: "products" }, (error, result) => {
+      const stream = cloudinary.uploader.upload_stream({ folder }, (error, result) => {
          if (error) return reject(error);
          resolve({
             url: result?.secure_url || "",
@@ -26,6 +25,7 @@ export async function uploadImageToCloudinary(formData: FormData) {
    });
 }
 
-export async function deleteImageCloudinary(publicId: string) {
+export async function deleteImageCloudinary(publicId?: string) {
+   if(!publicId) return
    return cloudinary.uploader.destroy(publicId);
 }

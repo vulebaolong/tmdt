@@ -6,6 +6,7 @@ const ROUTER = {
    ORDER: `/order`,
    CART: `/cart`,
    TRANSACTION: `/transaction`,
+   SERVICE: `/service`,
    ADMIN: {
       ROOT: `/admin`,
       USER: `/admin/user`,

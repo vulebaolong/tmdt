@@ -135,67 +135,75 @@ export async function getProductByIdAction(id: string) {
 }
 
 export type TCreateProductAction = IProduct & { imageFromData: FormData };
-export async function createProductAction({ imageFromData, ...product }: TCreateProductAction) {
-   let linkImage = null;
+export async function createProductAction(productCreate: TCreateProductAction) {
+   const uploadedImages: { key: string; public_id: string | undefined }[] = [];
+
    try {
-      linkImage = await uploadImageToCloudinary(imageFromData);
-      console.log({ linkImage });
-      if (!linkImage) throw new Error(`No file`);
+      const dataCreate = { ...productCreate };
+      for (const [key, value] of Object.entries(productCreate)) {
+         if (value instanceof FormData) {
+            const fileImage = value.get(key) as File;
+            if (fileImage instanceof File) {
+               const uploaded = await uploadImageToCloudinary(fileImage, "products");
+               (dataCreate as any)[key] = uploaded?.public_id;
+               uploadedImages.push({ key, public_id: uploaded?.public_id });
+            }
+         }
+      }
+
+      console.log({ dataCreate });
 
       await connectDB();
 
-      const productNew = await Product.create({
-         name: product.name,
-         imagePublicId: linkImage.public_id,
-         tags: product.tags,
-         category: product.category,
-         shippingFee: product.shippingFee,
-         price: product.price,
-         sold: 0,
-         inStock: product.inStock,
-         brand: product.brand,
-         description: product.description,
-      });
+      const serviceNew = await Product.create(dataCreate);
 
-      return toJson(productNew);
+      return toJson(serviceNew);
    } catch (error) {
-      if (linkImage) await deleteImageCloudinary(linkImage.public_id);
-      console.error("Create Product Failed", error);
+      for (const img of uploadedImages) {
+         await deleteImageCloudinary(img.public_id);
+      }
+      console.error("Create Service Failed", error);
       throw error;
    }
 }
 
-export async function updateProductAction({ imageFromData, ...product }: any) {
-   let linkImage = null;
+export type TUpdateProductAction = IProduct & { imageFromData: FormData | string };
+export async function updateProductAction(updateProduct: TUpdateProductAction) {
+   const uploadedImages: { key: string; public_id: string | undefined }[] = [];
+
    try {
+      const dataUpdate = { ...updateProduct };
+
       await connectDB();
 
-      // const updateData: any = {
-      //    name: product.name,
-      //    tags: product.tags,
-      //    price: product.price,
-      //    category: product.category,
-      //    shippingFee: product.shippingFee,
-      //    brand: product.brand,
-      // };
+      const productExist = await Product.findById(updateProduct._id);
+      if (!productExist) throw new Error("Service not found");
 
-      if (imageFromData) {
-         await deleteImageCloudinary(product.imagePublicId);
-         linkImage = await uploadImageToCloudinary(imageFromData);
-         if (linkImage) {
-            product.images = [linkImage.url];
-            product.imagePublicId = linkImage.public_id;
+      for (const [key, value] of Object.entries(updateProduct)) {
+         if (value instanceof FormData) {
+            const file = value.get(key) as File;
+            if (file) {
+               await deleteImageCloudinary((productExist as any)[key]);
+               const uploaded = await uploadImageToCloudinary(file, "products");
+               (dataUpdate as any)[key] = uploaded?.public_id;
+               uploadedImages.push({ key, public_id: uploaded?.public_id });
+            }
          }
       }
 
-      const productUpdated = await Product.updateOne({ _id: product._id }, { $set: product }, { new: true });
+      await Product.updateOne(
+         { _id: dataUpdate._id },
+         {
+            $set: dataUpdate,
+         }
+      );
 
-      if (!productUpdated) throw new Error("Product not found");
-
-      return toJson(productUpdated);
+      return true;
    } catch (error) {
-      if (linkImage) await deleteImageCloudinary(linkImage.public_id);
-      console.error("Update Product Failed", error);
+      for (const img of uploadedImages) {
+         await deleteImageCloudinary(img.public_id);
+      }
+      console.error("Update Service Failed", error);
       throw error;
    }
 }

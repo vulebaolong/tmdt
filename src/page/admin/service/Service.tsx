@@ -1,83 +1,107 @@
 "use client";
 
-import { Box, Button, Stack } from "@mantine/core";
-import { Link, RichTextEditor } from "@mantine/tiptap";
-import Highlight from "@tiptap/extension-highlight";
-import SubScript from "@tiptap/extension-subscript";
-import Superscript from "@tiptap/extension-superscript";
-import TextAlign from "@tiptap/extension-text-align";
-import Underline from "@tiptap/extension-underline";
-import { useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-
-const content =
-   '<h2 style="text-align: center;">Welcome to Mantine rich text editor</h2><p><code>RichTextEditor</code> component focuses on usability and is designed to be as simple as possible to bring a familiar editing experience to regular users. <code>RichTextEditor</code> is based on <a href="https://tiptap.dev/" rel="noopener noreferrer" target="_blank">Tiptap.dev</a> and supports all of its features:</p><ul><li>General text formatting: <strong>bold</strong>, <em>italic</em>, <u>underline</u>, <s>strike-through</s> </li><li>Headings (h1-h6)</li><li>Sub and super scripts (<sup>&lt;sup /&gt;</sup> and <sub>&lt;sub /&gt;</sub> tags)</li><li>Ordered and bullet lists</li><li>Text align&nbsp;</li><li>And all <a href="https://tiptap.dev/extensions" target="_blank" rel="noopener noreferrer">other extensions</a></li></ul>';
+import ContentAdmin, { TFieldCreate } from "@/components/content-admin/ContentAdmin";
+import ProductImage from "@/components/product/product-image/ProductImage";
+import ProductUploadImage from "@/components/product/product-upload-image/ProductUploadImage";
+import { formatLocalTime } from "@/helpers/function.helper";
+import { IService } from "@/schemas/service.schema";
+import { useCreateService, useDeleteService, useServices, useUpdateService } from "@/tantask/service.tanstack";
+import { createColumnHelper } from "@tanstack/react-table";
+import { useMemo } from "react";
+import { Text } from "@mantine/core";
+import classes from "./Service.module.css";
+import { useTranslations } from "next-intl";
 
 export default function Service() {
-   const editor = useEditor({
-      extensions: [StarterKit, Underline, Link, Superscript, SubScript, Highlight, TextAlign.configure({ types: ["heading", "paragraph"] })],
-      content,
-   });
+   const t = useTranslations();
+   const columnHelper = createColumnHelper<IService>();
+   const columns = useMemo(
+      () => [
+         columnHelper.accessor("_id", {
+            header: "ID",
+            size: 100,
+            cell: ({ cell }) => (
+               <Text truncate="end" maw={100} className={`${classes[`text`]}`} size="sm" ta={`start`}>
+                  {cell.getValue() as string}
+               </Text>
+            ),
+         }),
+         columnHelper.accessor("thumbnail", {
+            header: t("Image"),
+            size: 150,
+            cell: ({ cell }) => <ProductImage width="50px" src={cell.getValue()} />,
+         }),
+         columnHelper.accessor("title", {
+            header: t("Title"),
+            size: 150,
+            cell: ({ cell }) => (
+               <Text lineClamp={2} maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
+                  {cell.getValue()}
+               </Text>
+            ),
+         }),
+         columnHelper.accessor("content", {
+            header: t("Content"),
+            size: 150,
+            cell: ({ cell }) => (
+               <div
+                  dangerouslySetInnerHTML={{ __html: cell.getValue() }}
+                  style={{
+                     whiteSpace: "nowrap",
+                     height: 50,
+                     overflow: "hidden",
+                     textOverflow: "ellipsis",
+                     maxWidth: 150,
+                  }}
+               />
+            ),
+         }),
+         columnHelper.accessor("createdAt", {
+            header: t("CreatedAt"),
+            size: 150,
+            cell: ({ cell }) => (
+               <Text truncate="end" maw={150} className={`${classes[`text`]}`} size="sm">
+                  {formatLocalTime(cell.getValue())}
+               </Text>
+            ),
+         }),
+      ],
+      []
+   );
 
-   const handleSave = async () => {
-      const html = editor?.getHTML();
-      console.log(`html`, html);
-   };
+   const fields: TFieldCreate[] = useMemo(
+      () => [
+         {
+            label: t("Image"),
+            name: "thumbnail",
+            type: "custom",
+            component: ({ value, error, setValue }) => (
+               <ProductUploadImage
+                  value={value}
+                  onChange={(e) => {
+                     console.log({ e });
+                     setValue(e);
+                  }}
+                  error={error}
+               />
+            ),
+         },
+         { label: t("Title"), name: "title", type: "text", withAsterisk: true },
+         { label: t("Content"), name: "content", type: "edtior" },
+      ],
+      []
+   );
 
    return (
-      <Box p={20}>
-         <Stack>
-            <RichTextEditor editor={editor}>
-               <RichTextEditor.Toolbar sticky stickyOffset={60}>
-                  <RichTextEditor.ControlsGroup>
-                     <RichTextEditor.Bold />
-                     <RichTextEditor.Italic />
-                     <RichTextEditor.Underline />
-                     <RichTextEditor.Strikethrough />
-                     <RichTextEditor.ClearFormatting />
-                     <RichTextEditor.Highlight />
-                     <RichTextEditor.Code />
-                  </RichTextEditor.ControlsGroup>
-
-                  <RichTextEditor.ControlsGroup>
-                     <RichTextEditor.H1 />
-                     <RichTextEditor.H2 />
-                     <RichTextEditor.H3 />
-                     <RichTextEditor.H4 />
-                  </RichTextEditor.ControlsGroup>
-
-                  <RichTextEditor.ControlsGroup>
-                     <RichTextEditor.Blockquote />
-                     <RichTextEditor.Hr />
-                     <RichTextEditor.BulletList />
-                     <RichTextEditor.OrderedList />
-                     <RichTextEditor.Subscript />
-                     <RichTextEditor.Superscript />
-                  </RichTextEditor.ControlsGroup>
-
-                  <RichTextEditor.ControlsGroup>
-                     <RichTextEditor.Link />
-                     <RichTextEditor.Unlink />
-                  </RichTextEditor.ControlsGroup>
-
-                  <RichTextEditor.ControlsGroup>
-                     <RichTextEditor.AlignLeft />
-                     <RichTextEditor.AlignCenter />
-                     <RichTextEditor.AlignJustify />
-                     <RichTextEditor.AlignRight />
-                  </RichTextEditor.ControlsGroup>
-
-                  <RichTextEditor.ControlsGroup>
-                     <RichTextEditor.Undo />
-                     <RichTextEditor.Redo />
-                  </RichTextEditor.ControlsGroup>
-               </RichTextEditor.Toolbar>
-
-               <RichTextEditor.Content />
-            </RichTextEditor>
-            <Button onClick={handleSave}>Save</Button>
-            <div dangerouslySetInnerHTML={{ __html: content }} />
-         </Stack>
-      </Box>
+      <>
+         <ContentAdmin<IService>
+            columns={columns}
+            creates={fields}
+            fetchData={useServices}
+            onCreate={useCreateService}
+            onUpdate={useUpdateService}
+            onDelete={useDeleteService}
+         />
+      </>
    );
 }

@@ -3,14 +3,13 @@
 import NodataOverlay from "@/components/no-data/NodataOverlay";
 import TextBack from "@/components/text-back/TextBack";
 import TextContent from "@/components/text-content/TextContent";
-import { BASE_DOMAIN_CLOUDINARY } from "@/constant/app.constant";
 import ROUTER from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { useAddToCart } from "@/tantask/cart.tanstack";
 import { Box, Button, Container, Divider, Group, Paper, Stack, Text, useMantineTheme } from "@mantine/core";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
+import ProductImage from "../product-image/ProductImage";
 import classes from "./ProductDetail.module.css";
 
 type TProps = {
@@ -35,14 +34,7 @@ export default function ProductDetail({ product }: TProps) {
             <Paper shadow="md" radius="lg" withBorder p="xl" style={{ overflow: `hidden` }}>
                <Box className={`${classes[`box-1`]}`}>
                   <Box style={{ borderRadius: `10px`, overflow: `hidden`, height: `min-content` }}>
-                     <Image
-                        src={`${BASE_DOMAIN_CLOUDINARY}${product.imagePublicId}`}
-                        sizes="100vw"
-                        width={0}
-                        height={0}
-                        style={{ width: `100%`, height: `auto`, objectFit: `cover`, display: `block` }}
-                        alt="product"
-                     />
+                     <ProductImage src={`${product.imagePublicId}`} />
                   </Box>
 
                   <Stack>

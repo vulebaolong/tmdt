@@ -5,11 +5,11 @@ import {
    getProductListAction2,
    TCreateProductAction,
    TGetProducts,
+   TUpdateProductAction,
    updateProductAction,
 } from "@/actions/product.action";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { resError } from "@/helpers/function.helper";
-import { TCreateProductReq } from "@/types/product.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export type TPayloadGetProductList = {
@@ -69,7 +69,7 @@ export const useUpdateProduct = () => {
    const queryClient = useQueryClient();
 
    return useMutation({
-      mutationFn: async (payload: TCreateProductReq) => {
+      mutationFn: async (payload: TUpdateProductAction) => {
          console.log({ payload });
          const linkImage = await updateProductAction(payload);
          return linkImage;

@@ -9,17 +9,18 @@ import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useState } from "react";
 
 export function useRichTextEditor(initialContent?: string) {
-   const [content, setContent] = useState(initialContent || "");
+   const [content, setContent] = useState(initialContent);
+
    const editor = useEditor({
       extensions: [StarterKit, Underline, Link, Superscript, Subscript, Highlight, TextAlign.configure({ types: ["heading", "paragraph"] })],
-      content,
+      content: content || "",
    });
 
    useEffect(() => {
-      if (editor && content) {
-         editor.commands.setContent(content);
+      if (editor) {
+         editor.commands.setContent(content || "");
       }
-   }, [editor, content]);
+   }, [content, editor]);
 
    return { editor, setContent };
 }

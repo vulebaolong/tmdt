@@ -1,12 +1,13 @@
 "use client";
 
+import { BASE_DOMAIN_CLOUDINARY } from "@/constant/app.constant";
 import { Avatar, Group, Paper, rem, Text } from "@mantine/core";
 import { Dropzone, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { IconPhoto, IconUpload, IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 
 type Props = {
-   value: File | null;
+   value: File | string | null;
    onChange: (file: File | null) => void;
    error?: string;
 };
@@ -16,7 +17,8 @@ export default function ProductUploadImage({ value, onChange, error }: Props) {
 
    useEffect(() => {
       if (value) {
-         setPreview(URL.createObjectURL(value));
+         if (typeof value === "string") setPreview(`${BASE_DOMAIN_CLOUDINARY}${value}`);
+         if (value instanceof File) setPreview(URL.createObjectURL(value));
       } else {
          setPreview(null);
       }
