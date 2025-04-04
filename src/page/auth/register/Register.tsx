@@ -1,5 +1,4 @@
 "use client";
-import LogoIconText from "@/components/logo/LogoIconText";
 import CustomPasswordInput, { validatePassword } from "@/components/password-input/CustomPasswordInput";
 import CustomRePasswordInput from "@/components/password-input/CustomRePasswordInput";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
@@ -13,6 +12,7 @@ import classes from "./../Auth.module.css";
 import Text from "@/components/text-custom/TextCustom";
 import { useTranslations } from "next-intl";
 import Title from "@/components/title-custom/TitleCustom";
+import { LogoIcon } from "@/components/logo/LogoIcon";
 
 export default function Register() {
    const toast = useAppToast();
@@ -93,7 +93,7 @@ export default function Register() {
       <Suspense fallback={<p>Loading feed...</p>}>
          <Stack className={`${classes.wrapForm}`} style={{ animation: "fadeInUp 0.5s" }} px={`md`}>
             <Center>
-               <LogoIconText color={5} />
+               <LogoIcon />
             </Center>
 
             <Title ta="center" style={{ fontFamily: `Greycliff CF,   var(--mantine-font-family)`, fontWeight: `900` }}>

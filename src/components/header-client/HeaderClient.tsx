@@ -14,7 +14,7 @@ import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconShoppingCart } f
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import InputSearchHeader from "../input-search-header/InputSearchHeader";
-import LogoShopee from "../logo/LogoIconText";
+import { LogoIcon } from "../logo/LogoIcon";
 import SwitchLangV2 from "../switch-lang/SwitchLangV2";
 import Text from "../text-custom/TextCustom";
 import UserControl from "../user-control/UserControl";
@@ -81,7 +81,7 @@ export default function HeaderClient() {
                            <Burger color={`white`} size={"sm"} opened={opened} onClick={handleDrawerNavbar.open} />
                         </Box>
 
-                        <LogoShopee />
+                        <LogoIcon />
                      </Group>
 
                      {/* center */}

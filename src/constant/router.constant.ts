@@ -12,6 +12,7 @@ const ROUTER = {
       USER: `/admin/user`,
       PRODUCT: `/admin/product`,
       SERVICE: `/admin/service`,
+      SETTING: `/admin/setting`,
    },
 };
 

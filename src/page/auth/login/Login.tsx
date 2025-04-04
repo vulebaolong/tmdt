@@ -1,9 +1,6 @@
 "use client";
-// import { postLoginAction } from "@/actions/auth.action";
-// import { useAppContext } from "@/components/provider/appProvider/AppProvider";
 import { FacebookButton } from "@/components/buttons/FacebookButton";
 import { GoogleButton } from "@/components/buttons/GoogleButton";
-import LogoIconText from "@/components/logo/LogoIconText";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
 import { Anchor, Box, Center, Divider, Group, Loader, Paper, Transition } from "@mantine/core";
 import { useRouter } from "next/navigation";
@@ -14,6 +11,7 @@ import LoginGoogleAuthenticator from "./login-google-authenticator/LoginGoogleAu
 import Title from "@/components/title-custom/TitleCustom";
 import Text from "@/components/text-custom/TextCustom";
 import { useTranslations } from "next-intl";
+import { LogoIcon } from "@/components/logo/LogoIcon";
 
 export default function Login() {
    const router = useRouter();
@@ -25,7 +23,7 @@ export default function Login() {
       <Suspense fallback={<Loader />}>
          <Box className={`${classes.wrapForm}`} style={{ animation: "fadeInUp 0.5s" }} px={`md`}>
             <Center>
-               <LogoIconText color={5} />
+               <LogoIcon  />
             </Center>
             <Title mt={20} ta="center" style={{ fontFamily: `Greycliff CF,   var(--mantine-font-family)`, fontWeight: `900` }}>
                Welcome back!
