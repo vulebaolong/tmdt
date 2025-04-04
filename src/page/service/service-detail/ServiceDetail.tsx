@@ -21,7 +21,7 @@ export default function ServiceDetail({ service }: TProps) {
             <Stack gap={50}>
                <Center>
                   <Badge variant="filled" size="lg">
-                     {t(`Pet ${EServiceCategory[service?.category]}`)}
+                     {t(`${EServiceCategory[service?.category]}`)}
                   </Badge>
                </Center>
 
