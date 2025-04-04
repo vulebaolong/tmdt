@@ -8,6 +8,7 @@ import { FormikProps, useFormik } from "formik";
 import React, { ReactNode, useRef, useState } from "react";
 import TableCustom, { TPayload } from "../table-custom/TableCustom";
 import { useRichTextEditor } from "./hook";
+import { useIsMobile } from "@/hooks/is-mobile.hook";
 
 export type TFieldCreate = {
    label: string;
@@ -44,6 +45,7 @@ type TProps<T> = {
 export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, onDelete, fetchData }: TProps<T>) {
    const [opened, { open, close }] = useDisclosure(false);
    const [openedModalDelete, handleModalDelete] = useDisclosure(false);
+   const isMobile = useIsMobile();
 
    const [editData, setEditData] = useState(null);
    const resolveRef = useRef<(value: any) => void>(null);
@@ -169,6 +171,7 @@ export default function ContentAdmin<T>({ columns, creates, onCreate, onUpdate, 
                setContent("");
             }}
             title={editData ? "Update" : "Create"}
+            size={isMobile ? `90%` : `50%`}
          >
             <form onSubmit={createForm.handleSubmit}>
                <Stack>
