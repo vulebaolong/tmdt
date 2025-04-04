@@ -4,6 +4,7 @@ import { toJson } from "@/helpers/function.helper";
 import { deleteImageCloudinary, uploadImageToCloudinary } from "@/lib/cloudinary-helper";
 import { connectDB } from "@/lib/mongoose";
 import Service, { IService } from "@/schemas/service.schema";
+import { TGetServiceList } from "@/tantask/service.tanstack";
 import { TResPagination } from "@/types/app.type";
 import { SortOrder } from "mongoose";
 
@@ -159,6 +160,58 @@ export async function deleteServiceAction(id: string) {
       return true;
    } catch (error) {
       console.error("Delete Service Failed", error);
+      throw error;
+   }
+}
+
+export async function getServiceByIdAction(id: string) {
+   try {
+      await connectDB();
+      const service = await Service.findOne({ _id: id }).lean();
+      return toJson(service);
+   } catch (error) {
+      console.error("Get Service By Id Failed", error);
+      throw error;
+   }
+}
+
+export async function getServiceListAction2({
+   page = 1,
+   category,
+}: TGetServiceList): Promise<TResPagination<IService>> {
+   try {
+      await connectDB();
+
+      const pageSize = 10
+
+      const skip = (page - 1) * pageSize;
+
+      const filter: any = {};
+
+      // Filter category
+      if (category) {
+         const categoryArray = category.split(",").map((item) => Number(item.trim()));
+         filter.category = { $in: categoryArray };
+      }
+
+      const [itemCount, items] = await Promise.all([
+         Service.countDocuments(filter),
+         Service.find(filter).sort({ createdAt: -1 }).skip(skip).limit(pageSize).lean(),
+      ]);
+
+      const pageCount = Math.ceil(itemCount / pageSize);
+
+      return {
+         page,
+         pageSize,
+         pageCount,
+         itemCount,
+         items: toJson(items),
+         filterable: [],
+         sortable: [],
+      };
+   } catch (error) {
+      console.error("Get List Product Failed", error);
       throw error;
    }
 }

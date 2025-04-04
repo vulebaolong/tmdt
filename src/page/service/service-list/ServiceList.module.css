@@ -3,4 +3,5 @@
    grid-template-columns: mobile-desktop(1fr 1fr = 1fr 1fr 1fr 1fr 1fr);
    grid-template-rows: min-content;
    gap: 20px;
+   justify-items: center;
 }

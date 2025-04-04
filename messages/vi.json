@@ -90,11 +90,9 @@
    "Pet Service": "Dịch vụ thú cưng",
    "Professional & Dedicated Pet Service": "Dịch vụ thú cưng chuyên nghiệp & tận tâm",
    "We provide": "Chúng tôi cung cấp đa dạng dịch vụ dành cho thú cưng như Chăm sóc - Làm đẹp, Khách sạn thú cưng và Cứu hộ thú cưng. Đảm bảo an toàn, tiện lợi và yêu thương cho thú cưng của bạn mọi lúc mọi nơi",
-   "Pet Grooming": "Chăm sóc & làm đẹp thú cưng",
    "Professional care & grooming services to keep your pets clean, healthy, and beautiful every day": "Dịch vụ chăm sóc và làm đẹp chuyên nghiệp giúp thú cưng của bạn luôn sạch sẽ, khỏe mạnh và xinh đẹp mỗi ngày.",
    "Pet Hotel": "Khách sạn thú cưng",
    "A safe, cozy, and friendly place where your pets can stay while you're away": "Nơi an toàn, ấm cúng và thân thiện để thú cưng của bạn ở lại khi bạn đi vắng.",
-   "Pet Rescue": "Cứu hộ thú cưng",
    "Emergency rescue service for abandoned or lost pets, we care, we save, we protect": "Dịch vụ cứu hộ khẩn cấp cho thú cưng bị bỏ rơi hoặc đi lạc. Chúng tôi quan tâm, cứu hộ và bảo vệ.",
    "See more": "Xem thêm",
    "Hide": "Ẩn bớt",
@@ -137,5 +135,8 @@
    "Pet Product": "Sản Phẩm Thú Cưng",
    "High-Quality & Essential Pet Products": "Sản Phẩm Chất Lượng & Cần Thiết Cho Thú Cưng",
    "We offer": "Chúng tôi cung cấp đa dạng sản phẩm thú cưng được chọn lọc kỹ lưỡng như thức ăn, đồ chơi, phụ kiện và sản phẩm chăm sóc sức khỏe. Tất cả đều được thiết kế nhằm đảm bảo sức khỏe, sự thoải mái và hạnh phúc cho thú cưng của bạn mỗi ngày",
-   "A fully featured React components library": "Một thư viện thành phần React đầy đủ tính năng"
+   "A fully featured React components library": "Một thư viện thành phần React đầy đủ tính năng",
+   "Grooming": "Chăm sóc làm đẹp",
+   "Hotel": "Khách sạn thú cưng",
+   "Rescue": "Cứu hộ thú cưng"
 }

@@ -10,9 +10,10 @@ type TProductImageProps = {
    width?: string;
    height?: string;
    isHero?: boolean;
+   borderRadius?: string | number;
 };
 
-export default function ProductImage({ src, preview, width = "100%", height = "auto", isHero = false }: TProductImageProps) {
+export default function ProductImage({ src, preview, width = "100%", height = "auto", isHero = false, borderRadius }: TProductImageProps) {
    const [error, setError] = useState(false);
 
    const imageUrl = useMemo(() => {
@@ -28,7 +29,7 @@ export default function ProductImage({ src, preview, width = "100%", height = "a
             width={0}
             height={0}
             sizes="100vw"
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", borderRadius }}
             alt="product-image"
             priority={isHero}
             onError={() => setError(true)}

@@ -19,15 +19,19 @@ type TProps = {
 
 function ProductList({ products: initialProducts }: TProps) {
    const t = useTranslations();
-   const [category, setCategory] = useState<string | undefined | null>(null);
+   const [category, setCategory] = useState<string>("0");
    const [products, setProducts] = useState(initialProducts.items);
    const [page, setPage] = useState(1);
    const totalPage = useRef(initialProducts.pageCount);
+   const onlyOne = useRef(true);
 
    const getProductList = useGetProductList();
 
    useEffect(() => {
-      if (category === null) return;
+      if (onlyOne.current) {
+         onlyOne.current = false;
+         return;
+      }
       getProductList.mutate(
          { page: 1, category },
          {
@@ -40,8 +44,6 @@ function ProductList({ products: initialProducts }: TProps) {
    }, [category]);
 
    useEffect(() => {
-      if (category === null) return;
-
       if (page < 2 || page > totalPage.current) return;
       getProductList.mutate(
          { page, category },
@@ -53,7 +55,7 @@ function ProductList({ products: initialProducts }: TProps) {
             },
          }
       );
-   }, [page]);
+   }, [page, category]);
 
    const handleLoadMore = () => {
       setPage((prev) => {
@@ -80,7 +82,12 @@ function ProductList({ products: initialProducts }: TProps) {
          </Box>
 
          <Stack>
-            <Tabs value={category} onChange={setCategory}>
+            <Tabs
+               value={category}
+               onChange={(e) => {
+                  if (e) setCategory(e);
+               }}
+            >
                <Tabs.List>
                   {Object.keys(EProductCategory)
                      .filter((key) => !isNaN(Number(key)))

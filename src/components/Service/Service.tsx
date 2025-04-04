@@ -1,64 +1,51 @@
 "use client";
 
-import { Badge, Box, Card, Group, SimpleGrid, useMantineTheme } from "@mantine/core";
+import ROUTER from "@/constant/router.constant";
+import { EServiceCategory } from "@/types/enum/service.enum";
+import { Badge, Box, Card, Center, SimpleGrid, useMantineTheme } from "@mantine/core";
 import { IconHeartSearch, IconHomeHeart, IconScissors } from "@tabler/icons-react";
-import classes from "./Service.module.css";
-import Text from "../text-custom/TextCustom";
-import Title from "../title-custom/TitleCustom";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import ROUTER from "@/constant/router.constant";
+import Text from "../text-custom/TextCustom";
+import Title from "../title-custom/TitleCustom";
+import classes from "./Service.module.css";
 
-const mockdata = [
-   {
-      title: "Pet Grooming",
-      description: "Professional care & grooming services to keep your pets clean, healthy, and beautiful every day",
-      icon: IconScissors,
-   },
-   {
-      title: "Pet Hotel",
-      description: "A safe, cozy, and friendly place where your pets can stay while you're away",
-      icon: IconHomeHeart,
-   },
-   {
-      title: "Pet Rescue",
-      description: "Emergency rescue service for abandoned or lost pets, we care, we save, we protect",
-      icon: IconHeartSearch,
-   },
-];
+const descriptions = {
+   [EServiceCategory.Grooming]: "Professional care & grooming services to keep your pets clean, healthy, and beautiful every day",
+   [EServiceCategory.Hotel]: "A safe, cozy, and friendly place where your pets can stay while you're away",
+   [EServiceCategory.Rescue]: "Emergency rescue service for abandoned or lost pets, we care, we save, we protect",
+};
+
+const icons = {
+   [EServiceCategory.Grooming]: IconScissors,
+   [EServiceCategory.Hotel]: IconHomeHeart,
+   [EServiceCategory.Rescue]: IconHeartSearch,
+};
+
+const mockdata = Object.entries(EServiceCategory)
+   .filter(([, value]) => !isNaN(Number(value)))
+   .map(([key, value]) => {
+      const enumKey = Number(value) as EServiceCategory;
+      return {
+         category: enumKey,
+         title: key,
+         description: descriptions[enumKey],
+         icon: icons[enumKey],
+      };
+   });
 
 export function Service() {
    const theme = useMantineTheme();
    const t = useTranslations();
    const router = useRouter();
-   const features = mockdata.map((feature) => (
-      <Card
-         onClick={() => {
-            router.push(ROUTER.SERVICE);
-         }}
-         key={feature.title}
-         shadow="md"
-         radius="md"
-         className={classes.card}
-         padding="xl"
-      >
-         <feature.icon size={50} stroke={2} color={theme.colors.blue[6]} />
-         <Text fz="lg" fw={500} className={classes.cardTitle} mt="md">
-            {feature.title}
-         </Text>
-         <Text fz="sm" c="dimmed" mt="sm">
-            {feature.description}
-         </Text>
-      </Card>
-   ));
 
    return (
       <Box>
-         <Group justify="center">
+         <Center>
             <Badge variant="filled" size="lg">
                {t(`Pet Service`)}
             </Badge>
-         </Group>
+         </Center>
 
          <Title order={2} className={classes.title} ta="center" mt="sm">
             Professional & Dedicated Pet Service
@@ -69,7 +56,28 @@ export function Service() {
          </Text>
 
          <SimpleGrid cols={{ base: 1, md: 3 }} spacing="xl" mt={50}>
-            {features}
+            {mockdata.map((feature) => {
+               return (
+                  <Card
+                     onClick={() => {
+                        router.push(`${ROUTER.SERVICE}?category=${feature.category}`);
+                     }}
+                     key={feature.title}
+                     shadow="md"
+                     radius="md"
+                     className={classes.card}
+                     padding="xl"
+                  >
+                     <feature.icon size={50} stroke={2} color={theme.colors.shopee[5]} />
+                     <Text fz="lg" fw={500} className={classes.cardTitle} mt="md">
+                        {feature.title}
+                     </Text>
+                     <Text fz="sm" c="dimmed" mt="sm">
+                        {feature.description}
+                     </Text>
+                  </Card>
+               );
+            })}
          </SimpleGrid>
       </Box>
    );

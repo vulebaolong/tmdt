@@ -18,7 +18,7 @@ export type TPayloadGetProductList = {
 
 export async function getProductListAction2({
    page = 1,
-   pageSize = 9,
+   pageSize = 10,
    category,
    searchProduct,
 }: TPayloadGetProductList): Promise<TResPagination<IProduct>> {

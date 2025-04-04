@@ -1,4 +1,4 @@
-import { createServiceAction, deleteServiceAction, getServiceListAction, TCreateServiceAction, TGetServices, TUpdateServiceAction, updateServiceAction } from "@/actions/service.action";
+import { createServiceAction, deleteServiceAction, getServiceListAction, getServiceListAction2, TCreateServiceAction, TGetServices, TUpdateServiceAction, updateServiceAction } from "@/actions/service.action";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { resError } from "@/helpers/function.helper";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -9,6 +9,27 @@ export const useServices = (params: TGetServices) => {
       queryFn: async () => {
          const products = await getServiceListAction(params);
          return products;
+      },
+   });
+};
+
+
+export type TGetServiceList = {
+   page: number;
+   category?: string;
+};
+export const useGetServiceList = () => {
+   const toast = useAppToast();
+
+   return useMutation({
+      mutationFn: async (payload: TGetServiceList) => {
+         const products = await getServiceListAction2(payload);
+         if (!products.items) products.items = [];
+         return products;
+      },
+      onError: (error) => {
+         console.error("Error fetching product list:", error);
+         toast.error(resError(error, `Get product list failed`));
       },
    });
 };

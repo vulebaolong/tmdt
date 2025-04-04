@@ -91,11 +91,8 @@
    "Pet Service": "Pet Service",
    "Professional & Dedicated Pet Service": "Professional & Dedicated Pet Service",
    "We provide": "We provide a variety of pet services such as Grooming, Pet Hotel and Pet Rescue. Ensuring safety, convenience and love for your pets anytime, anywhere",
-   "Pet Grooming": "Pet Grooming",
    "Professional care & grooming services to keep your pets clean, healthy, and beautiful every day": "Professional care & grooming services to keep your pets clean, healthy, and beautiful every day.",
-   "Pet Hotel": "Pet Hotel",
    "A safe, cozy, and friendly place where your pets can stay while you're away": "A safe, cozy, and friendly place where your pets can stay while you're away.",
-   "Pet Rescue": "Pet Rescue",
    "Emergency rescue service for abandoned or lost pets, we care, we save, we protect": "Emergency rescue service for abandoned or lost pets. We care, we save, we protect.",
    "See more": "See more",
    "Hide": "Hide",
@@ -138,5 +135,8 @@
    "Pet Product": "Pet Product",
    "High-Quality & Essential Pet Products": "High-Quality & Essential Pet Products",
    "We offer": "We offer a wide range of carefully selected pet products including food, toys, accessories, and healthcare items. All products are designed to ensure the well-being, comfort, and happiness of your beloved pets every day",
-   "A fully featured React components library": "A fully featured React components library"
+   "A fully featured React components library": "A fully featured React components library",
+   "Grooming": "Grooming",
+   "Hotel": "Hotel",
+   "Rescue": "Rescue"
 }
