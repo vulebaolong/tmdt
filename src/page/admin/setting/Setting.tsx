@@ -25,7 +25,7 @@ export default function Setting() {
             <Stack>
                <Title size={`h3`}>Logo</Title>
                <ProductUploadImage value={preview} onChange={setPreview} />
-               <Button onClick={handleUploadLogo} variant="filled">
+               <Button loading={uploadLogo.isPending} onClick={handleUploadLogo} variant="filled">
                   Save
                </Button>
             </Stack>
