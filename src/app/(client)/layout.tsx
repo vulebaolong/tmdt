@@ -1,9 +1,9 @@
-import ClientLayout from "@/layouts/client-layout/ClientLayout";
+import ClientLayout2 from "@/layouts/client-layout2/ClientLayout2";
 
 type TProps = {
    children: React.ReactNode;
 };
 
 export default function layout({ children }: TProps) {
-   return <ClientLayout>{children}</ClientLayout>;
+   return <ClientLayout2>{children}</ClientLayout2>;
 }

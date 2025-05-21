@@ -1,8 +1,7 @@
 "use client";
-import { MantineProvider } from "@mantine/core";
+import "@mantine/carousel/styles.css";
 import "@mantine/core/styles.css";
-import '@mantine/tiptap/styles.css';
-import '@mantine/carousel/styles.css';
+import "@mantine/tiptap/styles.css";
 import "../../styles/animation.css";
 import "../../styles/global.css";
 
@@ -15,10 +14,10 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import { ReactNode } from "react";
-import { resolver, themeOverride } from "./mantine/theme";
+import GoogleProvider from "./google/GoogleProvider";
+import MantineProvider from "./mantine/MantineProvider";
 import ProviderRedux from "./redux/ProviderRedux";
 import ToastProvider from "./toast/ToastProvider";
-import GoogleProvider from "./google/GoogleProvider";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -43,7 +42,7 @@ export default function Provider({ children }: { children: ReactNode }) {
    return (
       <QueryClientProvider client={queryClient}>
          <ProviderRedux>
-            <MantineProvider theme={themeOverride} defaultColorScheme="dark" cssVariablesResolver={resolver}>
+            <MantineProvider>
                <ToastProvider />
                <GoogleProvider>{children}</GoogleProvider>
             </MantineProvider>

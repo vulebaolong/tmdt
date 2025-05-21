@@ -7,6 +7,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { Geist, Geist_Mono } from "next/font/google";
 
+
 const geistSans = Geist({
    variable: "--font-geist-sans",
    subsets: ["latin"],

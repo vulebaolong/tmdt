@@ -1,4 +1,4 @@
-import Banner from "@/components/banner/Banner";
+import Banner2 from "@/components/banner/Banner2";
 import ProductList from "@/components/product/product-list/ProductList";
 import { Service } from "@/components/Service/Service";
 import { IProduct } from "@/schemas/product.schema";
@@ -12,7 +12,7 @@ type TProps = {
 export default function Home({ products }: TProps) {
    return (
       <>
-         <Banner />
+         <Banner2 />
          <Box py={100}>
             <Stack gap={150}>
                <Container>
