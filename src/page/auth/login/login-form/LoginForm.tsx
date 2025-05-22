@@ -7,7 +7,7 @@ import { ERole } from "@/types/enum/role.enum";
 import { Anchor, Box, Button, Group, TextInput, useMantineTheme } from "@mantine/core";
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { Dispatch, SetStateAction } from "react";
 import * as Yup from "yup";
 

@@ -2,7 +2,7 @@
 
 import { Box, Text as TextMantine } from "@mantine/core";
 import { useToggle } from "@mantine/hooks";
-import Text from "../text-custom/TextCustom";
+import Text from "../custom/text-custom/TextCustom";
 
 type TProps = {
    text: string;

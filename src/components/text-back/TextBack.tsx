@@ -1,7 +1,7 @@
 "use client"
 
 import { Text } from "@mantine/core";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 
 export default function TextBack() {
    const router = useRouter();

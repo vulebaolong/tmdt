@@ -4,7 +4,7 @@ import { createOrderAction, TCreateOrder } from "@/actions/order.action";
 import { resError } from "@/helpers/function.helper";
 import { useMutation } from "@tanstack/react-query";
 import ROUTER from "@/constant/router.constant";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
 
 export function useCreateOrder() {

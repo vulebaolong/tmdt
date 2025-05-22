@@ -8,7 +8,7 @@ import { renderData } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { useAddToCart } from "@/tantask/cart.tanstack";
 import { Box, Button, Container, Divider, Group, Paper, Stack, Text, useMantineTheme } from "@mantine/core";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import ProductImage from "../product-image/ProductImage";
 import classes from "./ProductDetail.module.css";
 

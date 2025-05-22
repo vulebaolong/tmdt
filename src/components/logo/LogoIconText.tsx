@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, useMantineTheme } from "@mantine/core";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 
 type TProps = {
    color?: number;

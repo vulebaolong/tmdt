@@ -16,7 +16,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconCircleCheckFilled } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { useEffect, useState } from "react";
 
 type TProps = {

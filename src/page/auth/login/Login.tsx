@@ -3,13 +3,13 @@ import { FacebookButton } from "@/components/buttons/FacebookButton";
 import { GoogleButton } from "@/components/buttons/GoogleButton";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
 import { Anchor, Box, Center, Divider, Group, Loader, Paper, Transition } from "@mantine/core";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { Suspense, useState } from "react";
 import classes from "./../Auth.module.css";
 import LoginForm from "./login-form/LoginForm";
 import LoginGoogleAuthenticator from "./login-google-authenticator/LoginGoogleAuthenticator";
-import Title from "@/components/title-custom/TitleCustom";
-import Text from "@/components/text-custom/TextCustom";
+import Title from "@/components/custom/title-custom/TitleCustom";
+import Text from "@/components/custom/text-custom/TextCustom";
 import { useTranslations } from "next-intl";
 import { LogoIcon } from "@/components/logo/LogoIcon";
 

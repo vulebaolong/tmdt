@@ -5,13 +5,13 @@ import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { useRegister } from "@/tantask/auth.tanstack";
 import { Anchor, Box, Button, Center, Paper, Stack, TextInput, useMantineTheme } from "@mantine/core";
 import { useFormik } from "formik";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { Suspense } from "react";
 import * as Yup from "yup";
 import classes from "./../Auth.module.css";
-import Text from "@/components/text-custom/TextCustom";
+import Text from "@/components/custom/text-custom/TextCustom";
 import { useTranslations } from "next-intl";
-import Title from "@/components/title-custom/TitleCustom";
+import Title from "@/components/custom/title-custom/TitleCustom";
 import { LogoIcon } from "@/components/logo/LogoIcon";
 
 export default function Register() {

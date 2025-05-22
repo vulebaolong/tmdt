@@ -4,7 +4,7 @@ import ROUTER from "@/constant/router.constant";
 import { Accordion, Avatar, Button, Center, Drawer, Group, Stack, Text } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import Exploer from "./exploer/Exploer";
 import Resources from "./resources/Resources";
 

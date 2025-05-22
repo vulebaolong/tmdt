@@ -8,7 +8,7 @@ import { useState } from "react";
 import NodataOverlay from "../no-data/NodataOverlay";
 import ProductImage from "../product/product-image/ProductImage";
 import classes from "./InputSearchHeader.module.css";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { useTranslations } from "next-intl";
 
 export default function InputSearchHeader() {

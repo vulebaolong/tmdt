@@ -12,11 +12,11 @@ import { Box, Burger, Container, Divider, Group, Indicator, Loader, Stack, useMa
 import { useDisclosure } from "@mantine/hooks";
 import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconShoppingCart } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import InputSearchHeader from "../input-search-header/InputSearchHeader";
 import { LogoIcon } from "../logo/LogoIcon";
 import SwitchLangV2 from "../switch-lang/SwitchLangV2";
-import Text from "../text-custom/TextCustom";
+import Text from "../custom/text-custom/TextCustom";
 import UserControl from "../user-control/UserControl";
 import classes from "./HeaderClient.module.css";
 

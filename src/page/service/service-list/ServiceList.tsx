@@ -3,7 +3,7 @@
 import Nodata from "@/components/no-data/Nodata";
 import ProductImage from "@/components/product/product-image/ProductImage";
 import TextBack from "@/components/text-back/TextBack";
-import Text from "@/components/text-custom/TextCustom";
+import Text from "@/components/custom/text-custom/TextCustom";
 import ROUTER from "@/constant/router.constant";
 import { IService } from "@/schemas/service.schema";
 import { useGetServiceList } from "@/tantask/service.tanstack";

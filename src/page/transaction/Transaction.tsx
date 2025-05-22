@@ -9,7 +9,7 @@ import { useTransactions } from "@/tantask/transaction.tanstack";
 import { EOrderPaymentMethod } from "@/types/enum/order.enum";
 import { Container, Stack, Text, useMantineTheme } from "@mantine/core";
 import { createColumnHelper } from "@tanstack/react-table";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { useMemo } from "react";
 import classes from "./Transaction.module.css";
 

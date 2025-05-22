@@ -16,7 +16,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconEdit, IconMapPinFilled } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { useState } from "react";
 import ProductListCart from "./product-list-cart/ProductListCart";
 import classes from "./ProductCart.module.css";

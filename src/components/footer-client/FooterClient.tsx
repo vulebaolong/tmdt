@@ -2,10 +2,10 @@
 
 import { ActionIcon, Container, Group, rem } from "@mantine/core";
 import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { LogoIcon } from "../logo/LogoIcon";
 import classes from "./FooterClient.module.css";
-import Text from "../text-custom/TextCustom";
+import Text from "../custom/text-custom/TextCustom";
 import { TITLE } from "@/constant/app.constant";
 import { useTranslations } from "next-intl";
 

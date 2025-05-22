@@ -1,0 +1,69 @@
+"use client";
+
+import { Box, Container, Divider, Group, Stack, Text } from "@mantine/core";
+import { Fragment } from "react";
+import { titleSx } from "../provider/mantine/sx/text.sx";
+
+const list = [
+   { t: 1700, d: `Khách hàng/tháng` },
+   { t: 100, d: `Nhân viên` },
+   { t: `99%`, d: `Tỉ lệ hài lòng của khách hàng` },
+   { t: 10, d: `Chi nhánh` },
+];
+
+export default function Service2() {
+   return (
+      <Box
+         sx={{
+            minHeight: 900,
+            backgroundImage: `url(/section/3.webp)`,
+            backgroundPosition: `bottom center`,
+            backgroundRepeat: `no-repeat`,
+            backgroundColor: `transparent`,
+         }}
+      >
+         <Container>
+            <Text
+               sx={(theme) => {
+                  return { ...titleSx(theme), textAlign: `center` };
+               }}
+            >
+               Top dịch vụ trong tháng
+            </Text>
+            <Group sx={{ justifyContent: `space-between`, alignItems: `center`, marginTop: `400px` }}>
+               {list.map((item, i) => {
+                  return (
+                     <Fragment key={i}>
+                        {i > 0 && <Divider orientation="vertical" opacity={0.5} color="rgba(255,255,255,0.9)" size={1} />}
+                        <Stack>
+                           <Text
+                              sx={(theme) => {
+                                 return {
+                                    textAlign: `center`,
+                                    fontWeight: 400,
+                                    lineHeight: `88px`,
+                                    fontSize: 88,
+                                    color: theme.colors.spaTheme[5],
+                                 };
+                              }}
+                           >
+                              {item.t}
+                           </Text>
+                           <Text
+                              sx={{
+                                 fontWeight: 500,
+                                 fontSize: 22,
+                                 color: `white`,
+                              }}
+                           >
+                              {item.d}
+                           </Text>
+                        </Stack>
+                     </Fragment>
+                  );
+               })}
+            </Group>
+         </Container>
+      </Box>
+   );
+}

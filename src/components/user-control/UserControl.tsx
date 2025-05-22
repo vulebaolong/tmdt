@@ -6,7 +6,7 @@ import { effectText } from "@/helpers/motion.helper";
 import { useAppSelector } from "@/redux/hooks";
 import { Avatar, Group, Menu, Text } from "@mantine/core";
 import { IconDiamond, IconLogout, IconSettings, IconUserCheck, IconUserSearch } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { useAppToast } from "../provider/toast/Toasti18n";
 import classes from "./UserControl.module.css";
 import { useTranslations } from "next-intl";

@@ -6,7 +6,7 @@ import { TItem, useDeleteCartItem, useHandleCart } from "@/tantask/cart.tanstack
 import { ActionIcon, Box, Button, Divider, Group, LoadingOverlay, NumberInput, Stack, Text } from "@mantine/core";
 import { IconChevronDown, IconChevronUp } from "@tabler/icons-react";
 import { UseQueryResult } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { Dispatch, Fragment, SetStateAction, useEffect } from "react";
 import ProductImage from "../../product-image/ProductImage";
 import { TTotalPrice } from "../ProductCart";

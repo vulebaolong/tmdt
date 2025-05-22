@@ -5,10 +5,10 @@ import { Box, Button, Container, Overlay, Stack } from "@mantine/core";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
 import { useRef } from "react";
-import Text from "../text-custom/TextCustom";
-import { useRouter } from "next/navigation";
+import Text from "../custom/text-custom/TextCustom";
+import useRouter from "@/hooks/use-router-custom";
 import ROUTER from "@/constant/router.constant";
-import Title from "../title-custom/TitleCustom";
+import Title from "../custom/title-custom/TitleCustom";
 
 export default function Banner() {
    const autoplay = useRef(Autoplay({ delay: 5000 }));

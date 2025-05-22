@@ -2,7 +2,7 @@
 
 import { Box } from "@mantine/core";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 
 type TProps = {
    width?: number | string;
@@ -20,7 +20,7 @@ export function Logo2({ width = 40, height = `auto` }: TProps) {
       <Box onClick={handleClickLogo} style={{ cursor: `pointer` }}>
          <Box style={{ width, height }}>
             <Image
-               src={`https://bizweb.dktcdn.net/100/427/775/themes/894864/assets/logo.png?1699499176616`}
+               src={`/logo/logo-nail.webp`}
                width={0}
                height={0}
                sizes="100vw"

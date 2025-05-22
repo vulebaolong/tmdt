@@ -4,7 +4,7 @@ import ROUTER from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { Box, Group, Stack, Text } from "@mantine/core";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import ProductImage from "../product-image/ProductImage";
 import ProductTag from "../product-tag/ProductTag";
 import classes from "./ProductItem.module.css";

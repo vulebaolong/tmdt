@@ -5,9 +5,9 @@ import { EServiceCategory } from "@/types/enum/service.enum";
 import { Badge, Box, Card, Center, SimpleGrid, useMantineTheme } from "@mantine/core";
 import { IconHeartSearch, IconHomeHeart, IconScissors } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
-import Text from "../text-custom/TextCustom";
-import Title from "../title-custom/TitleCustom";
+import useRouter from "@/hooks/use-router-custom";
+import Text from "../custom/text-custom/TextCustom";
+import Title from "../custom/title-custom/TitleCustom";
 import classes from "./Service.module.css";
 
 const descriptions = {

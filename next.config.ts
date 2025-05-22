@@ -10,12 +10,8 @@ const nextConfig: NextConfig = {
       remotePatterns: [
          {
             protocol: "https",
-            hostname: "bizweb.dktcdn.net",
-          },
-         {
-            protocol: "https",
             hostname: "res.cloudinary.com",
-          },
+         },
          {
             protocol: "https",
             hostname: "tmdt.vulebaolong.com",
@@ -26,6 +22,7 @@ const nextConfig: NextConfig = {
          },
       ],
    },
+   devIndicators: false
 };
 
 export default withNextIntl(nextConfig);

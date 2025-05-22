@@ -1,8 +1,8 @@
 "use client";
 
 import Nodata from "@/components/no-data/Nodata";
-import Text from "@/components/text-custom/TextCustom";
-import Title from "@/components/title-custom/TitleCustom";
+import Text from "@/components/custom/text-custom/TextCustom";
+import Title from "@/components/custom/title-custom/TitleCustom";
 import { IProduct } from "@/schemas/product.schema";
 import { useGetProductList } from "@/tantask/product.tanstack";
 import { TResPagination } from "@/types/app.type";

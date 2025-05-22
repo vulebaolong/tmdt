@@ -2,7 +2,7 @@ import ROUTER from "@/constant/router.constant";
 import { useLoginGoolge } from "@/tantask/auth.tanstack";
 import { Button, ButtonProps } from "@mantine/core";
 import { useGoogleLogin } from "@react-oauth/google";
-import { useRouter } from "next/navigation";
+import useRouter from "@/hooks/use-router-custom";
 import { useState } from "react";
 import { useAppToast } from "../provider/toast/Toasti18n";
 

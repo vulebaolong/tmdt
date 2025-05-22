@@ -5,7 +5,8 @@
 }
 
 body {
-   background-color: light-dark(rgb(245 245 245), var(--mantine-color-dark-7));
+   /* background-color: light-dark(rgb(245 245 245), var(--mantine-color-dark-7)); */
+   background-color: #fefaf7;
 }
 
 .no-scrollbar {
