@@ -40,18 +40,18 @@ export async function getProductListAction2({
          filter.name = { $regex: searchProduct, $options: "i" };
       }
 
-      const [itemCount, items] = await Promise.all([
+      const [totalItem, items] = await Promise.all([
          Product.countDocuments(filter),
          Product.find(filter).sort({ createdAt: -1 }).skip(skip).limit(pageSize).lean(),
       ]);
 
-      const pageCount = Math.ceil(itemCount / pageSize);
+      const totalPage = Math.ceil(totalItem / pageSize);
 
       return {
          page,
          pageSize,
-         pageCount,
-         itemCount,
+         totalPage,
+         totalItem,
          items: toJson(items),
          filterable: [],
          sortable: [],
@@ -101,18 +101,18 @@ export async function getProductListAction({ pagination, filters = {}, sort }: T
 
       console.log({ query });
       // 3. Truy vấn DB
-      const [itemCount, items] = await Promise.all([
+      const [totalItem, items] = await Promise.all([
          Product.countDocuments(query),
          Product.find(query).sort(sortOption).skip(skip).limit(pageSize).lean(),
       ]);
 
-      const pageCount = Math.ceil(itemCount / pageSize);
+      const totalPage = Math.ceil(totalItem / pageSize);
 
       return {
          page: pageIndex,
          pageSize,
-         pageCount,
-         itemCount,
+         totalPage,
+         totalItem,
          items: toJson(items),
          filterable: [],
          sortable: [],

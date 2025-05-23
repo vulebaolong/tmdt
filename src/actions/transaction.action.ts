@@ -67,18 +67,18 @@ export async function getTransactionListAction({ pagination, filters = {}, sort 
 
       console.log({ query });
       // 3. Truy vấn DB
-      const [itemCount, items] = await Promise.all([
+      const [totalItem, items] = await Promise.all([
          Transaction.countDocuments(query),
          Transaction.find(query).populate("orderId").sort(sortOption).skip(skip).limit(pageSize).lean(),
       ]);
 
-      const pageCount = Math.ceil(itemCount / pageSize);
+      const totalPage = Math.ceil(totalItem / pageSize);
 
       return {
          page: pageIndex,
          pageSize,
-         pageCount,
-         itemCount,
+         totalPage,
+         totalItem,
          items: toJson(items),
          filterable: [],
          sortable: [],

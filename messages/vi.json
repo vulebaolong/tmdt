@@ -13,6 +13,12 @@
    "register": {
       "Email already exist": "Email đã tồn tại"
    },
+   "product": {
+      "Product": "Sản Phẩm"
+   },
+   "service": {
+      "Service": "Hệ Thống"
+   },
    "Please login": "Vui lòng đăng nhập",
    "Add to cart successfully": "Thêm vào giỏ hàng thành công",
    "Register failed": "Đăng ký thất bại",

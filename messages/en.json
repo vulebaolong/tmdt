@@ -13,6 +13,12 @@
    "register": {
       "Email already exist": "Email already exist"
    },
+   "product": {
+      "Product": "Product"
+   },
+   "service": {
+      "Service": "Service"
+   },
    "Please login": "Please login",
    "Add to cart successfully": "Add to cart successfully",
    "Register failed": "Register failed",

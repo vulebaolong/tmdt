@@ -3,11 +3,11 @@
 import { ActionIcon, Container, Group, rem } from "@mantine/core";
 import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
 import useRouter from "@/hooks/use-router-custom";
-import { LogoIcon } from "../logo/LogoIcon";
 import classes from "./FooterClient.module.css";
-import Text from "../custom/text-custom/TextCustom";
 import { TITLE } from "@/constant/app.constant";
 import { useTranslations } from "next-intl";
+import Text from "@/components/custom/text-custom/TextCustom";
+import { LogoIcon } from "@/components/logo/LogoIcon";
 
 const data = [
    {

@@ -1,15 +1,15 @@
 "use client";
 
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT, { ROUTER_ADMIN } from "@/constant/router.constant";
 import { logout } from "@/helpers/api.helper";
 import { effectText } from "@/helpers/motion.helper";
+import useRouter from "@/hooks/use-router-custom";
 import { useAppSelector } from "@/redux/hooks";
 import { Avatar, Group, Menu, Text } from "@mantine/core";
 import { IconDiamond, IconLogout, IconSettings, IconUserCheck, IconUserSearch } from "@tabler/icons-react";
-import useRouter from "@/hooks/use-router-custom";
+import { useTranslations } from "next-intl";
 import { useAppToast } from "../provider/toast/Toasti18n";
 import classes from "./UserControl.module.css";
-import { useTranslations } from "next-intl";
 
 export default function UserControl() {
    const t = useTranslations();
@@ -46,7 +46,7 @@ export default function UserControl() {
             {info?.role === 0 && (
                <Menu.Item
                   onClick={() => {
-                     router.push(ROUTER.ADMIN.ROOT);
+                     router.push(ROUTER_ADMIN.DASHBOARD);
                   }}
                   leftSection={<IconDiamond size={14} />}
                >
@@ -56,7 +56,7 @@ export default function UserControl() {
 
             <Menu.Item
                onClick={() => {
-                  router.push(ROUTER.TRANSACTION);
+                  router.push(ROUTER_CLIENT.TRANSACTION);
                }}
                leftSection={<IconUserCheck size={14} />}
             >
@@ -65,7 +65,7 @@ export default function UserControl() {
 
             <Menu.Item
                onClick={() => {
-                  // router.push(ROUTER.PROFILE);
+                  // router.push(ROUTER_CLIENT.PROFILE);
                   toast.warning(`Coming Soon`);
                }}
                leftSection={<IconUserSearch size={14} />}
@@ -75,7 +75,7 @@ export default function UserControl() {
 
             <Menu.Item
                onClick={() => {
-                  // router.push(ROUTER.SETTING);
+                  // router.push(ROUTER_CLIENT.SETTING);
                   toast.warning(`Coming Soon`);
                }}
                leftSection={<IconSettings size={14} />}

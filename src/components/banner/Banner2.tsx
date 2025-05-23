@@ -1,6 +1,6 @@
 "use client";
 
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { Box, Button, Container, Stack, Text, Title, useMantineTheme } from "@mantine/core";
 
@@ -40,7 +40,7 @@ export default function Banner2() {
 
                   <Button
                      onClick={() => {
-                        router.push(ROUTER.LOGIN);
+                        router.push(ROUTER_CLIENT.LOGIN);
                      }}
                      variant="gradient"
                      color={`shopee`}

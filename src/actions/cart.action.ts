@@ -103,7 +103,7 @@ export async function getCartListAction(payload: TPayloadGetCart) {
       return {
          page,
          pageSize,
-         pageCount: Math.ceil(items?.products.length || 0 / pageSize),
+         totalPage: Math.ceil(items?.products.length || 0 / pageSize),
          totalItem: items?.products.length,
          items: items?.products ? toJson(items?.products) : [],
       };

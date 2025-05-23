@@ -165,7 +165,7 @@ export default function Product() {
          {
             label: t("Content"),
             name: "content",
-            type: "edtior",
+            type: "editor",
          },
          { label: t("Brand"), name: "brand", type: "text" },
          {
@@ -224,8 +224,10 @@ export default function Product() {
    return (
       <>
          <ContentAdmin<IProduct>
+            title={t("product.Product")}
             columns={columns}
             creates={fields}
+            updates={fields}
             fetchData={useProducts}
             onCreate={useCreateProduct}
             onUpdate={useUpdateProduct}

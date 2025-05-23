@@ -1,4 +1,4 @@
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { useGetProductList } from "@/tantask/product.tanstack";
 import { Button, Group, Input, LoadingOverlay, Popover, Stack, Text, useMantineTheme } from "@mantine/core";
@@ -61,7 +61,7 @@ export default function InputSearchHeader() {
                   return (
                      <Group
                         onClick={() => {
-                           router.push(`${ROUTER.PRODUCT}/${product._id}`);
+                           router.push(`${ROUTER_CLIENT.PRODUCT}/${product._id}`);
                         }}
                         key={i}
                         className={`${classes[`box-1`]}`}

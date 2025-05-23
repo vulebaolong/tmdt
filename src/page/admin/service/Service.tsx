@@ -97,7 +97,7 @@ export default function Service() {
             ),
          },
          { label: t("Title"), name: "title", type: "text", withAsterisk: true },
-         { label: t("Content"), name: "content", type: "edtior" },
+         { label: t("Content"), name: "content", type: "editor" },
          {
             label: "Category",
             name: "category",
@@ -116,8 +116,10 @@ export default function Service() {
    return (
       <>
          <ContentAdmin<IService>
+            title={t("Service")}
             columns={columns}
             creates={fields}
+            updates={fields}
             fetchData={useServices}
             onCreate={useCreateService}
             onUpdate={useUpdateService}

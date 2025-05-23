@@ -3,7 +3,7 @@
 import ModalConfirmAction from "@/components/modal/confirm-action/ModalConfirmAction";
 import NodataOverlay from "@/components/no-data/NodataOverlay";
 import TextBack from "@/components/text-back/TextBack";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { useCountdown } from "@/hooks/count-down.hook";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
@@ -274,14 +274,14 @@ export default function OrderDetail({ id }: TProps) {
                         {getOrderById.data?.data?.status === EOrderStatus[`Paid`] || timeLeft === 0 ? (
                            <Stack>
                               <Center>
-                                 <Button onClick={() => router.push(ROUTER.CART)} variant="outline">
+                                 <Button onClick={() => router.push(ROUTER_CLIENT.CART)} variant="outline">
                                     Tiếp tục mua sắm
                                  </Button>
                               </Center>
                               <Center>
                                  <Text
                                     onClick={() => {
-                                       router.push(ROUTER.TRANSACTION);
+                                       router.push(ROUTER_CLIENT.TRANSACTION);
                                     }}
                                     style={{ textDecoration: `underline`, cursor: `pointer`, opacity: 0.5 }}
                                  >
@@ -369,7 +369,7 @@ export default function OrderDetail({ id }: TProps) {
                close={handleConfirmAction.close}
                mutationDelete={useDeleteOrder}
                onSuccess={() => {
-                  router.push(ROUTER.CART);
+                  router.push(ROUTER_CLIENT.CART);
                }}
                id={getOrderById.data.data._id}
             />

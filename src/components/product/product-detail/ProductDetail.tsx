@@ -3,7 +3,7 @@
 import NodataOverlay from "@/components/no-data/NodataOverlay";
 import TextBack from "@/components/text-back/TextBack";
 import TextContent from "@/components/text-content/TextContent";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { useAddToCart } from "@/tantask/cart.tanstack";
@@ -72,7 +72,7 @@ export default function ProductDetail({ product }: TProps) {
                                  { productId: product._id as string, quantity: 1 },
                                  {
                                     onSuccess: () => {
-                                       router.push(ROUTER.CART);
+                                       router.push(ROUTER_CLIENT.CART);
                                     },
                                  }
                               );

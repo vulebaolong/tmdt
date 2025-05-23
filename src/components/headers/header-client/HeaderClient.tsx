@@ -3,7 +3,7 @@
 import DrawerNavbar from "@/components/drawer/drawer-navbar/DrawerNavbar";
 import ButtonToggleTheme from "@/components/toggle-theme/button/ButtonToggleTheme";
 import { MOBILE_HIDDEN_DESKTOP_VISIBLE, MOBILE_VISIBLE_DESKTOP_HIDDEN } from "@/constant/app.constant";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { useAppSelector } from "@/redux/hooks";
 import { useQueryInfo } from "@/tantask/auth.tanstack";
 import { useCartCountQuery } from "@/tantask/cart.tanstack";
@@ -13,12 +13,12 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconBrandFacebookFilled, IconBrandInstagramFilled, IconShoppingCart } from "@tabler/icons-react";
 import { motion } from "framer-motion";
 import useRouter from "@/hooks/use-router-custom";
-import InputSearchHeader from "../input-search-header/InputSearchHeader";
-import { LogoIcon } from "../logo/LogoIcon";
-import SwitchLangV2 from "../switch-lang/SwitchLangV2";
-import Text from "../custom/text-custom/TextCustom";
-import UserControl from "../user-control/UserControl";
 import classes from "./HeaderClient.module.css";
+import Text from "@/components/custom/text-custom/TextCustom";
+import SwitchLangV2 from "@/components/switch-lang/SwitchLangV2";
+import UserControl from "@/components/user-control/UserControl";
+import { LogoIcon } from "@/components/logo/LogoIcon";
+import InputSearchHeader from "@/components/input-search-header/InputSearchHeader";
 
 export default function HeaderClient() {
    const [opened, handleDrawerNavbar] = useDisclosure(false);
@@ -54,7 +54,7 @@ export default function HeaderClient() {
                            <>
                               <Text
                                  onClick={() => {
-                                    router.push(ROUTER.REGISTER);
+                                    router.push(ROUTER_CLIENT.REGISTER);
                                  }}
                                  style={{ cursor: "pointer" }}
                                  className={`${classes[`text-2`]}`}
@@ -63,7 +63,7 @@ export default function HeaderClient() {
                               </Text>
                               <Text
                                  onClick={() => {
-                                    router.push(ROUTER.LOGIN);
+                                    router.push(ROUTER_CLIENT.LOGIN);
                                  }}
                                  style={{ cursor: "pointer" }}
                                  className={`${classes[`text-2`]}`}
@@ -119,7 +119,7 @@ export default function HeaderClient() {
                      >
                         <IconShoppingCart
                            onClick={() => {
-                              router.push(ROUTER.CART);
+                              router.push(ROUTER_CLIENT.CART);
                            }}
                            stroke={2}
                            size={30}

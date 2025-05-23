@@ -3,7 +3,7 @@ import { checkPendingOrderAction, deleteOrderAction, getOrderByIdAction } from "
 import { createOrderAction, TCreateOrder } from "@/actions/order.action";
 import { resError } from "@/helpers/function.helper";
 import { useMutation } from "@tanstack/react-query";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
 
@@ -37,7 +37,7 @@ export function useGetOrderById(id?: string) {
          if (!id) throw new Error("Missing order ID");
          const res = await getOrderByIdAction(id);
          if (!res.success) {
-            router.push(ROUTER.CART);
+            router.push(ROUTER_CLIENT.CART);
             toast.error(`Order has expired payment`);
          }
          return res;

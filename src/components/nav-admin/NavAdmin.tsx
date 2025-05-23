@@ -1,7 +1,7 @@
 "use client";
 
 import { MOBILE_HIDDEN_DESKTOP_VISIBLE } from "@/constant/app.constant";
-import ROUTER from "@/constant/router.constant";
+import { ROUTER_ADMIN } from "@/constant/router.constant";
 import { Box, NavLink } from "@mantine/core";
 import { IconActivity, IconBrandAppleArcade, IconFingerprint, IconGauge, IconSettings } from "@tabler/icons-react";
 import { usePathname, useRouter } from "next/navigation";
@@ -9,11 +9,11 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import classes from "./NavAdmin.module.css";
 
 const data = [
-   { icon: IconGauge, label: "Dashboard", description: "Item with description", link: ROUTER.ADMIN.ROOT },
-   { icon: IconFingerprint, label: "Product", link: ROUTER.ADMIN.PRODUCT },
-   { icon: IconBrandAppleArcade, label: "Service", link: ROUTER.ADMIN.SERVICE },
-   { icon: IconSettings, label: "Setting", link: ROUTER.ADMIN.SETTING},
-   { icon: IconActivity, label: "User", link: ROUTER.ADMIN.USER },
+   { icon: IconGauge, label: "Dashboard", description: "Item with description", link: ROUTER_ADMIN.DASHBOARD },
+   { icon: IconFingerprint, label: "Product", link: ROUTER_ADMIN.PRODUCT },
+   { icon: IconBrandAppleArcade, label: "Service", link: ROUTER_ADMIN.SERVICE },
+   { icon: IconSettings, label: "Setting", link: ROUTER_ADMIN.SETTING},
+   { icon: IconActivity, label: "User", link: ROUTER_ADMIN.USER },
 ];
 
 type TProps = {

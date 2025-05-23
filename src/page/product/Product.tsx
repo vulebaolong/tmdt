@@ -11,7 +11,7 @@ export default function Product({ products }: TProps) {
    return (
       <Box py={100}>
          <Container>
-            <Box style={{ minHeight: `calc(100dvh - var(--height-header))` }}>{products && <ProductList products={products} />}</Box>
+            <Box style={{ minHeight: `calc(100dvh - var(--height-header-client))` }}>{products && <ProductList products={products} />}</Box>
          </Container>
       </Box>
    );

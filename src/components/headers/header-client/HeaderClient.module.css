@@ -1,7 +1,7 @@
 .header {
    /* background-color: var(--mantine-color-body); */
    background: linear-gradient(-180deg, #f53d2d, #f63);
-   height: var(--height-header);
+   height: var(--height-header-client);
    position: fixed;
    top: 0;
    left: 0;

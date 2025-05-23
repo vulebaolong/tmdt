@@ -1,6 +1,6 @@
 "use client";
 
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { EServiceCategory } from "@/types/enum/service.enum";
 import { Badge, Box, Card, Center, SimpleGrid, useMantineTheme } from "@mantine/core";
 import { IconHeartSearch, IconHomeHeart, IconScissors } from "@tabler/icons-react";
@@ -60,7 +60,7 @@ export function Service() {
                return (
                   <Card
                      onClick={() => {
-                        router.push(`${ROUTER.SERVICE}?category=${feature.category}`);
+                        router.push(`${ROUTER_CLIENT.SERVICE}?category=${feature.category}`);
                      }}
                      key={feature.title}
                      shadow="md"

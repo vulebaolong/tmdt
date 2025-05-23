@@ -47,18 +47,18 @@ export async function getServiceListAction({ pagination, filters = {}, sort }: T
 
       console.log({ query });
       // 3. Truy vấn DB
-      const [itemCount, items] = await Promise.all([
+      const [totalItem, items] = await Promise.all([
          Service.countDocuments(query),
          Service.find(query).sort(sortOption).skip(skip).limit(pageSize).lean(),
       ]);
 
-      const pageCount = Math.ceil(itemCount / pageSize);
+      const totalPage = Math.ceil(totalItem / pageSize);
 
       return {
          page: pageIndex,
          pageSize,
-         pageCount,
-         itemCount,
+         totalPage,
+         totalItem,
          items: toJson(items),
          filterable: [],
          sortable: [],
@@ -194,18 +194,18 @@ export async function getServiceListAction2({
          filter.category = { $in: categoryArray };
       }
 
-      const [itemCount, items] = await Promise.all([
+      const [totalItem, items] = await Promise.all([
          Service.countDocuments(filter),
          Service.find(filter).sort({ createdAt: -1 }).skip(skip).limit(pageSize).lean(),
       ]);
 
-      const pageCount = Math.ceil(itemCount / pageSize);
+      const totalPage = Math.ceil(totalItem / pageSize);
 
       return {
          page,
          pageSize,
-         pageCount,
-         itemCount,
+         totalPage,
+         totalItem,
          items: toJson(items),
          filterable: [],
          sortable: [],

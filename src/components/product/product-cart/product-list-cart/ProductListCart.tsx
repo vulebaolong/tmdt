@@ -1,6 +1,6 @@
 import { getCartListAction } from "@/actions/cart.action";
 import NodataOverlay from "@/components/no-data/NodataOverlay";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { TItem, useDeleteCartItem, useHandleCart } from "@/tantask/cart.tanstack";
 import { ActionIcon, Box, Button, Divider, Group, LoadingOverlay, NumberInput, Stack, Text } from "@mantine/core";
@@ -49,7 +49,7 @@ export default function ProductListCart({ cartList, disabled, setTotalPrice, set
                         <Group wrap="nowrap">
                            <Text
                               onClick={() => {
-                                 router.push(`${ROUTER.PRODUCT}/${item.productId._id}`);
+                                 router.push(`${ROUTER_CLIENT.PRODUCT}/${item.productId._id}`);
                               }}
                               style={{ flex: `1`, cursor: `pointer` }}
                            >

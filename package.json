@@ -17,6 +17,7 @@
     "@greatsumini/react-facebook-login": "^3.4.0",
     "@mantine/carousel": "^7.17.3",
     "@mantine/core": "^7.17.3",
+    "@mantine/dates": "^7.17.3",
     "@mantine/dropzone": "^7.17.3",
     "@mantine/emotion": "^7.17.3",
     "@mantine/hooks": "^7.17.3",

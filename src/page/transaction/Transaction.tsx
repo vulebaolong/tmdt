@@ -1,6 +1,5 @@
 "use client";
 
-import TableCustom from "@/components/table-custom/TableCustom";
 import TextBack from "@/components/text-back/TextBack";
 import { formatLocalTime, renderData } from "@/helpers/function.helper";
 import { IOrder } from "@/schemas/order.schema";
@@ -12,6 +11,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import useRouter from "@/hooks/use-router-custom";
 import { useMemo } from "react";
 import classes from "./Transaction.module.css";
+import TableCustom from "@/components/custom/table/TableCustom";
 
 export interface ITransactionPopulated extends Omit<ITransaction, "orderId"> {
    orderId?: IOrder;

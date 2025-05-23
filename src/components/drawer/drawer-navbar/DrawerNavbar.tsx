@@ -1,6 +1,6 @@
 import SwitchLang from "@/components/switch-lang/SwitchLang";
 import ButtonToggleTheme from "@/components/toggle-theme/button/ButtonToggleTheme";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { Accordion, Avatar, Button, Center, Drawer, Group, Stack, Text } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -52,14 +52,14 @@ export default function DrawerNavbar({ opened, close }: TProps) {
             <Center>
                <Group gap={2} wrap="nowrap">
                   {false ? (
-                     <Link className="cursor-pointer" href={ROUTER.HOME}>
+                     <Link className="cursor-pointer" href={ROUTER_CLIENT.HOME}>
                         <Avatar radius="xl" />
                      </Link>
                   ) : (
                      <Button
                         className="cursor-pointer"
                         onClick={() => {
-                           router.push(ROUTER.LOGIN);
+                           router.push(ROUTER_CLIENT.LOGIN);
                         }}
                         style={styleButtonNav}
                         variant="default"
@@ -72,7 +72,7 @@ export default function DrawerNavbar({ opened, close }: TProps) {
                      {!false && (
                         <Button
                            onClick={() => {
-                              router.push(ROUTER.REGISTER);
+                              router.push(ROUTER_CLIENT.REGISTER);
                            }}
                            color="indigo"
                         >

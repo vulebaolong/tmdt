@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import classes from "./ClientLayout.module.css";
-import HeaderClient from "@/components/header-client/HeaderClient";
-import FooterClient from "@/components/footer-client/FooterClient";
+import HeaderClient from "@/components/headers/header-client/HeaderClient";
+import FooterClient from "@/components/footers/footer-client/FooterClient";
 
 type TProps = {
    children: ReactNode;

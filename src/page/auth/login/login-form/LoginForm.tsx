@@ -1,13 +1,13 @@
 import CustomPasswordInput, { validatePassword } from "@/components/password-input/CustomPasswordInput";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT, { ROUTER_ADMIN } from "@/constant/router.constant";
+import useRouter from "@/hooks/use-router-custom";
 import { useLoginForm } from "@/tantask/auth.tanstack";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
 import { ERole } from "@/types/enum/role.enum";
 import { Anchor, Box, Button, Group, TextInput, useMantineTheme } from "@mantine/core";
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
-import useRouter from "@/hooks/use-router-custom";
 import { Dispatch, SetStateAction } from "react";
 import * as Yup from "yup";
 
@@ -69,12 +69,12 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
          useloginForm.mutate(payload, {
             onSuccess: (data) => {
                console.log({ data });
-               if (data.role === ERole[`Admin`]) return router.push(ROUTER.ADMIN.ROOT);
+               if (data.role === ERole[`Admin`]) return router.push(ROUTER_ADMIN.DASHBOARD);
 
                if (data.isGoogleAuthenticator) {
                   setStep(`login-google-authentication`);
                } else {
-                  router.push(ROUTER.HOME);
+                  router.push(ROUTER_CLIENT.HOME);
                   toast.success(`Login successfully`);
                }
             },

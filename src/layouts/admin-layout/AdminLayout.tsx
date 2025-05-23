@@ -1,27 +1,38 @@
 "use client";
 
-import HeaderAdmin from "@/components/header-admin/HeaderAdmin";
-import NavAdmin from "@/components/nav-admin/NavAdmin";
-import { Box, Title } from "@mantine/core";
-import { ReactNode, useState } from "react";
-import classes from "./AdminLayout.module.css";
+import FooterAdmin from "@/components/footers/footer-admin/FooterAdmin";
+import HeaderAdmin from "@/components/headers/header-admin/HeaderAdmin";
+import NavbarAdmin from "@/components/navbar-admin/NavbarAdmin";
+import { AppShell } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 
-type TProps = {
-   children: ReactNode;
-};
+export const breakpoint = `md`;
 
-export default function AdminLayout({ children }: TProps) {
-   const [title, setTitle] = useState(``);
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
+   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] = useDisclosure();
+   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(true);
+
    return (
-      <>
-         <HeaderAdmin />
-         <NavAdmin setTitle={setTitle} />
-         <main className={`${classes[`box-1`]}`}>
-            <Box p={20}>
-               <Title order={1}>{title}</Title>
-            </Box>
-            {children}
-         </main>
-      </>
+      <AppShell
+         header={{ height: `var(--height-header-admin)` }}
+         footer={{ height: 40 }}
+         navbar={{
+            width: 200,
+            breakpoint: breakpoint,
+            collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
+         }}
+         padding="md"
+      >
+         <AppShell.Header>
+            <HeaderAdmin mobileOpened={mobileOpened} desktopOpened={desktopOpened} toggleMobile={toggleMobile} toggleDesktop={toggleDesktop} />
+         </AppShell.Header>
+         <AppShell.Navbar p="md">
+            <NavbarAdmin closeMobile={closeMobile} />
+         </AppShell.Navbar>
+         <AppShell.Main>{children}</AppShell.Main>
+         <AppShell.Footer>
+            <FooterAdmin />
+         </AppShell.Footer>
+      </AppShell>
    );
 }

@@ -22,7 +22,7 @@ function ProductList({ products: initialProducts }: TProps) {
    const [category, setCategory] = useState<string>("0");
    const [products, setProducts] = useState(initialProducts.items);
    const [page, setPage] = useState(1);
-   const totalPage = useRef(initialProducts.pageCount);
+   const totalPage = useRef(initialProducts.totalPage);
    const onlyOne = useRef(true);
 
    const getProductList = useGetProductList();
@@ -36,7 +36,7 @@ function ProductList({ products: initialProducts }: TProps) {
          { page: 1, category },
          {
             onSuccess: (data) => {
-               totalPage.current = data.pageCount;
+               totalPage.current = data.totalPage;
                setProducts(data.items);
             },
          }
@@ -49,7 +49,7 @@ function ProductList({ products: initialProducts }: TProps) {
          { page, category },
          {
             onSuccess: (data) => {
-               totalPage.current = data.pageCount;
+               totalPage.current = data.totalPage;
                const newProducts = [...products, ...data.items];
                setProducts(newProducts);
             },
@@ -64,7 +64,7 @@ function ProductList({ products: initialProducts }: TProps) {
    };
 
    return (
-      <Stack style={{ minHeight: `calc(100dvh - var(--height-header))` }} gap={50}>
+      <Stack style={{ minHeight: `calc(100dvh - var(--height-header-client))` }} gap={50}>
          <Box>
             <Group justify="center">
                <Badge variant="filled" size="lg">

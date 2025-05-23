@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import Text from "../custom/text-custom/TextCustom";
 import useRouter from "@/hooks/use-router-custom";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import Title from "../custom/title-custom/TitleCustom";
 
 export default function Banner() {
@@ -58,7 +58,7 @@ export default function Banner() {
                      Build fully 2
                   </Text>
 
-                  <Button onClick={() => { router.push(ROUTER.LOGIN) }} variant="gradient" color={`shopee`} size="lg" radius="xl" w={150} gradient={{ from: 'red', to: 'orange', deg: 79 }}>
+                  <Button onClick={() => { router.push(ROUTER_CLIENT.LOGIN) }} variant="gradient" color={`shopee`} size="lg" radius="xl" w={150} gradient={{ from: 'red', to: 'orange', deg: 79 }}>
                      Get started
                   </Button>
                </Stack>

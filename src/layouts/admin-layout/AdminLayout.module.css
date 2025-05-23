@@ -1,6 +1,0 @@
-.box-1 {
-   background-color: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
-   padding-top: var(--height-header-admin);
-   padding-left: mobile-desktop(unset = var(--width-nav));
-   min-height: 100dvh;
-}

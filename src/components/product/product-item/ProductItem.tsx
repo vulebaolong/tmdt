@@ -1,6 +1,6 @@
 "use client";
 
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { Box, Group, Stack, Text } from "@mantine/core";
@@ -36,7 +36,7 @@ function ProductItem({ product, type = `show`, preview }: TProps) {
    };
 
    const handleClick = () => {
-      if (type === "show") router.push(`${ROUTER.PRODUCT}/${product._id}`);
+      if (type === "show") router.push(`${ROUTER_CLIENT.PRODUCT}/${product._id}`);
    };
 
    return (

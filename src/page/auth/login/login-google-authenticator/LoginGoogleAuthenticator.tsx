@@ -42,7 +42,7 @@ export default function LoginGoogleAuthenticator({ setStep, payloadLogin }: TPro
 
          // loginGoogleAuthenticator.mutate(payload, {
          //    onSuccess: () => {
-         //       router.push(ROUTER.HOME);
+         //       router.push(ROUTER_CLIENT.HOME);
          //       toast.success(`Login successfully`);
          //    },
          // });

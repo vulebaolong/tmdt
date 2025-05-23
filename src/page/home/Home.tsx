@@ -1,8 +1,8 @@
 import About from "@/components/about/About";
 import Banner2 from "@/components/banner/Banner2";
 import ProductList from "@/components/product/product-list/ProductList";
-import { Service } from "@/components/Service/Service";
-import Service2 from "@/components/Service2/Service2";
+import { Service } from "@/components/service/Service";
+import Service2 from "@/components/service2/Service2";
 import { IProduct } from "@/schemas/product.schema";
 import { TResPagination } from "@/types/app.type";
 import { Container, Stack } from "@mantine/core";

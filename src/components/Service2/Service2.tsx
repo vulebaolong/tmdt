@@ -24,8 +24,8 @@ export default function Service2() {
       >
          <Container>
             <Text
-               sx={(theme) => {
-                  return { ...titleSx(theme), textAlign: `center` };
+               sx={(theme, u) => {
+                  return { ...titleSx(theme, u), textAlign: `center` };
                }}
             >
                Top dịch vụ trong tháng

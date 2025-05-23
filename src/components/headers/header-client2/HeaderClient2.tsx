@@ -1,20 +1,19 @@
 "use client";
 
-import ROUTER from "@/constant/router.constant";
+import { Logo2 } from "@/components/logo2/Logo2";
+import { hoverColor5 } from "@/components/provider/mantine/sx/text.sx";
+import UserControl2 from "@/components/user-control2/UserControl2";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { useAppSelector } from "@/redux/hooks";
 import { useCartCountQuery } from "@/tantask/cart.tanstack";
 import { Box, Container, Group, Indicator, Loader, Text } from "@mantine/core";
 import { IconPhoneCall, IconShoppingBag } from "@tabler/icons-react";
 import { motion } from "framer-motion";
-import { Logo2 } from "../logo2/Logo2";
-import { hoverColor5 } from "../provider/mantine/sx/text.sx";
-import UserControl2 from "../user-control2/UserControl2";
 
 export default function HeaderClient2() {
    const info = useAppSelector((state) => state.user.info);
    const cartCountQuery = useCartCountQuery();
-   // const theme = useMantineTheme();
    const router = useRouter();
 
    return (
@@ -24,7 +23,7 @@ export default function HeaderClient2() {
                sx={{
                   justifyContent: "space-between",
                   alignItems: "center",
-                  height: 46,
+                  height: `var(--height-header-client)`,
                   borderBottom: "1px solid rgba(250,243,235,0.28)",
                }}
             >
@@ -34,9 +33,9 @@ export default function HeaderClient2() {
                      Hotline đặt lịch:{" "}
                      <Text
                         component="span"
-                        sx={(theme) => ({
+                        sx={(theme, u) => ({
                            color: "white",
-                           ...hoverColor5(theme),
+                           ...hoverColor5(theme, u),
                         })}
                      >
                         1900 6750
@@ -48,14 +47,14 @@ export default function HeaderClient2() {
                   <UserControl2 />
                   <Group
                      gap={2}
-                     sx={(theme) => {
+                     sx={(theme, u) => {
                         return {
                            color: "white",
-                           ...hoverColor5(theme),
+                           ...hoverColor5(theme, u),
                         };
                      }}
                      onClick={() => {
-                        router.push(ROUTER.CART);
+                        router.push(ROUTER_CLIENT.CART);
                      }}
                   >
                      <IconShoppingBag size={16} stroke={1} />
@@ -103,7 +102,7 @@ export default function HeaderClient2() {
                   {["Trang chủ", "Giới thiệu", "Sản phẩm", "Tin tức", "Liên hệ"].map((item) => (
                      <Text
                         key={item}
-                        sx={(theme) => {
+                        sx={(theme, u) => {
                            return {
                               fontWeight: 600,
                               fontSize: `18px`,
@@ -122,7 +121,7 @@ export default function HeaderClient2() {
                               ":hover::before": {
                                  width: "100%",
                               },
-                              ...hoverColor5(theme),
+                              ...hoverColor5(theme, u),
                            };
                         }}
                      >

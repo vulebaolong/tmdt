@@ -4,7 +4,7 @@ import Nodata from "@/components/no-data/Nodata";
 import ProductImage from "@/components/product/product-image/ProductImage";
 import TextBack from "@/components/text-back/TextBack";
 import Text from "@/components/custom/text-custom/TextCustom";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { IService } from "@/schemas/service.schema";
 import { useGetServiceList } from "@/tantask/service.tanstack";
 import { EServiceCategory } from "@/types/enum/service.enum";
@@ -33,7 +33,7 @@ export default function ServiceList() {
          { page: 1, category },
          {
             onSuccess: (data) => {
-               totalPage.current = data.pageCount;
+               totalPage.current = data.totalPage;
                setServices(data.items);
             },
          }
@@ -48,7 +48,7 @@ export default function ServiceList() {
          { page, category },
          {
             onSuccess: (data) => {
-               totalPage.current = data.pageCount;
+               totalPage.current = data.totalPage;
                const newProducts = [...services, ...data.items];
                setServices(newProducts);
             },
@@ -98,7 +98,7 @@ export default function ServiceList() {
                            animationDelay: `${50 * i}ms`,
                         }}
                         onClick={() => {
-                           router.push(`${ROUTER.SERVICE}/${service._id}`);
+                           router.push(`${ROUTER_CLIENT.SERVICE}/${service._id}`);
                         }}
                      >
                         <Paper shadow="sm" radius={15} withBorder p="sm" w={`min-content`}>

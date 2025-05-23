@@ -1,7 +1,6 @@
 "use client";
 
 import { Box, Container, Stack, Text } from "@mantine/core";
-import { CSSObject } from "@mantine/emotion";
 import ImageCustom from "../custom/image-custom/ImageCustom";
 import { descriptionSx, hoverColor5, titleSx } from "../provider/mantine/sx/text.sx";
 
@@ -48,10 +47,10 @@ export default function About() {
                </Text>
 
                <Text
-                  sx={(theme) => {
+                  sx={(theme, u) => {
                      return {
-                        ...descriptionSx,
-                        ...(hoverColor5(theme) as CSSObject),
+                        ...descriptionSx(theme, u),
+                        ...hoverColor5(theme,u),
                      };
                   }}
                >

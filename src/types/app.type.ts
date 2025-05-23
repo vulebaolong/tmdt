@@ -9,8 +9,8 @@ export type TResPagination<T> = {
    page: number;
    pageSize: number;
    items: T[];
-   itemCount: number;
-   pageCount: number;
+   totalItem: number;
+   totalPage: number;
    filterable: string[];
    sortable: string[];
 };

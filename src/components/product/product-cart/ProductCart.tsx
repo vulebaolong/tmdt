@@ -4,7 +4,7 @@ import { TCreateOrder } from "@/actions/order.action";
 import ModalAddReceivingInformation from "@/components/modal/add-receiving-information/ModalAddReceivingInformation";
 import ModalCheckOrderPending from "@/components/modal/check-order-pending/ModalCheckOrderPending";
 import TextBack from "@/components/text-back/TextBack";
-import ROUTER from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import { getDeliveryDateRange, renderData } from "@/helpers/function.helper";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { SET_IS_CHECK_TRANSACTION } from "@/redux/slices/transaction.slice";
@@ -66,10 +66,10 @@ export default function ProductCart() {
       await createOrder.mutateAsync(payload, {
          onSuccess: (res) => {
             if (res.data.paymentMethod === EOrderPaymentMethod[`Cash on Delivery`]) {
-               router.push(`${ROUTER.ORDER}/${res.data._id}`);
+               router.push(`${ROUTER_CLIENT.ORDER}/${res.data._id}`);
             } else {
                dispatch(SET_IS_CHECK_TRANSACTION(2000));
-               router.push(`${ROUTER.ORDER}/${res.data._id}`);
+               router.push(`${ROUTER_CLIENT.ORDER}/${res.data._id}`);
             }
          },
       });
@@ -227,7 +227,7 @@ export default function ProductCart() {
                close={handleModalCheck.close}
                onCancel={handleModalCheck.close}
                onSubmit={() => {
-                  router.push(`${ROUTER.ORDER}/${checkPendingOrder.data}`);
+                  router.push(`${ROUTER_CLIENT.ORDER}/${checkPendingOrder.data}`);
                }}
                title="Bạn Có Đơn Hàng Đang Chờ Thanh Toán"
             />
