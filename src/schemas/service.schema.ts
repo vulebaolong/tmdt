@@ -3,6 +3,7 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 export interface IService extends Document {
    thumbnail: string;
    title: string;
+   description: string;
    content: string;
    category: number;
    createdAt: Date;
@@ -13,6 +14,7 @@ const ServiceSchema = new Schema<IService>(
    {
       thumbnail: { type: String, required: true },
       title: { type: String, required: true },
+      description: { type: String, required: true },
       content: { type: String, required: true },
       category: { type: Number, required: true }, 
    },

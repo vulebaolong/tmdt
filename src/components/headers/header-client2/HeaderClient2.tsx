@@ -44,7 +44,7 @@ export default function HeaderClient2() {
                </Group>
 
                <Group>
-                  <UserControl2 />
+                  <UserControl2 colorText="white" />
                   <Group
                      gap={2}
                      sx={(theme, u) => {

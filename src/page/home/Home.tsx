@@ -1,6 +1,7 @@
 import About from "@/components/about/About";
 import Banner2 from "@/components/banner/Banner2";
 import ProductList from "@/components/product/product-list/ProductList";
+import ProductRoot from "@/components/product/product-root/ProductRoot";
 import { Service } from "@/components/service/Service";
 import Service2 from "@/components/service2/Service2";
 import { IProduct } from "@/schemas/product.schema";
@@ -17,6 +18,7 @@ export default function Home({ products }: TProps) {
          <Banner2 />
          <About />
          <Service2 />
+         <ProductRoot />
          <Stack gap={150}>
             <Container>
                <Service />

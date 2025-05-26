@@ -10,12 +10,14 @@ import { useTranslations } from "next-intl";
 import UserAction from "../user-action/UserAction";
 import UserMenu from "../user-menu/UserMenu";
 
-export default function UserControl2() {
+type TProps = {
+   colorText?: string;
+};
+
+export default function UserControl2( { colorText = "black" }: TProps ) {
    const t = useTranslations();
    const router = useRouter();
    const info = useAppSelector((state) => state.user.info);
-
-   console.log({ info });
 
    return (
       <Menu shadow="md" width={200}>
@@ -26,7 +28,7 @@ export default function UserControl2() {
                   cursor: "pointer",
                   transition: "color 150ms ease",
                   [u.light]: {
-                     color: "black",
+                     color: colorText,
                   },
                   [u.dark]: {
                      color: "white",
