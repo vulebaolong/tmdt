@@ -4,7 +4,8 @@
 FROM node:22.16.0-alpine AS deps
 WORKDIR /tmdt
 COPY package*.json ./
-RUN npm config set registry https://registry.npmmirror.com && npm ci --legacy-peer-deps
+# RUN npm config set registry https://registry.npmmirror.com && npm ci --legacy-peer-deps
+RUN npm i
 
 # Stage 2: Build app với secrets
 FROM node:22.16.0-alpine AS builder
