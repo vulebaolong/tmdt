@@ -1,7 +1,7 @@
 import About from "@/components/about/About";
 import Banner2 from "@/components/banner/Banner2";
 import ProductRoot from "@/components/product/product-root/ProductRoot";
-import Service2 from "@/components/service2/Service2";
+import ServiceMail from "@/components/service-nail/ServiceNail";
 import { Stack } from "@mantine/core";
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
       <Stack gap={50}>
          <Banner2 />
          <About />
-         <Service2 />
+         <ServiceMail />
          <ProductRoot />
          {/* <Stack gap={150}>
             <Container>

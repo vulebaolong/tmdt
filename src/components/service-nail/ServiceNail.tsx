@@ -12,7 +12,7 @@ const list = [
    { t: 10, d: `Chi nhánh` },
 ];
 
-export default function Service2() {
+export default function ServiceNail() {
    return (
       <Box
          sx={{
