@@ -1,10 +1,31 @@
 "use client";
 
 import { hoverColor, titleSx } from "@/components/provider/mantine/sx/text.sx";
+import { useIsMobile } from "@/hooks/is-mobile.hook";
 import { Box, Center, Container, Stack, Text } from "@mantine/core";
-import ProductCarousel from "../product-carousel/ProductCarousel";
+import BlogCarousel from "./BlogCarousel";
+import BlogList from "./BlogList";
 
-export default function ProductRoot() {
+const listBlog = [
+   {
+      title: `Các phụ kiện ngành nail giúp móng tay trở nên lung linh`,
+      description: `Phụ kiện nail sticker Việc vẽ quá lâu cũng dễ làm khách hàng`,
+      img: `section/6-1.webp`,
+   },
+   {
+      title: `Các phụ kiện ngành nail giúp móng tay trở nên lung linh`,
+      description: `Danh sách các dụng cụ làm nail cơ bản Móng giả: đây là vật dụ`,
+      img: `section/6-2.webp`,
+   },
+   {
+      title: `Bí quyết chăm sóc móng với trọn bộ dụng cụ làm nail`,
+      description: `Danh sách các dụng cụ làm nail cơ bản Móng giả: đây là vật dụ`,
+      img: `section/6-3.webp`,
+   },
+];
+
+export default function Blog() {
+   const isMobile = useIsMobile();
    return (
       <Box>
          <Container>
@@ -42,11 +63,11 @@ export default function ProductRoot() {
                         };
                      }}
                   >
-                     Sản phẩm nổi bật
+                     Tin tức
                   </Text>
                </Center>
 
-               <ProductCarousel />
+               {isMobile ? <BlogCarousel listBlog={listBlog} /> : <BlogList listBlog={listBlog} />}
             </Stack>
          </Container>
       </Box>

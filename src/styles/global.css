@@ -6,7 +6,7 @@
 }
 
 body {
-   background-color: light-dark(#fefaf7, var(--mantine-color-dark-7));
+   background-color: light-dark(#faf3eb, var(--mantine-color-dark-7));
    /* background-color: #fefaf7; */
 }
 

@@ -74,7 +74,8 @@ export default function CarouselService() {
                         transition: "all 0.3s ease",
                         background: `white`,
                         borderRadius: 16,
-                        boxShadow: selectedIndex === i ? `rgba(100, 100, 111, 0.2) 0px 7px 29px 0px` : `unset`,
+                        boxShadow: selectedIndex === i ? `0 2px 10px rgba(0,0,0,0.1)` : `unset`,
+                        willChange: "transform, box-shadow",
                         padding: 20,
                         alignItems: "center",
                      }}
