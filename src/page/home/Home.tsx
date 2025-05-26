@@ -1,9 +1,7 @@
-"use client";
-
 import About from "@/components/about/About";
 import Banner2 from "@/components/banner/Banner2";
 import ProductRoot from "@/components/product/product-root/ProductRoot";
-import Service2 from "@/components/service2/Service2";
+import Service2 from "../../components/service2/Service2";
 import { Stack } from "@mantine/core";
 
 // type TProps = {
