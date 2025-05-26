@@ -1,4 +1,5 @@
 import About from "@/components/about/About";
+import Album from "@/components/album/Album";
 import Banner2 from "@/components/banner/Banner2";
 import Blog from "@/components/blog/Blog";
 import Preview from "@/components/preview/Preview";
@@ -15,12 +16,7 @@ export default function Home() {
          <ProductNail />
          <Preview />
          <Blog />
-         {/* <Stack gap={150}>
-            <Container>
-               <Service />
-            </Container>
-            <Container>{products && <ProductList products={products} />}</Container>
-         </Stack> */}
+         <Album />
       </Stack>
    );
 }

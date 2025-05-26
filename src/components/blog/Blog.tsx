@@ -2,7 +2,7 @@
 
 import { hoverColor, titleSx } from "@/components/provider/mantine/sx/text.sx";
 import { useIsMobile } from "@/hooks/is-mobile.hook";
-import { Box, Center, Container, Stack, Text } from "@mantine/core";
+import { Center, Container, Stack, Text } from "@mantine/core";
 import BlogCarousel from "./BlogCarousel";
 import BlogList from "./BlogList";
 
@@ -27,7 +27,7 @@ const listBlog = [
 export default function Blog() {
    const isMobile = useIsMobile();
    return (
-      <Box>
+      <section id="blog">
          <Container>
             <Stack gap={50}>
                <Center>
@@ -70,6 +70,6 @@ export default function Blog() {
                {isMobile ? <BlogCarousel listBlog={listBlog} /> : <BlogList listBlog={listBlog} />}
             </Stack>
          </Container>
-      </Box>
+      </section>
    );
 }

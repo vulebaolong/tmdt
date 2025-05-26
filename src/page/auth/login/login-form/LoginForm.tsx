@@ -123,7 +123,7 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
             </Group>
          </Box>
 
-         <Button color={theme.colors.shopee[5]} mt={10} loading={useloginForm.isPending} type="submit" fullWidth style={{ flexShrink: `0` }}>
+         <Button color={theme.colors.spaTheme[5]} mt={10} loading={useloginForm.isPending} type="submit" fullWidth style={{ flexShrink: `0` }}>
             {t(`Login`)}
          </Button>
       </Box>

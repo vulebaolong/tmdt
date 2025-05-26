@@ -7,10 +7,13 @@ import { Box, Button, Stack, Text } from "@mantine/core";
 import { useEffect, useState } from "react";
 import ImageCustom from "../custom/image-custom/ImageCustom";
 import { descriptionSx, hoverColor5, title2Sx } from "../provider/mantine/sx/text.sx";
+import useRouter from "@/hooks/use-router-custom";
+import ROUTER_CLIENT from "@/constant/router.constant";
 
 const addScale = 0.1;
 
 export default function CarouselService() {
+   const router = useRouter();
    const [selectedIndex, setSelectedIndex] = useState(-1);
    const [embla, setEmbla] = useState<any>(null);
    const services = useServices({ pagination: { pageIndex: 1, pageSize: 6 } });
@@ -99,6 +102,9 @@ export default function CarouselService() {
                      </Text>
 
                      <Text
+                        onClick={() => {
+                           router.push(`${ROUTER_CLIENT.SERVICE}/${service._id}`);
+                        }}
                         sx={(theme, u) => {
                            return {
                               ...descriptionSx(theme, u),
@@ -110,7 +116,13 @@ export default function CarouselService() {
                      </Text>
 
                      {selectedIndex === i && (
-                        <Button variant="filled" sx={{ borderRadius: `99999px` }}>
+                        <Button
+                           onClick={() => {
+                              router.push(`${ROUTER_CLIENT.SERVICE}`);
+                           }}
+                           variant="filled"
+                           sx={{ borderRadius: `99999px` }}
+                        >
                            Tìm hiểu thêm
                         </Button>
                      )}

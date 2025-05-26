@@ -1,17 +1,17 @@
+"use client";
+
 import NodataOverlay from "@/components/no-data/NodataOverlay";
+import { descriptionSx, titleSx } from "@/components/provider/mantine/sx/text.sx";
 import TextBack from "@/components/text-back/TextBack";
 import { IService } from "@/schemas/service.schema";
-import { EServiceCategory } from "@/types/enum/service.enum";
-import { Badge, Center, Container, Paper, Stack, Title } from "@mantine/core";
-import { useTranslations } from "next-intl";
-import classes from './ServiceDetail.module.css'
+import { Center, Container, Paper, Stack, Text } from "@mantine/core";
+import classes from "./ServiceDetail.module.css";
 
 type TProps = {
    service: IService | null;
 };
 
 export default function ServiceDetail({ service }: TProps) {
-   const t = useTranslations();
    if (!service) return <NodataOverlay visiable={!service} />;
    return (
       <Container pt={50} pb={100}>
@@ -19,13 +19,23 @@ export default function ServiceDetail({ service }: TProps) {
             <TextBack />
 
             <Stack gap={50}>
+               {/* <Title ta={`center`} size={`h1`}>{service.title}</Title> */}
+               <Text
+                  sx={(theme, u) => {
+                     return { ...titleSx(theme, u), textAlign: `center` };
+                  }}
+               >
+                  {service.title}
+               </Text>
                <Center>
-                  <Badge variant="filled" size="lg">
-                     {t(`${EServiceCategory[service?.category]}`)}
-                  </Badge>
+                  <Text
+                     sx={(theme, u) => {
+                        return { ...descriptionSx(theme, u), textAlign: `center`, maxWidth: `70%` };
+                     }}
+                  >
+                     {service.description}
+                  </Text>
                </Center>
-
-               <Title ta={`center`} size={`h1`}>{service.title}</Title>
 
                <Paper pos={`relative`} shadow="md" radius="lg" withBorder p="xl" style={{ overflow: `hidden` }} mih={300}>
                   <NodataOverlay visiable={!service} />

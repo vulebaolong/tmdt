@@ -1,16 +1,22 @@
 "use client";
 
 import { hoverColor, titleSx } from "@/components/provider/mantine/sx/text.sx";
-import { Box, Center, Container, Stack, Text } from "@mantine/core";
+import ROUTER_CLIENT from "@/constant/router.constant";
+import useRouter from "@/hooks/use-router-custom";
+import { Center, Container, Stack, Text } from "@mantine/core";
 import ProductCarousel from "../product-carousel/ProductCarousel";
 
 export default function ProductNail() {
+   const router = useRouter();
    return (
-      <Box>
+      <section id="product">
          <Container>
             <Stack gap={50}>
                <Center>
                   <Text
+                     onClick={() => {
+                        router.push(ROUTER_CLIENT.PRODUCT);
+                     }}
                      sx={(theme, u) => {
                         return {
                            position: "relative",
@@ -49,6 +55,6 @@ export default function ProductNail() {
                <ProductCarousel />
             </Stack>
          </Container>
-      </Box>
+      </section>
    );
 }

@@ -6,12 +6,11 @@ import ProductUploadImage from "@/components/product/product-upload-image/Produc
 import { formatLocalTime } from "@/helpers/function.helper";
 import { IService } from "@/schemas/service.schema";
 import { useCreateService, useDeleteService, useServices, useUpdateService } from "@/tantask/service.tanstack";
-import { createColumnHelper } from "@tanstack/react-table";
-import { useMemo } from "react";
 import { Text } from "@mantine/core";
-import classes from "./Service.module.css";
+import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import { EServiceCategory } from "@/types/enum/service.enum";
+import { useMemo } from "react";
+import classes from "./Service.module.css";
 
 export default function Service() {
    const t = useTranslations();
@@ -41,15 +40,24 @@ export default function Service() {
                </Text>
             ),
          }),
-         columnHelper.accessor("category", {
-            header: t("Category"),
+         columnHelper.accessor("description", {
+            header: t("Description"),
             size: 150,
             cell: ({ cell }) => (
                <Text lineClamp={2} maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
-                  {EServiceCategory[cell.getValue()]}
+                  {cell.getValue()}
                </Text>
             ),
          }),
+         // columnHelper.accessor("category", {
+         //    header: t("Category"),
+         //    size: 150,
+         //    cell: ({ cell }) => (
+         //       <Text lineClamp={2} maw={150} className={`${classes[`text`]}`} size="sm" ta={`start`}>
+         //          {EServiceCategory[cell.getValue()]}
+         //       </Text>
+         //    ),
+         // }),
          columnHelper.accessor("content", {
             header: t("Content"),
             size: 150,
@@ -97,18 +105,19 @@ export default function Service() {
             ),
          },
          { label: t("Title"), name: "title", type: "text", withAsterisk: true },
+         { label: t("Description"), name: "description", type: "text", withAsterisk: true },
          { label: t("Content"), name: "content", type: "editor" },
-         {
-            label: "Category",
-            name: "category",
-            type: "radio",
-            dataTags: Object.entries(EServiceCategory)
-               .filter(([, value]) => !isNaN(Number(value))) 
-               .map(([key, value]) => ({
-                  label: key,
-                  value: String(value),
-               })),
-         },
+         // {
+         //    label: "Category",
+         //    name: "category",
+         //    type: "radio",
+         //    dataTags: Object.entries(EServiceCategory)
+         //       .filter(([, value]) => !isNaN(Number(value))) 
+         //       .map(([key, value]) => ({
+         //          label: key,
+         //          value: String(value),
+         //       })),
+         // },
       ],
       []
    );
@@ -116,7 +125,7 @@ export default function Service() {
    return (
       <>
          <ContentAdmin<IService>
-            title={t("Service")}
+            title={`Service`}
             columns={columns}
             creates={fields}
             updates={fields}

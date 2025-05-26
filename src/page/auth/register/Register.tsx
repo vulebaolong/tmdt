@@ -1,18 +1,18 @@
 "use client";
+import Text from "@/components/custom/text-custom/TextCustom";
+import Title from "@/components/custom/title-custom/TitleCustom";
 import CustomPasswordInput, { validatePassword } from "@/components/password-input/CustomPasswordInput";
 import CustomRePasswordInput from "@/components/password-input/CustomRePasswordInput";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
+import useRouter from "@/hooks/use-router-custom";
 import { useRegister } from "@/tantask/auth.tanstack";
 import { Anchor, Box, Button, Center, Paper, Stack, TextInput, useMantineTheme } from "@mantine/core";
 import { useFormik } from "formik";
-import useRouter from "@/hooks/use-router-custom";
+import { useTranslations } from "next-intl";
 import { Suspense } from "react";
 import * as Yup from "yup";
 import classes from "./../Auth.module.css";
-import Text from "@/components/custom/text-custom/TextCustom";
-import { useTranslations } from "next-intl";
-import Title from "@/components/custom/title-custom/TitleCustom";
-import { LogoIcon } from "@/components/logo/LogoIcon";
+import { Logo2 } from "@/components/logo2/Logo2";
 
 export default function Register() {
    const toast = useAppToast();
@@ -93,7 +93,7 @@ export default function Register() {
       <Suspense fallback={<p>Loading feed...</p>}>
          <Stack className={`${classes.wrapForm}`} style={{ animation: "fadeInUp 0.5s" }} px={`md`}>
             <Center>
-               <LogoIcon />
+               <Logo2 width={90} />
             </Center>
 
             <Title ta="center" style={{ fontFamily: `Greycliff CF,   var(--mantine-font-family)`, fontWeight: `900` }}>
@@ -171,7 +171,7 @@ export default function Register() {
                      />
                   </Box>
                </Box>
-               <Button color={theme.colors.shopee[5]} loading={register.isPending} type="submit" fullWidth style={{ flexShrink: `0` }}>
+               <Button color={theme.colors.spaTheme[5]} loading={register.isPending} type="submit" fullWidth style={{ flexShrink: `0` }}>
                   {t(`Register`)}
                </Button>
             </Paper>

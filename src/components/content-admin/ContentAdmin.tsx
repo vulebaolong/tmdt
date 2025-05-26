@@ -15,6 +15,8 @@ export type TFieldCreate = {
    name: string;
    type: FieldType;
 
+   props?: any;
+
    placeholder?: string;
    withAsterisk?: boolean;
    defaultValue?: string | number;

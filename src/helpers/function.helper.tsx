@@ -22,7 +22,7 @@ export const resError = (error: any, defaultMes: string) => {
    if (error.response?.data?.message) {
       mes = error.response.data.message;
    }
-   // Error Next.js API 
+   // Error Next.js API
    else if (error.message) {
       mes = error.message;
    }
@@ -40,7 +40,6 @@ export const resError = (error: any, defaultMes: string) => {
 
    return mes;
 };
-
 
 export const formatLocalTime = (time?: dayjs.ConfigType, format = "HH:mm:ss DD/MM/YYYY") => {
    if (typeof time === "string") {
@@ -162,7 +161,6 @@ export function buildInitialValues(fields: TFieldCreate[]) {
    }, {} as Record<string, any>);
 }
 
-
 export function buildValidationSchema(fields: TFieldCreate[]) {
    const shape: Record<string, any> = {};
 
@@ -176,9 +174,9 @@ export function buildValidationSchema(fields: TFieldCreate[]) {
          case "number":
             validator = Yup.number();
             break;
-         case "select":
-            validator = Yup.string();
-            break;
+         // case "select":
+         //    validator = Yup.string();
+         //    break;
          case "date":
             validator = Yup.date();
             break;
@@ -237,18 +235,33 @@ export function getDeliveryDateRange() {
    return `${formattedFromDate} - ${formattedToDate}`;
 }
 
-export function responseSuccess (data: any, message: string = `ok`) {
+export function responseSuccess(data: any, message: string = `ok`) {
    return {
       success: true,
       data,
-      message
-   }
+      message,
+   };
 }
 
-export function responseError (error: any, message: string = `ok`) {
+export function responseError(error: any, message: string = `ok`) {
    return {
       success: false,
       message: message,
-      error
-   }
+      error,
+   };
+}
+
+export function getEnumKeys<T extends object>(enumObj: T): string[] {
+   return Object.keys(enumObj).filter((key) => isNaN(Number(key)));
+}
+
+export function getEnumValues<T extends object>(enumObj: T): (string | number)[] {
+   return Object.values(enumObj).filter((value) => typeof value === "number");
+}
+
+// [{ label, value }]
+export function enumToOptions<T extends object>(enumObj: T): { label: string; value: string }[] {
+   return Object.entries(enumObj)
+      .filter(([, value]) => typeof value === "number")
+      .map(([key, value]) => ({ label: key, value: String(value) }));
 }

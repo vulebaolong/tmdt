@@ -1,16 +1,14 @@
 "use client";
 
 import Nodata from "@/components/no-data/Nodata";
-import Text from "@/components/custom/text-custom/TextCustom";
-import Title from "@/components/custom/title-custom/TitleCustom";
 import { IProduct } from "@/schemas/product.schema";
 import { useGetProductList } from "@/tantask/product.tanstack";
 import { TResPagination } from "@/types/app.type";
 import { EProductCategory } from "@/types/enum/product.enum";
-import { Badge, Box, Button, Center, Group, Stack, Tabs } from "@mantine/core";
+import { Badge, Box, Button, Center, Group, Stack, Tabs, Text, Title } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import ProductItem from "../product-item/ProductItem";
+import ProductItem2 from "../product-item/ProductItem2";
 import classes from "./ProductList.module.css";
 
 type TProps = {
@@ -64,20 +62,50 @@ function ProductList({ products: initialProducts }: TProps) {
    };
 
    return (
-      <Stack style={{ minHeight: `calc(100dvh - var(--height-header-client))` }} gap={50}>
+      <Stack gap={50}>
          <Box>
             <Group justify="center">
                <Badge variant="filled" size="lg">
-                  {t(`Pet Product`)}
+                  Nail Product
                </Badge>
             </Group>
 
-            <Title order={2} className={classes.title} ta="center" mt="sm">
-               High-Quality & Essential Pet Products
+            <Title
+               order={2}
+               ta="center"
+               mt="sm"
+               sx={{
+                  fontWeight: 900,
+                  fontSize: `clamp(28px, 4vw, 34px)`,
+               }}
+            >
+               High-Quality & Essential Nail Products
             </Title>
 
-            <Text c="dimmed" className={classes.description} ta="center" mt="md">
-               We offer
+            <Text
+               c="dimmed"
+               ta="center"
+               mt="md"
+               sx={{
+                  maxWidth: 600,
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  position: "relative",
+
+                  "&::after": {
+                     content: '""',
+                     display: "block",
+                     backgroundColor: "#daa785",
+                     width: 45,
+                     height: 2,
+                     marginTop: "var(--mantine-spacing-sm)",
+                     marginLeft: "auto",
+                     marginRight: "auto",
+                  },
+               }}
+            >
+               We offer a wide range of carefully selected nail products including gel polish, manicure tools, accessories, and nail care treatments.
+               All products are designed to ensure the beauty, durability, and health of your nails every day.
             </Text>
          </Box>
 
@@ -113,7 +141,7 @@ function ProductList({ products: initialProducts }: TProps) {
                               animationDelay: `${50 * i}ms`,
                            }}
                         >
-                           <ProductItem product={product} />
+                           <ProductItem2 product={product} />
                         </Box>
                      );
                   })}

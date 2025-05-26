@@ -5,6 +5,10 @@
    --width-nav: 260px
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
    background-color: light-dark(#faf3eb, var(--mantine-color-dark-7));
    /* background-color: #fefaf7; */

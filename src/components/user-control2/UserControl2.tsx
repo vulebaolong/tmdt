@@ -9,12 +9,14 @@ import { IconUser } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import UserAction from "../user-action/UserAction";
 import UserMenu from "../user-menu/UserMenu";
+import { useQueryInfo } from "@/tantask/auth.tanstack";
 
 type TProps = {
    colorText?: string;
 };
 
-export default function UserControl2( { colorText = "black" }: TProps ) {
+export default function UserControl2({ colorText = "black" }: TProps) {
+   useQueryInfo();
    const t = useTranslations();
    const router = useRouter();
    const info = useAppSelector((state) => state.user.info);

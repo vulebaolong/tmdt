@@ -203,7 +203,7 @@ export async function updateProductAction(updateProduct: TUpdateProductAction) {
       for (const img of uploadedImages) {
          await deleteImageCloudinary(img.public_id);
       }
-      console.error("Update Service Failed", error);
+      console.error("Update Product Failed", error);
       throw error;
    }
 }

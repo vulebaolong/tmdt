@@ -4,7 +4,7 @@ export enum EProductTag {
 }
 
 export enum EProductCategory {
-   "Thức ăn thú cưng" = 0,
-   "Phụ kiện & đồ chơi" = 1,
-   "Thuốc & mỹ phẩm" = 2,
+   "Nailbox" = 0,
+   "Sản phẩm chăm sóc món" = 1,
+   "Dịch vụ" = 2,
 }

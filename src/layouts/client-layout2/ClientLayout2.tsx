@@ -1,4 +1,4 @@
-import FooterClient2 from "@/components/footers/footer-client2/FooterClient2";
+import FooterClient from "@/components/footers/footer-client/FooterClient";
 import HeaderClient2 from "@/components/headers/header-client2/HeaderClient2";
 import { ReactNode } from "react";
 
@@ -11,7 +11,7 @@ export default function ClientLayout2({ children }: TProps) {
       <>
          <HeaderClient2 />
          <main>{children}</main>
-         <FooterClient2 />
+         <FooterClient />
       </>
    );
 }

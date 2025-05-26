@@ -7,7 +7,7 @@ export const NEXT_LOCALE = "NEXT_LOCALE";
 export const BASE_DOMAIN_CLOUDINARY = `https://res.cloudinary.com/vulebaolong/image/upload/`;
 export const FOLDER_IMAGE_BE = `images/`;
 
-export const TITLE = `Tina Nail`;
+export const TITLE = `Nailature`;
 
 export const MONGODB_URI = process.env.MONGODB_URI;
 

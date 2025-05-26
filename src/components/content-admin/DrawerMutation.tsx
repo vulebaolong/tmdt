@@ -1,13 +1,12 @@
+import { buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
+import { useIsMobile } from "@/hooks/is-mobile.hook";
 import { Box, Button, Drawer, NumberInput, Radio, Select, Stack, TagsInput, Textarea, TextInput } from "@mantine/core";
-import { RichTextEditor } from "@mantine/tiptap";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useFormik } from "formik";
 import { useEffect, useMemo } from "react";
 import CustomPasswordInput from "../password-input/CustomPasswordInput";
 import { TFieldCreate } from "./ContentAdmin";
-import { useRichTextEditor } from "./hook";
-import { useIsMobile } from "@/hooks/is-mobile.hook";
-import { buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
+import TextEditor from "./TextEditor";
 
 type TProps = {
    editData: any;
@@ -22,20 +21,21 @@ type TProps = {
 
 export default function DrawerMutation({ editData, updates, creates, update, create, setEditData, opened, close }: TProps) {
    const isMobile = useIsMobile();
-   const { editor, setContent } = useRichTextEditor(undefined);
 
    useEffect(() => {
       // Merge đầy đủ field
+      console.log({ editData });
       const fullValues = { ...createForm.initialValues, ...editData };
       console.log({ fullValues });
       createForm.setValues(fullValues);
 
-      // Tìm field editor và set content
-      const editorField = creates.find((field) => field.type === "editor");
-      if (editorField && editData && editData[editorField.name]) {
-         setContent(editData[editorField.name]);
-      }
+      // // Tìm field editor và set content
+      // const editorField = creates.find((field) => field.type === "editor");
+      // if (editorField && editData && editData[editorField.name]) {
+      //    setContent(editData[editorField.name]);
+      // }
    }, [editData]);
+
 
    const initialValues = useMemo(() => buildInitialValues(editData ? updates : creates), [editData, updates, creates]);
    const validationSchema = useMemo(() => buildValidationSchema(editData ? updates : creates), [editData, updates, creates]);
@@ -56,17 +56,6 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
             }
          });
 
-         const editorField = creates.find((field) => field.type === "editor");
-
-         if (editorField) {
-            payload[editorField.name] = editor?.getHTML();
-
-            if (!payload[editorField.name]) {
-               createForm.setFieldError(editorField.name, `${editorField.label} không được để trống`);
-               return;
-            }
-         }
-
          console.log({ payload });
 
          if (editData) {
@@ -75,6 +64,7 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                onSuccess: () => {
                   close();
                   createForm.resetForm();
+                  // setContent("");
                },
             });
          } else {
@@ -83,11 +73,13 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                onSuccess: () => {
                   close();
                   createForm.resetForm();
+                  // setContent("");
                },
             });
          }
       },
    });
+
 
    return (
       <Drawer
@@ -97,7 +89,12 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
             close();
             createForm.resetForm();
             setEditData(null);
-            setContent("");
+
+            // // Delay để đợi Formik và custom components re-render trước
+            // setTimeout(() => {
+            //    console.log(123);
+            //    resetEditor(); // đây sẽ setEditorKey mới và mount lại editor
+            // }, 50);
          }}
          title={editData ? "Update" : "Create"}
          size={isMobile ? `90%` : `50%`}
@@ -233,6 +230,7 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                                  ? createForm.values[field.name].map((item: number) => field.enum?.[item])
                                  : []
                            }
+                           error={error}
                            onChange={(e) => {
                               createForm.setFieldValue(
                                  field.name,
@@ -240,6 +238,7 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                               );
                            }}
                            inputWrapperOrder={["label", "input", "error"]}
+                           {...field?.props}
                         />
                      );
                   }
@@ -248,54 +247,12 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                      return (
                         <Box key={field.name}>
                            <label>{field.label}</label>
-                           <RichTextEditor key={1} editor={editor}>
-                              <RichTextEditor.Toolbar sticky stickyOffset={60}>
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.Bold />
-                                    <RichTextEditor.Italic />
-                                    <RichTextEditor.Underline />
-                                    <RichTextEditor.Strikethrough />
-                                    <RichTextEditor.ClearFormatting />
-                                    <RichTextEditor.Highlight />
-                                    <RichTextEditor.Code />
-                                 </RichTextEditor.ControlsGroup>
-
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.H1 />
-                                    <RichTextEditor.H2 />
-                                    <RichTextEditor.H3 />
-                                    <RichTextEditor.H4 />
-                                 </RichTextEditor.ControlsGroup>
-
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.Blockquote />
-                                    <RichTextEditor.Hr />
-                                    <RichTextEditor.BulletList />
-                                    <RichTextEditor.OrderedList />
-                                    <RichTextEditor.Subscript />
-                                    <RichTextEditor.Superscript />
-                                 </RichTextEditor.ControlsGroup>
-
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.Link />
-                                    <RichTextEditor.Unlink />
-                                 </RichTextEditor.ControlsGroup>
-
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.AlignLeft />
-                                    <RichTextEditor.AlignCenter />
-                                    <RichTextEditor.AlignJustify />
-                                    <RichTextEditor.AlignRight />
-                                 </RichTextEditor.ControlsGroup>
-
-                                 <RichTextEditor.ControlsGroup>
-                                    <RichTextEditor.Undo />
-                                    <RichTextEditor.Redo />
-                                 </RichTextEditor.ControlsGroup>
-                              </RichTextEditor.Toolbar>
-
-                              <RichTextEditor.Content />
-                           </RichTextEditor>
+                           <TextEditor
+                              value={createForm.values[field.name]}
+                              onUpdate={(value) => {
+                                 createForm.setFieldValue(field.name, value.editor.getHTML());
+                              }}
+                           />
                         </Box>
                      );
                   }

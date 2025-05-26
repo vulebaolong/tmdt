@@ -1,19 +1,17 @@
 import { useImagePreview } from "@/hooks/image-preview.hook";
 import { Box, Center, Paper } from "@mantine/core";
 import { FormikProps } from "formik";
-import ProductItem from "../product-item/ProductItem";
+import ProductItem2 from "../product-item/ProductItem2";
 
 export default function ProductPreview({ createForm }: { createForm: FormikProps<any> }) {
    const file = createForm.values.imagePublicId;
    const preView = useImagePreview(file);
 
-   console.log();
-
    return (
       <Paper shadow="md" radius="lg" withBorder p="xl">
          <Center h={`100%`}>
             <Box w={215}>
-               <ProductItem
+               <ProductItem2
                   type="review"
                   preview={preView}
                   product={

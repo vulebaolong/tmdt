@@ -15,6 +15,8 @@ const list = [
 export default function ServiceNail() {
    return (
       <Box
+         component="section"
+         id="service"
          sx={{
             height: 900,
             backgroundImage: `url(/section/3.webp)`,

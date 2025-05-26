@@ -77,7 +77,8 @@ export default function ProductDetail({ product }: TProps) {
                                  }
                               );
                            }}
-                           bg={theme.colors.shopee[5]}
+                           disabled={!product.inStock}
+                           bg={theme.colors.spaTheme[5]}
                            size="xl"
                            w={`min-content`}
                         >

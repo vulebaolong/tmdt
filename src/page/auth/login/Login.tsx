@@ -1,29 +1,28 @@
 "use client";
-import { FacebookButton } from "@/components/buttons/FacebookButton";
 import { GoogleButton } from "@/components/buttons/GoogleButton";
+import Text from "@/components/custom/text-custom/TextCustom";
+import Title from "@/components/custom/title-custom/TitleCustom";
+import { Logo2 } from "@/components/logo2/Logo2";
+import useRouter from "@/hooks/use-router-custom";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
 import { Anchor, Box, Center, Divider, Group, Loader, Paper, Transition } from "@mantine/core";
-import useRouter from "@/hooks/use-router-custom";
+import { useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
 import classes from "./../Auth.module.css";
 import LoginForm from "./login-form/LoginForm";
 import LoginGoogleAuthenticator from "./login-google-authenticator/LoginGoogleAuthenticator";
-import Title from "@/components/custom/title-custom/TitleCustom";
-import Text from "@/components/custom/text-custom/TextCustom";
-import { useTranslations } from "next-intl";
-import { LogoIcon } from "@/components/logo/LogoIcon";
 
 export default function Login() {
    const router = useRouter();
    const [step, setStep] = useState<TStepLogin>("login-form");
    const [payloadLogin, setPayloadLogin] = useState<TPayloadLoginGoogleAuthenticator | null>(null);
-   const t = useTranslations()
+   const t = useTranslations();
 
    return (
       <Suspense fallback={<Loader />}>
          <Box className={`${classes.wrapForm}`} style={{ animation: "fadeInUp 0.5s" }} px={`md`}>
             <Center>
-               <LogoIcon  />
+               <Logo2 width={90} />
             </Center>
             <Title mt={20} ta="center" style={{ fontFamily: `Greycliff CF,   var(--mantine-font-family)`, fontWeight: `900` }}>
                Welcome back!
@@ -31,7 +30,7 @@ export default function Login() {
 
             <Group grow mb="md" mt="md">
                <GoogleButton radius="xl">Google</GoogleButton>
-               <FacebookButton radius="xl">Facebook</FacebookButton>
+               {/* <FacebookButton radius="xl">Facebook</FacebookButton> */}
             </Group>
 
             <Divider label={t(`Or continue with email`)} labelPosition="center" my="lg" />

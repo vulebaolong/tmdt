@@ -16,7 +16,7 @@ const ServiceSchema = new Schema<IService>(
       title: { type: String, required: true },
       description: { type: String, required: true },
       content: { type: String, required: true },
-      category: { type: Number, required: true }, 
+      category: { type: Number }, 
    },
    { timestamps: true, collection: "Services" }
 );

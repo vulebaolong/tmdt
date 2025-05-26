@@ -20,7 +20,8 @@ export function Logo2({ width = 40, height = `auto` }: TProps) {
       <Box onClick={handleClickLogo} style={{ cursor: `pointer` }}>
          <Box style={{ width, height }}>
             <Image
-               src={`/logo/logo-nail.webp`}
+               // src={`/logo/logo-nail.webp`}
+               src={`/logo/logo-nail2.png`}
                width={0}
                height={0}
                sizes="100vw"

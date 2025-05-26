@@ -3,21 +3,20 @@
 import ContentAdmin, { TFieldCreate } from "@/components/content-admin/ContentAdmin";
 import ProductImage from "@/components/product/product-image/ProductImage";
 import ProductPreview from "@/components/product/product-preview/ProductPreview";
-import ProductTag from "@/components/product/product-tag/ProductTag";
 import ProductUploadImage from "@/components/product/product-upload-image/ProductUploadImage";
-import { formatLocalTime, renderData } from "@/helpers/function.helper";
+import { formatLocalTime, getEnumKeys, renderData } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { useCreateProduct, useDeleteProduct, useProducts, useUpdateProduct } from "@/tantask/product.tanstack";
-import { EProductCategory, EProductTag } from "@/types/enum/product.enum";
+import { EProductCategory } from "@/types/enum/product.enum";
 import { Stack, Text } from "@mantine/core";
 import { IconCurrencyDollar } from "@tabler/icons-react";
 import { createColumnHelper } from "@tanstack/react-table";
+import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import classes from "./Product.module.css";
-import { useTranslations } from "next-intl";
 
 export default function Product() {
-   const t = useTranslations()
+   const t = useTranslations();
 
    const columnHelper = createColumnHelper<IProduct>();
    const columns = useMemo(
@@ -88,13 +87,13 @@ export default function Product() {
                </Text>
             ),
          }),
-         columnHelper.accessor("tags", {
-            header: t("Tags"),
-            size: 150,
-            cell: ({ cell }) => {
-               return cell.getValue().map((tag: number, i: number) => <ProductTag tag={tag} key={i} />);
-            },
-         }),
+         // columnHelper.accessor("tags", {
+         //    header: t("Tags"),
+         //    size: 150,
+         //    cell: ({ cell }) => {
+         //       return cell.getValue().map((tag: number, i: number) => <ProductTag tag={tag} key={i} />);
+         //    },
+         // }),
          columnHelper.accessor("category", {
             header: t("Category"),
             size: 150,
@@ -172,18 +171,10 @@ export default function Product() {
             type: "select",
             name: "inStock",
             label: t("InStock"),
-            dataTags: [
+            dataSelect: [
                { value: "true", label: "Còn hàng" },
                { value: "false", label: "Hết hàng" },
             ],
-         },
-         {
-            label: t("Tags"),
-            name: "tags",
-            placeholder: "Nhãn",
-            type: "tags",
-            enum: EProductTag,
-            dataTags: Object.keys(EProductTag).filter((key) => isNaN(Number(key))),
          },
          {
             label: t("Category"),
@@ -191,7 +182,7 @@ export default function Product() {
             placeholder: "Danh mục",
             type: "tags",
             enum: EProductCategory,
-            dataTags: Object.keys(EProductCategory).filter((key) => isNaN(Number(key))),
+            dataTags: getEnumKeys(EProductCategory),
          },
          {
             label: t("Shipping Fee"),

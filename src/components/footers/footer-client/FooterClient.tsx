@@ -1,13 +1,13 @@
 "use client";
 
+import Text from "@/components/custom/text-custom/TextCustom";
+import { Logo2 } from "@/components/logo2/Logo2";
+import { TITLE } from "@/constant/app.constant";
+import useRouter from "@/hooks/use-router-custom";
 import { ActionIcon, Container, Group, rem } from "@mantine/core";
 import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
-import useRouter from "@/hooks/use-router-custom";
-import classes from "./FooterClient.module.css";
-import { TITLE } from "@/constant/app.constant";
 import { useTranslations } from "next-intl";
-import Text from "@/components/custom/text-custom/TextCustom";
-import { LogoIcon } from "@/components/logo/LogoIcon";
+import classes from "./FooterClient.module.css";
 
 const data = [
    {
@@ -69,7 +69,7 @@ export default function FooterClient() {
       <footer className={classes.footer}>
          <Container className={classes.inner}>
             <div className={classes.logo}>
-               <LogoIcon />
+               <Logo2 width={70} />
                <Text size="xs" c="dimmed" className={classes.description}>
                   Build fully 1
                </Text>

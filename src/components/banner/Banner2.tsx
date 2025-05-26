@@ -1,12 +1,15 @@
 "use client";
 
+import { TITLE } from "@/constant/app.constant";
 import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
+import { useAppSelector } from "@/redux/hooks";
 import { Box, Button, Container, Stack, Text, Title, useMantineTheme } from "@mantine/core";
 
 export default function Banner2() {
    const router = useRouter();
    const theme = useMantineTheme();
+   const info = useAppSelector((state) => state.user.info);
 
    return (
       <Box
@@ -31,7 +34,7 @@ export default function Banner2() {
                         };
                      }}
                   >
-                     Đến Tina Nail ngay
+                     Đến {TITLE} ngay
                   </Title>
                   <Text c={`white`} size="xl" mt="xl" maw={`70%`}>
                      Bạn sẽ tìm thấy an yên trong không gian ấm áp, nhấp tách trà nóng. thả lỏng cho mùi hương dịu dàng và bản nhạc cũ xoa dịu tâm hồn
@@ -40,7 +43,11 @@ export default function Banner2() {
 
                   <Button
                      onClick={() => {
-                        router.push(ROUTER_CLIENT.LOGIN);
+                        if (info) {
+                           router.push(ROUTER_CLIENT.PRODUCT);
+                        } else {
+                           router.push(ROUTER_CLIENT.REGISTER);
+                        }
                      }}
                      variant="gradient"
                      color={`shopee`}
@@ -49,7 +56,7 @@ export default function Banner2() {
                      w={`fit-content`}
                      gradient={{ from: theme.colors.spaTheme[7], to: theme.colors.spaTheme[2], deg: 79 }}
                   >
-                     Đặt lịch ngay
+                     {info ? `Mua ngay` : `Đăng ký ngay`}
                   </Button>
                </Stack>
             </Container>
