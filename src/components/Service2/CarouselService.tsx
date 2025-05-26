@@ -1,3 +1,5 @@
+"use client";
+
 import { BASE_DOMAIN_CLOUDINARY } from "@/constant/app.constant";
 import { useServices } from "@/tantask/service.tanstack";
 import { Carousel } from "@mantine/carousel";
