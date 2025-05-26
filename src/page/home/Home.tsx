@@ -1,3 +1,5 @@
+"use client";
+
 import About from "@/components/about/About";
 import Banner2 from "@/components/banner/Banner2";
 import ProductRoot from "@/components/product/product-root/ProductRoot";
