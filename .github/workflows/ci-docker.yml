@@ -7,30 +7,50 @@ on:
 jobs:
    build:
       runs-on: ubuntu-latest
+      permissions:
+         contents: read
+         packages: write
 
       steps:
-         - uses: actions/checkout@v4
+         - name: Checkout code
+           uses: actions/checkout@v4
 
-         - name: Login Dockerhub
-           run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
+         - name: Set up Docker Buildx (BuildKit)
+           uses: docker/setup-buildx-action@v3
+
+         - name: Login DockerHub
+           run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
          - name: Remove old build files
            run: rm -rf .next node_modules
 
-         - name: Build the Docker image
+         - name: Write secrets to files
            run: |
-              docker build \
-              --build-arg MONGODB_URI=${{secrets.MONGODB_URI}} \
-              --build-arg ACCESS_TOKEN_SECRET=${{secrets.ACCESS_TOKEN_SECRET}} \
-              --build-arg ACCESS_TOKEN_EXPIRES=${{secrets.ACCESS_TOKEN_EXPIRES}} \
-              --build-arg REFRESH_TOKEN_SECRET=${{secrets.REFRESH_TOKEN_SECRET}} \
-              --build-arg REFRESH_TOKEN_EXPIRES=${{secrets.REFRESH_TOKEN_EXPIRES}} \
-              --build-arg CLOUDINARY_NAME=${{secrets.CLOUDINARY_NAME}} \
-              --build-arg CLOUDINARY_API_KEY=${{secrets.CLOUDINARY_API_KEY}} \
-              --build-arg CLOUDINARY_API_SECRET=${{secrets.CLOUDINARY_API_SECRET}} \
-              --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID=${{secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID}} \
-              --build-arg GOOGLE_CLIENT_SECRET=${{secrets.GOOGLE_CLIENT_SECRET}} \
-              -t vulebaolong/img-tmdt:latest .
+              echo "${{ secrets.MONGODB_URI }}" > mongodb_uri.txt
+              echo "${{ secrets.ACCESS_TOKEN_SECRET }}" > access_token_secret.txt
+              echo "${{ secrets.ACCESS_TOKEN_EXPIRES }}" > access_token_expires.txt
+              echo "${{ secrets.REFRESH_TOKEN_SECRET }}" > refresh_token_secret.txt
+              echo "${{ secrets.REFRESH_TOKEN_EXPIRES }}" > refresh_token_expires.txt
+              echo "${{ secrets.CLOUDINARY_NAME }}" > cloudinary_name.txt
+              echo "${{ secrets.CLOUDINARY_API_KEY }}" > cloudinary_api_key.txt
+              echo "${{ secrets.CLOUDINARY_API_SECRET }}" > cloudinary_api_secret.txt
+              echo "${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}" > next_public_google_client_id.txt
+              echo "${{ secrets.GOOGLE_CLIENT_SECRET }}" > google_client_secret.txt
 
-         - name: Push to DockerHub
+         - name: Build Docker image with secrets
+           run: |
+              DOCKER_BUILDKIT=1 docker build \
+                --secret id=mongodb_uri,src=mongodb_uri.txt \
+                --secret id=access_token_secret,src=access_token_secret.txt \
+                --secret id=access_token_expires,src=access_token_expires.txt \
+                --secret id=refresh_token_secret,src=refresh_token_secret.txt \
+                --secret id=refresh_token_expires,src=refresh_token_expires.txt \
+                --secret id=cloudinary_name,src=cloudinary_name.txt \
+                --secret id=cloudinary_api_key,src=cloudinary_api_key.txt \
+                --secret id=cloudinary_api_secret,src=cloudinary_api_secret.txt \
+                --secret id=next_public_google_client_id,src=next_public_google_client_id.txt \
+                --secret id=google_client_secret,src=google_client_secret.txt \
+                -t vulebaolong/img-tmdt:latest .
+
+         - name: Push Docker image to DockerHub
            run: docker push vulebaolong/img-tmdt:latest
