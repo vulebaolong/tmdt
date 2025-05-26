@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1.4
 
 # Stage 1: Cài dependencies
-FROM node:22.16.0-alpine AS deps
+FROM node:22.9.0-alpine AS deps
 WORKDIR /tmdt
 COPY package*.json ./
 # RUN npm config set registry https://registry.npmmirror.com && npm ci --legacy-peer-deps
 RUN npm i
 
 # Stage 2: Build app với secrets
-FROM node:22.16.0-alpine AS builder
+FROM node:22.9.0-alpine AS builder
 WORKDIR /tmdt
 COPY . .
 COPY --from=deps /tmdt/node_modules ./node_modules
@@ -37,7 +37,7 @@ RUN --mount=type=secret,id=mongodb_uri \
     npm run build
 
 # Stage 3: Image chạy app
-FROM node:22.16.0-alpine AS runner
+FROM node:22.9.0-alpine AS runner
 WORKDIR /tmdt
 COPY --from=builder /tmdt/.next/standalone ./
 COPY --from=builder /tmdt/public ./public
