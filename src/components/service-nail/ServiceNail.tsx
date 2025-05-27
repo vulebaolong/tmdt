@@ -7,9 +7,9 @@ import CarouselService from "./CarouselService";
 
 const list = [
    { t: 1700, d: `Khách hàng/tháng` },
-   { t: 100, d: `Nhân viên` },
+   { t: 10, d: `Nhân viên` },
    { t: `99%`, d: `Tỉ lệ hài lòng của khách hàng` },
-   { t: 10, d: `Chi nhánh` },
+   { t: 1, d: `Chi nhánh` },
 ];
 
 export default function ServiceNail() {
