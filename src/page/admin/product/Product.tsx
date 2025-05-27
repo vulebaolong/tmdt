@@ -3,17 +3,18 @@
 import ContentAdmin, { TFieldCreate } from "@/components/content-admin/ContentAdmin";
 import ProductImage from "@/components/product/product-image/ProductImage";
 import ProductPreview from "@/components/product/product-preview/ProductPreview";
-import ProductUploadImage from "@/components/product/product-upload-image/ProductUploadImage";
+import ProductUploadImages from "@/components/product/product-upload-image/ProductUploadImages";
 import { formatLocalTime, getEnumKeys, renderData } from "@/helpers/function.helper";
 import { IProduct } from "@/schemas/product.schema";
 import { useCreateProduct, useDeleteProduct, useProducts, useUpdateProduct } from "@/tantask/product.tanstack";
 import { EProductCategory } from "@/types/enum/product.enum";
-import { Stack, Text } from "@mantine/core";
+import { Box, Stack, Text } from "@mantine/core";
 import { IconCurrencyDollar } from "@tabler/icons-react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import classes from "./Product.module.css";
+import { Carousel } from "@mantine/carousel";
 
 export default function Product() {
    const t = useTranslations();
@@ -39,10 +40,23 @@ export default function Product() {
                </Text>
             ),
          }),
-         columnHelper.accessor("imagePublicId", {
+         columnHelper.accessor("imagePublicIds", {
             header: t("Image"),
-            size: 150,
-            cell: ({ cell }) => <ProductImage width="50px" src={cell.getValue()} />,
+            size: 300,
+            cell: ({ cell }) => {
+               const images = cell.getValue() as string[];
+               return (
+                  <Carousel slideSize="50%" slideGap="xs" withIndicators={false} mah={200} mt="md" emblaOptions={{ align: "start" }}>
+                     {images.map((img, i) => (
+                        <Carousel.Slide key={i}>
+                           <Box>
+                              <ProductImage src={img} />
+                           </Box>
+                        </Carousel.Slide>
+                     ))}
+                  </Carousel>
+               );
+            },
          }),
          columnHelper.accessor("description", {
             header: t("Description"),
@@ -87,13 +101,6 @@ export default function Product() {
                </Text>
             ),
          }),
-         // columnHelper.accessor("tags", {
-         //    header: t("Tags"),
-         //    size: 150,
-         //    cell: ({ cell }) => {
-         //       return cell.getValue().map((tag: number, i: number) => <ProductTag tag={tag} key={i} />);
-         //    },
-         // }),
          columnHelper.accessor("category", {
             header: t("Category"),
             size: 150,
@@ -153,20 +160,28 @@ export default function Product() {
 
    const fields: TFieldCreate[] = useMemo(
       () => [
+         // {
+         //    label: t("Image"),
+         //    name: "imagePublicId",
+         //    type: "custom",
+         //    component: ({ value, error, setValue }) => <ProductUploadImage value={value} onChange={setValue} error={error} />,
+         // },
          {
-            label: t("Image"),
-            name: "imagePublicId",
+            label: `Images`,
+            name: "imagePublicIds",
             type: "custom",
-            component: ({ value, error, setValue }) => <ProductUploadImage value={value} onChange={setValue} error={error} />,
+            withAsterisk: true,
+            component: ({ value, error, setValue }) => <ProductUploadImages value={value} onChange={setValue} error={error} />,
          },
          { label: t("Name"), name: "name", type: "text", withAsterisk: true },
-         { label: t("Description"), name: "description", type: "textArea", maxRows: 5, resize: `vertical` },
+         { label: t("Description"), name: "description", type: "textArea", maxRows: 5, resize: `vertical`, withAsterisk: true },
          {
             label: t("Content"),
             name: "content",
             type: "editor",
+            withAsterisk: true,
          },
-         { label: t("Brand"), name: "brand", type: "text" },
+         { label: t("Brand"), name: "brand", type: "text", withAsterisk: true },
          {
             type: "select",
             name: "inStock",
@@ -175,6 +190,7 @@ export default function Product() {
                { value: "true", label: "Còn hàng" },
                { value: "false", label: "Hết hàng" },
             ],
+            withAsterisk: true,
          },
          {
             label: t("Category"),
@@ -183,6 +199,7 @@ export default function Product() {
             type: "tags",
             enum: EProductCategory,
             dataTags: getEnumKeys(EProductCategory),
+            withAsterisk: true,
          },
          {
             label: t("Shipping Fee"),
@@ -192,6 +209,7 @@ export default function Product() {
             leftSection: <IconCurrencyDollar />,
             thousandSeparator: ",",
             defaultValue: 1_000_000,
+            withAsterisk: true,
          },
          {
             label: t("Price"),
@@ -201,6 +219,7 @@ export default function Product() {
             leftSection: <IconCurrencyDollar />,
             thousandSeparator: ",",
             defaultValue: 1_000_000,
+            withAsterisk: true,
          },
          {
             label: "",
@@ -223,6 +242,7 @@ export default function Product() {
             onCreate={useCreateProduct}
             onUpdate={useUpdateProduct}
             onDelete={useDeleteProduct}
+            heightScrollTable={600}
          />
       </>
    );

@@ -1,9 +1,9 @@
-// models/Product.ts
 import mongoose, { Document, Model, Schema } from "mongoose";
 
 export interface IProduct extends Document {
    name: string;
    imagePublicId: string;
+   imagePublicIds: string[];
    tags: number[];
    category: number[];
    shippingFee: number;
@@ -19,7 +19,8 @@ export interface IProduct extends Document {
 const ProductSchema = new Schema<IProduct>(
    {
       name: { type: String, required: true },
-      imagePublicId: { type: String, required: true },
+      imagePublicId: { type: String},
+      imagePublicIds: { type: [String], default: [] },
       tags: { type: [Number], default: [] },
       category: { type: [Number], default: [] },
       shippingFee: { type: Number, required: true },

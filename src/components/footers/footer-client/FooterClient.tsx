@@ -1,98 +1,168 @@
 "use client";
 
-import Text from "@/components/custom/text-custom/TextCustom";
 import { Logo2 } from "@/components/logo2/Logo2";
-import { TITLE } from "@/constant/app.constant";
+import PhoneLink from "@/components/phone-link/PhoneLink";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
-import { ActionIcon, Container, Group, rem } from "@mantine/core";
-import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
-import classes from "./FooterClient.module.css";
-
-const data = [
-   {
-      title: "About",
-      links: [
-         { label: "Features", link: "#" },
-         { label: "Pricing", link: "#" },
-         { label: "Support", link: "#" },
-         { label: "Forums", link: "#" },
-      ],
-   },
-   {
-      title: "Project",
-      links: [
-         { label: "Contribute", link: "#" },
-         { label: "Media assets", link: "#" },
-         { label: "Changelog", link: "#" },
-         { label: "Releases", link: "#" },
-      ],
-   },
-   {
-      title: "Community",
-      links: [
-         { label: "Join Discord", link: "#" },
-         { label: "Follow on Twitter", link: "#" },
-         { label: "Email newsletter", link: "#" },
-         { label: "GitHub discussions", link: "login" },
-      ],
-   },
-];
+import { useAppSelector } from "@/redux/hooks";
+import { ActionIcon, Box, Button, Container, Divider, Group, rem, Stack, Text, useMantineTheme } from "@mantine/core";
+import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconMapPinFilled, IconPhoneFilled } from "@tabler/icons-react";
+import FooterAdmin from "../footer-admin/FooterAdmin";
 
 export default function FooterClient() {
    const router = useRouter();
-   const t = useTranslations()
-
-   const groups = data.map((group) => {
-      const links = group.links.map((link, index) => (
-         <Text
-            key={index}
-            className={classes.link}
-            onClick={() => {
-               router.push(link.link);
-            }}
-            style={{ cursor: `pointer` }}
-         >
-            {link.label}
-         </Text>
-      ));
-
-      return (
-         <div className={classes.wrapper} key={group.title}>
-            <Text className={classes.title}>{group.title}</Text>
-            {links}
-         </div>
-      );
-   });
+   const theme = useMantineTheme();
+   const info = useAppSelector((state) => state.user.info);
 
    return (
-      <footer className={classes.footer}>
-         <Container className={classes.inner}>
-            <div className={classes.logo}>
-               <Logo2 width={70} />
-               <Text size="xs" c="dimmed" className={classes.description}>
-                  Build fully 1
-               </Text>
-            </div>
-            <div className={classes.groups}>{groups}</div>
-         </Container>
-         <Container className={classes.afterFooter}>
-            <Text c="dimmed" size="sm">
-               © 2025 {TITLE}. {t(`All rights reserved`)}.
-            </Text>
+      <Box component="footer" sx={{ background: `#150801`, paddingTop: `40px` }}>
+         <Container>
+            <Box
+               sx={(theme, u) => {
+                  return {
+                     display: `grid`,
 
-            <Group gap={0} className={classes.social} justify="flex-end" wrap="nowrap">
-               <ActionIcon size="lg" color="gray" variant="subtle" radius="xl">
-                  <IconBrandTwitter style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
-               </ActionIcon>
-               <ActionIcon size="lg" color="gray" variant="subtle" radius="xl">
-                  <IconBrandYoutube style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
-               </ActionIcon>
-               <ActionIcon size="lg" color="gray" variant="subtle" radius="xl">
-                  <IconBrandInstagram style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
-               </ActionIcon>
-            </Group>
+                     gap: theme.spacing.md,
+                     [u.smallerThan("md")]: {
+                        gridTemplateColumns: `1fr`,
+                     },
+                     [u.largerThan("md")]: {
+                        gridTemplateColumns: `1fr 1fr 1fr`,
+                     },
+                  };
+               }}
+            >
+               <Stack sx={{ justifyContent: `space-between` }}>
+                  <Box sx={{ height: `70px` }}>
+                     <Logo2 width={70} />
+                  </Box>
+                  <Text
+                     sx={{
+                        fontSize: 16,
+                        fontWeight: 400,
+                        textAlign: "justify",
+                        lineHeight: `26px`,
+                        color: `#e4e2e1`,
+                     }}
+                  >
+                     Chúng tôi mong muốn Tina sẽ trở thành &quot;Nhà Nail&quot;, nơi mọi người giải tỏa được sự mệt mỏi và tìm thấy niềm vui, sự sẻ chia thân
+                     tình bên bạn bè và người thân.
+                  </Text>
+                  <Group gap={0} wrap="nowrap">
+                     {[
+                        { icon: IconBrandTwitter, link: "https://twitter.com/" },
+                        { icon: IconBrandYoutube, link: "https://www.youtube.com/" },
+                        { icon: IconBrandInstagram, link: "https://www.instagram.com/" },
+                     ].map((item, i) => {
+                        return (
+                           <ActionIcon
+                              key={i}
+                              size="lg"
+                              sx={(theme) => {
+                                 return {
+                                    color: theme.colors.spaTheme[5],
+                                 };
+                              }}
+                              variant="subtle"
+                              radius="xl"
+                           >
+                              <item.icon style={{ width: rem(18), height: rem(18) }} stroke={1.5} />
+                           </ActionIcon>
+                        );
+                     })}
+                  </Group>
+               </Stack>
+
+               <Stack sx={{ justifyContent: `space-between` }}>
+                  <Text
+                     sx={(theme) => {
+                        return {
+                           fontSize: 20,
+                           fontWeight: 600,
+                           color: theme.colors.spaTheme[5],
+                           textAlign: "justify",
+                           textTransform: "uppercase",
+                           height: `70px`,
+                           lineHeight: `70px`,
+                        };
+                     }}
+                  >
+                     Liên hệ với chúng tôi
+                  </Text>
+                  <Group gap={5} sx={{ flexWrap: "nowrap", alignItems: "start" }}>
+                     <Box
+                        sx={(theme) => {
+                           return { color: theme.colors.spaTheme[5] };
+                        }}
+                     >
+                        <IconMapPinFilled size={20} />
+                     </Box>
+                     <Text sx={{ color: `white`, fontSize: 16, lineHeight: `24px` }}>
+                        <b>Địa chỉ: </b>
+                        Hàn Thuyên, khu phố 6 P, Thủ Đức, Hồ Chí Minh
+                     </Text>
+                  </Group>
+                  <Group gap={5} sx={{ flexWrap: "nowrap", alignItems: "start" }}>
+                     <Box
+                        sx={(theme) => {
+                           return { color: theme.colors.spaTheme[5] };
+                        }}
+                     >
+                        <IconPhoneFilled size={20} />
+                     </Box>
+                     <Text sx={{ color: `white`, fontSize: 16, lineHeight: `24px` }}>
+                        <b>Hotline đặt lịch: </b>
+                        <PhoneLink phone="19006750" />
+                        <br />
+                        <b>Hotline phản ánh dịch vụ: </b>
+                        <PhoneLink phone="19006750" />
+                     </Text>
+                  </Group>
+               </Stack>
+
+               <Stack sx={{ justifyContent: `space-between` }}>
+                  <Text
+                     sx={(theme) => {
+                        return {
+                           fontSize: 20,
+                           fontWeight: 600,
+                           color: theme.colors.spaTheme[5],
+                           textAlign: "justify",
+                           height: `70px`,
+                           lineHeight: `70px`,
+                           textTransform: "uppercase",
+                        };
+                     }}
+                  >
+                     Đăng ký nhận khuyến mại
+                  </Text>
+
+                  <Text sx={{ color: `white`, fontSize: 16, lineHeight: `24px` }}>Đừng bỏ lỡ những sản phẩm và chương trình khuyến mại hấp dẫn</Text>
+
+                  <Button
+                     onClick={() => {
+                        if (info) {
+                           router.push(ROUTER_CLIENT.PRODUCT);
+                        } else {
+                           router.push(ROUTER_CLIENT.REGISTER);
+                        }
+                     }}
+                     variant="gradient"
+                     color={`shopee`}
+                     size="lg"
+                     radius="xl"
+                     w={`fit-content`}
+                     gradient={{ from: theme.colors.spaTheme[7], to: theme.colors.spaTheme[2], deg: 79 }}
+                  >
+                     {info ? `Mua ngay` : `Đăng ký ngay`}
+                  </Button>
+               </Stack>
+            </Box>
+            <Divider opacity={0.5} sx={{marginTop: `20px`}} />
+            <Box h={`40px`}>
+               <FooterAdmin />
+            </Box>
          </Container>
-      </footer>
+      </Box>
    );
 }

@@ -1,12 +1,12 @@
 import { buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
-import { useIsMobile } from "@/hooks/is-mobile.hook";
 import { Box, Button, Drawer, NumberInput, Radio, Select, Stack, TagsInput, Textarea, TextInput } from "@mantine/core";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import CustomPasswordInput from "../password-input/CustomPasswordInput";
 import { TFieldCreate } from "./ContentAdmin";
 import TextEditor from "./TextEditor";
+import { useIsMobile } from "@/hooks/is-mobile.hook";
 
 type TProps = {
    editData: any;
@@ -21,26 +21,11 @@ type TProps = {
 
 export default function DrawerMutation({ editData, updates, creates, update, create, setEditData, opened, close }: TProps) {
    const isMobile = useIsMobile();
-
-   useEffect(() => {
-      // Merge đầy đủ field
-      console.log({ editData });
-      const fullValues = { ...createForm.initialValues, ...editData };
-      console.log({ fullValues });
-      createForm.setValues(fullValues);
-
-      // // Tìm field editor và set content
-      // const editorField = creates.find((field) => field.type === "editor");
-      // if (editorField && editData && editData[editorField.name]) {
-      //    setContent(editData[editorField.name]);
-      // }
-   }, [editData]);
-
-
    const initialValues = useMemo(() => buildInitialValues(editData ? updates : creates), [editData, updates, creates]);
    const validationSchema = useMemo(() => buildValidationSchema(editData ? updates : creates), [editData, updates, creates]);
+   
    const createForm = useFormik({
-      initialValues,
+      initialValues: editData ? { ...initialValues, ...editData } : initialValues,
       validationSchema,
       enableReinitialize: true,
       onSubmit: async (values) => {
@@ -53,6 +38,18 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                formData = new FormData();
                formData.append(key, value);
                payload[key] = formData;
+            } else if (Array.isArray(value) && value.some((v) => v instanceof File || typeof v === "string")) {
+               payload[key] = value.map((v) => {
+                  if (v instanceof File) {
+                     const formDatas1 = new FormData();
+                     formDatas1.append(key, v);
+                     return formDatas1;
+                  } else if (typeof v === "string") {
+                     const formDatas2 = new FormData();
+                     formDatas2.append(key, v);
+                     return formDatas2;
+                  }
+               });
             }
          });
 
@@ -64,7 +61,6 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                onSuccess: () => {
                   close();
                   createForm.resetForm();
-                  // setContent("");
                },
             });
          } else {
@@ -73,7 +69,6 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                onSuccess: () => {
                   close();
                   createForm.resetForm();
-                  // setContent("");
                },
             });
          }
@@ -89,21 +84,15 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
             close();
             createForm.resetForm();
             setEditData(null);
-
-            // // Delay để đợi Formik và custom components re-render trước
-            // setTimeout(() => {
-            //    console.log(123);
-            //    resetEditor(); // đây sẽ setEditorKey mới và mount lại editor
-            // }, 50);
          }}
          title={editData ? "Update" : "Create"}
-         size={isMobile ? `90%` : `50%`}
+         size={isMobile ? `90%` : `70%`}
       >
          <form onSubmit={createForm.handleSubmit}>
             <Stack>
                {(editData ? updates : creates).map((field) => {
                   const error =
-                     createForm.touched[field.name] && typeof createForm.errors[field.name] === "string"
+                     createForm.touched[field.name] && createForm.errors[field.name]
                         ? (createForm.errors[field.name] as string)
                         : undefined;
 
@@ -211,6 +200,7 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                                  createForm.setFieldValue(field.name, value);
                               }
                            }}
+                           error={error}
                            inputWrapperOrder={["label", "input", "error"]}
                         />
                      );
@@ -266,6 +256,8 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                            onChange={(value) => {
                               createForm.setFieldValue(field.name, Number(value));
                            }}
+                           error={error}
+                           inputWrapperOrder={["label", "input", "error"]}
                            withAsterisk={field.withAsterisk}
                         >
                            <Stack gap={10}>
@@ -280,7 +272,7 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                   return null;
                })}
                <Button loading={update?.isPending || create?.isPending} type="submit">
-                  Save
+                  {editData ? "Update" : "Create"}
                </Button>
             </Stack>
          </form>

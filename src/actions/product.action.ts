@@ -140,16 +140,43 @@ export async function createProductAction(productCreate: TCreateProductAction) {
 
    try {
       const dataCreate = { ...productCreate };
+      const uploadPromises: Promise<void>[] = [];
+
       for (const [key, value] of Object.entries(productCreate)) {
+         // 1. Trường đơn: FormData chứa 1 File
          if (value instanceof FormData) {
             const fileImage = value.get(key) as File;
             if (fileImage instanceof File) {
-               const uploaded = await uploadImageToCloudinary(fileImage, "products");
-               (dataCreate as any)[key] = uploaded?.public_id;
-               uploadedImages.push({ key, public_id: uploaded?.public_id });
+               const promise = uploadImageToCloudinary(fileImage, "products").then((uploaded) => {
+                  if (uploaded?.public_id) {
+                     (dataCreate as any)[key] = uploaded.public_id;
+                     uploadedImages.push({ key, public_id: uploaded.public_id });
+                  }
+               });
+               uploadPromises.push(promise);
             }
          }
+
+         // 2. Trường nhiều ảnh: mảng FormData
+         else if (Array.isArray(value) && value.every((v) => v instanceof FormData)) {
+            (dataCreate as any)[key] = [];
+            const imagePromises = value.map((formData, index) => {
+               const file = formData.get(key) as File;
+               if (!(file instanceof File)) return Promise.resolve();
+
+               return uploadImageToCloudinary(file, "products").then((uploaded) => {
+                  if (!uploaded?.public_id) return;
+                  if (!Array.isArray((dataCreate as any)[key])) (dataCreate as any)[key] = [];
+                  (dataCreate as any)[key].push(uploaded.public_id);
+                  uploadedImages.push({ key: `${key}[${index}]`, public_id: uploaded.public_id });
+               });
+            });
+
+            uploadPromises.push(...imagePromises);
+         }
       }
+
+      await Promise.all(uploadPromises);
 
       console.log({ dataCreate });
 
@@ -175,31 +202,74 @@ export async function updateProductAction(updateProduct: TUpdateProductAction) {
       const dataUpdate = { ...updateProduct };
 
       await connectDB();
-
       const productExist = await Product.findById(updateProduct._id);
-      if (!productExist) throw new Error("Service not found");
+      if (!productExist) throw new Error("Product not found");
+
+      const uploadPromises: Promise<void>[] = [];
 
       for (const [key, value] of Object.entries(updateProduct)) {
+         // 1. Trường đơn (FormData chứa 1 file)
          if (value instanceof FormData) {
             const file = value.get(key) as File;
-            if (file) {
-               await deleteImageCloudinary((productExist as any)[key]);
-               const uploaded = await uploadImageToCloudinary(file, "products");
-               (dataUpdate as any)[key] = uploaded?.public_id;
-               uploadedImages.push({ key, public_id: uploaded?.public_id });
+            if (file instanceof File) {
+               const promise = uploadImageToCloudinary(file, "products").then(async (uploaded) => {
+                  if (uploaded?.public_id) {
+                     // Xoá ảnh cũ nếu có
+                     const oldPublicId = (productExist as any)[key];
+                     if (oldPublicId) await deleteImageCloudinary(oldPublicId);
+
+                     (dataUpdate as any)[key] = uploaded.public_id;
+                     uploadedImages.push({ key, public_id: uploaded.public_id });
+                  }
+               });
+               uploadPromises.push(promise);
             }
+         }
+
+         // 2. Trường nhiều ảnh: mảng FormData
+         else if (Array.isArray(value) && value.every((v) => v instanceof FormData)) {
+            const imagePromises = value.map((formData, index) => {
+               const file = formData.get(key) as File;
+               if (!(file instanceof File)) {
+                  // nếu là chuỗi
+                  if (typeof file === `string`) {
+                     (dataUpdate as any)[key][index] = file;
+                  }
+                  return Promise.resolve();
+               }
+               (dataUpdate as any)[key].splice(index, 1);
+
+               return uploadImageToCloudinary(file, "products").then((uploaded) => {
+                  if (!uploaded?.public_id) return;
+
+                  (dataUpdate as any)[key].push(uploaded.public_id);
+                  uploadedImages.push({ key: `${key}[${index}]`, public_id: uploaded.public_id });
+               });
+            });
+
+            uploadPromises.push(...imagePromises);
          }
       }
 
-      await Product.updateOne(
-         { _id: dataUpdate._id },
-         {
-            $set: dataUpdate,
+      console.log({ dataUpdate: dataUpdate.imagePublicIds });
+      console.log({ productExist: productExist.imagePublicIds });
+
+      productExist.imagePublicIds.forEach((id) => {
+         if (!dataUpdate.imagePublicIds.includes(id)) {
+            const deleteOldImages = async () => {
+               await deleteImageCloudinary(id);
+            };
+            uploadPromises.push(deleteOldImages());
          }
-      );
+      });
+
+      await Promise.all(uploadPromises);
+
+      await Product.updateOne({ _id: dataUpdate._id }, { $set: dataUpdate });
 
       return true;
    } catch (error) {
+      // Rollback ảnh mới đã upload nếu có lỗi
       for (const img of uploadedImages) {
          await deleteImageCloudinary(img.public_id);
       }
@@ -213,9 +283,17 @@ export async function deleteProductAction(id: string) {
       await connectDB();
       const productDelete = await Product.findByIdAndDelete(id);
 
+      const uploadPromises: Promise<void>[] = [];
+
       if (productDelete?.imagePublicId) {
-         await deleteImageCloudinary(productDelete.imagePublicId);
+         uploadPromises.push(deleteImageCloudinary(productDelete.imagePublicId));
       }
+
+      productDelete?.imagePublicIds.forEach((id) => {
+         uploadPromises.push(deleteImageCloudinary(id));
+      });
+
+      await Promise.all(uploadPromises);
 
       return true;
    } catch (error) {

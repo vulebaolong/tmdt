@@ -154,6 +154,9 @@ export function buildInitialValues(fields: TFieldCreate[]) {
          acc[field.name] = [];
       } else if (field.type === "select" && field.dataTags?.some((item: any) => item.value === "true" || item.value === "false")) {
          acc[field.name] = false;
+      } else if (field.type === "custom") {
+         acc[field.name] = false;
+         if (field.name === "imagePublicIds") acc[field.name] = [];
       } else {
          acc[field.name] = "";
       }
@@ -174,9 +177,9 @@ export function buildValidationSchema(fields: TFieldCreate[]) {
          case "number":
             validator = Yup.number();
             break;
-         // case "select":
-         //    validator = Yup.string();
-         //    break;
+         case "select":
+            validator = Yup.string();
+            break;
          case "date":
             validator = Yup.date();
             break;

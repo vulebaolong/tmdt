@@ -8,9 +8,10 @@ import React, { ReactNode, useRef, useState } from "react";
 import TableCustom, { TFilterOption, TPayloadTable } from "../custom/table/TableCustom";
 import DrawerMutation from "./DrawerMutation";
 
-export type FieldType = "text" | "password" | "number" | "select" | "date" | "custom" | "tags" | "textArea" | "editor" | "radio";
+export type FieldType = "text" | "password" | "number" | "select" | "select-boolean" | "date" | "custom" | "tags" | "textArea" | "editor" | "radio";
 
 export type TFieldCreate = {
+   initValue?: any;
    label: string;
    name: string;
    type: FieldType;

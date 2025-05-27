@@ -11,9 +11,10 @@ type TProductImageProps = {
    height?: string;
    isHero?: boolean;
    borderRadius?: string | number;
+   onMouseEnter?: () => void
 };
 
-export default function ProductImage({ src, preview, width = "100%", height = "auto", isHero = false, borderRadius }: TProductImageProps) {
+export default function ProductImage({ src, preview, width = "100%", height = "auto", isHero = false, borderRadius, onMouseEnter }: TProductImageProps) {
    const [error, setError] = useState(false);
 
    const imageUrl = useMemo(() => {
@@ -23,7 +24,7 @@ export default function ProductImage({ src, preview, width = "100%", height = "a
    }, [src, preview]);
 
    return !error && imageUrl ? (
-      <Box style={{ aspectRatio: "1 / 1", width, height }}>
+      <Box style={{ aspectRatio: "1 / 1", width, height }} onMouseEnter={onMouseEnter}>
          <Image
             src={imageUrl}
             width={0}

@@ -4,7 +4,7 @@ import { FormikProps } from "formik";
 import ProductItem2 from "../product-item/ProductItem2";
 
 export default function ProductPreview({ createForm }: { createForm: FormikProps<any> }) {
-   const file = createForm.values.imagePublicId;
+   const file = createForm.values.imagePublicIds[0];
    const preView = useImagePreview(file);
 
    return (

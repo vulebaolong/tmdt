@@ -6,7 +6,7 @@ import { hoverColor, titleSx } from "../provider/mantine/sx/text.sx";
 
 export default function Album() {
    return (
-      <Box>
+      <Box component="section" py={100}>
          <Container>
             <Stack gap={50}>
                <Center>

@@ -5,12 +5,11 @@ import TextBack from "@/components/text-back/TextBack";
 import TextContent from "@/components/text-content/TextContent";
 import ROUTER_CLIENT from "@/constant/router.constant";
 import { renderData } from "@/helpers/function.helper";
+import useRouter from "@/hooks/use-router-custom";
 import { IProduct } from "@/schemas/product.schema";
 import { useAddToCart } from "@/tantask/cart.tanstack";
 import { Box, Button, Container, Divider, Group, Paper, Stack, Text, useMantineTheme } from "@mantine/core";
-import useRouter from "@/hooks/use-router-custom";
-import ProductImage from "../product-image/ProductImage";
-import classes from "./ProductDetail.module.css";
+import ProductImageGallery from "../product-image-gallery/ProductImageGallery";
 
 type TProps = {
    product: IProduct;
@@ -31,11 +30,24 @@ export default function ProductDetail({ product }: TProps) {
          <Stack>
             <TextBack />
 
-            <Paper shadow="md" radius="lg" withBorder p="xl" style={{ overflow: `hidden` }}>
-               <Box className={`${classes[`box-1`]}`}>
-                  <Box style={{ borderRadius: `10px`, overflow: `hidden`, height: `min-content` }}>
-                     <ProductImage src={`${product.imagePublicId}`} />
-                  </Box>
+            <Paper shadow="md" radius="lg" withBorder p="lg" style={{ overflow: `hidden` }}>
+               <Box
+                  sx={(_, u) => {
+                     return {
+                        display: `grid`,
+                        gap: `30px`,
+                        [u.smallerThan(`md`)]: {
+                           gridTemplateColumns: `1fr`,
+                           gridTemplateRows: `1fr 1fr`,
+                        },
+                        [u.largerThan(`md`)]: {
+                           gridTemplateColumns: `0.45fr 0.55fr`,
+                           gridTemplateRows: `1fr`,
+                        },
+                     };
+                  }}
+               >
+                  <ProductImageGallery images={product.imagePublicIds || []} />
 
                   <Stack>
                      <Text fz={25} fw={900}>

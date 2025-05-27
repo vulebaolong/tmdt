@@ -4,6 +4,7 @@ import ImageCustom from "@/components/custom/image-custom/ImageCustom";
 import NoImage from "@/components/no-image/NoImage";
 import { BASE_DOMAIN_CLOUDINARY } from "@/constant/app.constant";
 import ROUTER_CLIENT from "@/constant/router.constant";
+import { renderData } from "@/helpers/function.helper";
 import useRouter from "@/hooks/use-router-custom";
 import { IProduct } from "@/schemas/product.schema";
 import { Box, Center, Stack, Text } from "@mantine/core";
@@ -62,10 +63,10 @@ export default function ProductItem2({ product, type = `show`, preview }: TProps
                },
             }}
          >
-            {!preview && !product.imagePublicId ? (
+            {!preview && !product.imagePublicIds?.[0] ? (
                <NoImage />
             ) : (
-               <ImageCustom src={preview ? preview : `${BASE_DOMAIN_CLOUDINARY}${product.imagePublicId}`} alt="" />
+               <ImageCustom src={preview ? preview : `${BASE_DOMAIN_CLOUDINARY}${product.imagePublicIds?.[0]}`} alt="" />
             )}
          </Box>
          <Box>
@@ -88,7 +89,7 @@ export default function ProductItem2({ product, type = `show`, preview }: TProps
                   return { fontWeight: 700, color: theme.colors.spaTheme[5] };
                }}
             >
-               {product.price}₫
+               ₫{renderData(product.price)}
             </Text>
          </Center>
       </Stack>
