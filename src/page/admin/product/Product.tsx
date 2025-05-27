@@ -8,13 +8,13 @@ import { formatLocalTime, getEnumKeys, renderData } from "@/helpers/function.hel
 import { IProduct } from "@/schemas/product.schema";
 import { useCreateProduct, useDeleteProduct, useProducts, useUpdateProduct } from "@/tantask/product.tanstack";
 import { EProductCategory } from "@/types/enum/product.enum";
+import { Carousel } from "@mantine/carousel";
 import { Box, Stack, Text } from "@mantine/core";
 import { IconCurrencyDollar } from "@tabler/icons-react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 import classes from "./Product.module.css";
-import { Carousel } from "@mantine/carousel";
 
 export default function Product() {
    const t = useTranslations();
@@ -46,7 +46,22 @@ export default function Product() {
             cell: ({ cell }) => {
                const images = cell.getValue() as string[];
                return (
-                  <Carousel slideSize="50%" slideGap="xs" withIndicators={false} mah={200} mt="md" emblaOptions={{ align: "start" }}>
+                  <Carousel
+                     slideSize="50%"
+                     slideGap="xs"
+                     withIndicators={false}
+                     mah={200}
+                     mt="md"
+                     emblaOptions={{ align: "start" }}
+                     styles={(theme) => {
+                        return {
+                           control: {
+                              background: theme.colors.spaTheme[5],
+                              color: `white`,
+                           },
+                        };
+                     }}
+                  >
                      {images.map((img, i) => (
                         <Carousel.Slide key={i}>
                            <Box>

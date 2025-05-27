@@ -22,7 +22,12 @@ const nextConfig: NextConfig = {
          },
       ],
    },
-   devIndicators: false
+   experimental: {
+      serverActions: {
+         bodySizeLimit: "100mb",
+      },
+   },
+   devIndicators: false,
 };
 
 export default withNextIntl(nextConfig);
