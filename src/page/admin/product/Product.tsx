@@ -215,6 +215,7 @@ export default function Product() {
             enum: EProductCategory,
             dataTags: getEnumKeys(EProductCategory),
             withAsterisk: true,
+            initValue: [],
          },
          {
             label: t("Shipping Fee"),

@@ -1,4 +1,5 @@
 import { buildInitialValues, buildValidationSchema } from "@/helpers/function.helper";
+import { useIsMobile } from "@/hooks/is-mobile.hook";
 import { Box, Button, Drawer, NumberInput, Radio, Select, Stack, TagsInput, Textarea, TextInput } from "@mantine/core";
 import { UseMutationResult } from "@tanstack/react-query";
 import { useFormik } from "formik";
@@ -6,7 +7,6 @@ import { useMemo } from "react";
 import CustomPasswordInput from "../password-input/CustomPasswordInput";
 import { TFieldCreate } from "./ContentAdmin";
 import TextEditor from "./TextEditor";
-import { useIsMobile } from "@/hooks/is-mobile.hook";
 
 type TProps = {
    editData: any;
@@ -23,7 +23,7 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
    const isMobile = useIsMobile();
    const initialValues = useMemo(() => buildInitialValues(editData ? updates : creates), [editData, updates, creates]);
    const validationSchema = useMemo(() => buildValidationSchema(editData ? updates : creates), [editData, updates, creates]);
-   
+
    const createForm = useFormik({
       initialValues: editData ? { ...initialValues, ...editData } : initialValues,
       validationSchema,
@@ -75,7 +75,6 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
       },
    });
 
-
    return (
       <Drawer
          position={`right`}
@@ -92,9 +91,7 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
             <Stack>
                {(editData ? updates : creates).map((field) => {
                   const error =
-                     createForm.touched[field.name] && createForm.errors[field.name]
-                        ? (createForm.errors[field.name] as string)
-                        : undefined;
+                     createForm.touched[field.name] && createForm.errors[field.name] ? (createForm.errors[field.name] as string) : undefined;
 
                   if (field.type === "custom" && field.component) {
                      return (
@@ -207,25 +204,35 @@ export default function DrawerMutation({ editData, updates, creates, update, cre
                   }
 
                   if (field.type === "tags") {
+                     const rawValue = createForm.values?.[field.name];
+
+                     const selectedValues = Array.isArray(rawValue)
+                        ? rawValue
+                             .map((item: number) => {
+                                const label = field.enum?.[item];
+                                return typeof label === "string" ? label.trim() : null;
+                             })
+                             .filter(Boolean) 
+                        : [];
+
                      return (
                         <TagsInput
-                           placeholder={field.placeholder || field.label}
                            key={field.name}
+                           placeholder={field.placeholder || field.label}
                            withAsterisk={field.withAsterisk}
                            label={field.label}
                            data={field.dataTags}
-                           // value={(createForm.values[field.name] || []).map((item: number) => field.enum[item]).filter(Boolean)}
-                           value={
-                              Array.isArray(createForm.values[field.name])
-                                 ? createForm.values[field.name].map((item: number) => field.enum?.[item])
-                                 : []
-                           }
+                           value={selectedValues}
                            error={error}
                            onChange={(e) => {
-                              createForm.setFieldValue(
-                                 field.name,
-                                 e.map((item: any) => field.enum?.[item as keyof typeof field.enum] as number)
-                              );
+                              const parsed = Array.isArray(e)
+                                 ? e
+                                      .map((item: any) => Object.entries(field.enum || {}).find(([, val]) => val === item)?.[0])
+                                      .filter(Boolean)
+                                      .map(Number) 
+                                 : [];
+
+                              createForm.setFieldValue(field.name, parsed);
                            }}
                            inputWrapperOrder={["label", "input", "error"]}
                            {...field?.props}
