@@ -35,7 +35,7 @@ export default function ProductUploadImages({ value, onChange, error }: Props) {
                onChange([...value, ...files]);
             }}
             onReject={(files) => console.log("rejected files", files)}
-            maxSize={1 * 1024 ** 2}
+            maxSize={100 * 1024 ** 2}
             accept={IMAGE_MIME_TYPE}
             multiple
          >

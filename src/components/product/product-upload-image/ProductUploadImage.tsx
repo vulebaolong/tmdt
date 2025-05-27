@@ -33,7 +33,7 @@ export default function ProductUploadImage({ value, onChange, error }: Props) {
                }
             }}
             onReject={(files) => console.log("rejected files", files)}
-            maxSize={1 * 1024 ** 2}
+            maxSize={100 * 1024 ** 2}
             accept={IMAGE_MIME_TYPE}
          >
             <Group p={20} justify="center" gap="xl" mih={220} style={{ pointerEvents: "none" }}>
