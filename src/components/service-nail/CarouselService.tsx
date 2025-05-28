@@ -66,14 +66,21 @@ export default function CarouselService() {
             return (
                <Carousel.Slide
                   key={i}
-                  sx={{
-                     zIndex: selectedIndex === i ? "2" : "1",
+                  sx={(theme, u) => {
+                     return {
+                        zIndex: selectedIndex === i ? "2" : "1",
+                        [u.smallerThan("md")]: {
+                           borderRadius: 16,
+                           overflow: "hidden",
+                        },
+                     };
                   }}
                >
                   <Stack
                      sx={{
                         height: "100%",
-                        transform: selectedIndex === i && services.data?.items?.length > 3 ? `scale(${1 + addScale}, 1)` : `scale(1, ${1 - addScale})`,
+                        transform:
+                           selectedIndex === i && services.data?.items?.length > 3 ? `scale(${1 + addScale}, 1)` : `scale(1, ${1 - addScale})`,
                         transition: "all 0.3s ease",
                         background: `white`,
                         borderRadius: 16,

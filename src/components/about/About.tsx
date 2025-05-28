@@ -26,13 +26,33 @@ export default function About() {
             }}
          >
             <Box
-               sx={{
-                  display: `grid`,
-                  gridTemplateColumns: `0.4fr 0.6fr`,
-                  gap: 20,
+               sx={(_, u) => {
+                  return {
+                     display: `grid`,
+                     gap: 20,
+                     [u.largerThan("md")]: {
+                        gridTemplateColumns: `0.4fr 0.6fr`,
+                     },
+                     [u.smallerThan("md")]: {
+                        gridTemplateColumns: `1fr`,
+                     },
+                  };
                }}
             >
-               <Box w={`100%`}>
+               <Box
+                  sx={(_, u) => {
+                     return {
+                        marginLeft: `auto`,
+                        marginRight: `auto`,
+                        [u.smallerThan("md")]: {
+                           width: `70%`,
+                        },
+                        [u.largerThan("md")]: {
+                           width: `100%`,
+                        },
+                     };
+                  }}
+               >
                   <ImageCustom data-aos="fade-right" src={`/section/1.webp`} alt="" />
                </Box>
                <Stack>

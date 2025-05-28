@@ -47,6 +47,12 @@ export default function Blog() {
                               position: `absolute`,
                               top: `0`,
                               right: `100%`,
+                              [u.largerThan("md")]: {
+                                 display: `block`,
+                              },
+                              [u.smallerThan("md")]: {
+                                 display: `none`,
+                              },
                            },
                            "&::after": {
                               content: "''",
@@ -58,6 +64,12 @@ export default function Blog() {
                               position: `absolute`,
                               top: `0`,
                               left: `calc(100% + 10px)`,
+                              [u.largerThan("md")]: {
+                                 display: `block`,
+                              },
+                              [u.smallerThan("md")]: {
+                                 display: `none`,
+                              },
                            },
                            ...titleSx(theme, u),
                            ...hoverColor(theme, u, theme.colors.spaTheme[6]),

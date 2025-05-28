@@ -79,7 +79,7 @@ export default function Transaction() {
             },
          }),
          columnHelper.accessor("createdAt", {
-            header: "CreatedAt",
+            header: "Ngày tạo",
             size: 150,
             cell: ({ cell }) => (
                <Text truncate="end" maw={150} className={`${classes[`text`]}`} size="sm">

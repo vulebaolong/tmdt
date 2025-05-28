@@ -9,7 +9,6 @@ import { Badge, Box, Button, Center, Group, Stack, Tabs, Text, Title } from "@ma
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 import ProductItem2 from "../product-item/ProductItem2";
-import classes from "./ProductList.module.css";
 
 type TProps = {
    products: TResPagination<IProduct>;
@@ -130,7 +129,22 @@ function ProductList({ products: initialProducts }: TProps) {
             </Tabs>
 
             <Stack w={`100%`}>
-               <Box className={`${classes[`box-container`]}`}>
+               <Box
+                  sx={(_, u) => {
+                     return {
+                        display: `grid`,
+                        gridTemplateRows: `min-content`,
+                        gap: `20px`,
+                        gridTemplateColumns: `1fr`,
+                        [u.largerThan("sm")]: {
+                           gridTemplateColumns: `1fr 1fr`,
+                        },
+                        [u.largerThan("md")]: {
+                           gridTemplateColumns: `1fr 1fr 1fr 1fr`,
+                        },
+                     };
+                  }}
+               >
                   {products.map((product, i) => {
                      return (
                         <Box

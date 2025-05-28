@@ -23,21 +23,32 @@ export default function Banner2() {
       >
          <Box style={{ position: `absolute`, top: 0, left: 0, width: `100%` }}>
             <Container pos={`relative`}>
-               <Stack pt={`30%`}>
+               <Stack
+                  pt={`30%`}
+                  sx={(_, u) => {
+                     return {
+                        [u.smallerThan("md")]: {
+                           maxWidth: `100%`,
+                        },
+                        [u.largerThan("md")]: {
+                           maxWidth: `70%`,
+                        },
+                     };
+                  }}
+               >
                   <Title
                      data-aos="fade-right"
                      sx={(theme) => {
                         return {
                            fontFamily: "Great Vibes, cursive",
-                           maxWidth: `70%`,
                            color: theme.colors.spaTheme[1],
-                           fontSize: `80px`,
+                           fontSize: `clamp(50px, 5vw, 80px)`,
                         };
                      }}
                   >
                      Đến {TITLE} ngay
                   </Title>
-                  <Text c={`white`} size="xl" mt="xl" maw={`70%`} data-aos="fade-left">
+                  <Text c={`white`} size="xl" mt="xl" data-aos="fade-left">
                      Bạn sẽ tìm thấy an yên trong không gian ấm áp, nhấp tách trà nóng. thả lỏng cho mùi hương dịu dàng và bản nhạc cũ xoa dịu tâm hồn
                      bạn, và để đôi bàn tay của đội ngũ nhân viên thân thiện và chuyên
                   </Text>

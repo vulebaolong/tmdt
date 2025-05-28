@@ -5,7 +5,7 @@ import { IconActivity, IconBrandAppleArcade, IconFingerprint, IconGauge } from "
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import UserAction from "../user-action/UserAction";
-import UserMenu from "../user-menu/UserMenu";
+import UserMenu from "../user-menu/UserMenuLoginYes";
 
 const navLinks = [
    {

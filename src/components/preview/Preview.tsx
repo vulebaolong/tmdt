@@ -98,24 +98,32 @@ export default function Preview() {
                               <Stack gap={50} sx={{ padding: `50px 0`, alignItems: `center` }}>
                                  <Center>
                                     <Text
-                                       sx={{
-                                          "&::before": {
-                                             content: '""',
-                                             backgroundImage: `url(/section/5-4.webp)`,
-                                             backgroundRepeat: `no-repeat`,
-                                             position: `absolute`,
-                                             top: `-30px`,
-                                             right: `calc(100% + 20px)`,
-                                             width: `68px`,
-                                             height: `51px`,
-                                             backgroundSize: `contain`,
-                                          },
-                                          position: "relative",
-                                          color: `white`,
-                                          fontWeight: 400,
-                                          fontSize: 16,
-                                          maxWidth: `80%`,
-                                          textAlign: `center`,
+                                       sx={(_, u) => {
+                                          return {
+                                             "&::before": {
+                                                content: '""',
+                                                backgroundImage: `url(/section/5-4.webp)`,
+                                                backgroundRepeat: `no-repeat`,
+                                                position: `absolute`,
+                                                top: `-30px`,
+                                                right: `calc(100% + 20px)`,
+                                                width: `68px`,
+                                                height: `51px`,
+                                                backgroundSize: `contain`,
+                                                [u.largerThan("md")]: {
+                                                   display: `block`,
+                                                },
+                                                [u.smallerThan("md")]: {
+                                                   display: `none`,
+                                                },
+                                             },
+                                             position: "relative",
+                                             color: `white`,
+                                             fontWeight: 400,
+                                             fontSize: 16,
+                                             maxWidth: `80%`,
+                                             textAlign: `center`,
+                                          };
                                        }}
                                     >
                                        {preview.text}

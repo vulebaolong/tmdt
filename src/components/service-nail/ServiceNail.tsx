@@ -4,6 +4,7 @@ import { Box, Container, Divider, Group, Stack, Text } from "@mantine/core";
 import { Fragment } from "react";
 import { titleSx } from "../provider/mantine/sx/text.sx";
 import CarouselService from "./CarouselService";
+import { MOBILE_HIDDEN_DESKTOP_VISIBLE } from "@/constant/app.constant";
 
 const list = [
    { t: 1700, d: `Khách hàng/tháng` },
@@ -40,7 +41,7 @@ export default function ServiceNail() {
                   <CarouselService />
                </Box>
 
-               <Group sx={{ justifyContent: `space-between`, alignItems: `center` }}>
+               <Group sx={{ justifyContent: `space-between`, alignItems: `center` }} className={`${MOBILE_HIDDEN_DESKTOP_VISIBLE}`}>
                   {list.map((item, i) => {
                      return (
                         <Fragment key={i}>

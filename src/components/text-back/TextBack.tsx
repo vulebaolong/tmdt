@@ -1,7 +1,7 @@
 "use client"
 
-import { Text } from "@mantine/core";
 import useRouter from "@/hooks/use-router-custom";
+import Text from "../custom/text-custom/TextCustom";
 
 export default function TextBack() {
    const router = useRouter();
@@ -13,7 +13,7 @@ export default function TextBack() {
          }}
          style={{ textDecoration: `underline`, cursor: `pointer`, opacity: 0.5 }}
       >
-         Quay lại
+         Back
       </Text>
    );
 }

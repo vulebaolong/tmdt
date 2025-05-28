@@ -7,6 +7,18 @@
       "en": "English",
       "label": "Language"
    },
+   "setting": {
+      "Display language": "Display language",
+      "Display mode": "Display mode",
+      "Appearance": "Appearance",
+      "Account": "Account",
+      "vi": "Vietnamese",
+      "en": "English",
+      "Logout": "Logout",
+      "General Settings": "General Settings",
+      "Light": "Light",
+      "Dark": "Dark"
+   },
    "home-right": {
       "Contact person": "Contact person"
    },
@@ -146,5 +158,6 @@
    "Hotel": "Hotel",
    "Rescue": "Rescue",
    "Upload logo successfully": "Upload logo successfully",
-   "Upload logo failed": "Upload logo failed"
+   "Upload logo failed": "Upload logo failed",
+   "Back": "Back"
 }

@@ -7,6 +7,7 @@ const ROUTER_CLIENT = {
    CART: `/cart`,
    TRANSACTION: `/transaction`,
    SERVICE: `/service`,
+   SETTING: `/setting`,
 };
 
 export const ROUTER_ADMIN = {

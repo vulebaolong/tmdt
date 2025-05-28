@@ -3,13 +3,18 @@ import { EmotionHelpers } from "@mantine/emotion";
 
 type TEmotionSxFunction = (theme: MantineTheme, u: EmotionHelpers, extra?: any) => any;
 
-export const titleSx: TEmotionSxFunction = (theme: MantineTheme) => {
+export const titleSx: TEmotionSxFunction = (theme, u) => {
    return {
-      fontSize: 50,
       fontWeight: 700,
       fontFamily: "Great Vibes, cursive",
       color: theme.colors.spaTheme[5],
       lineHeight: 1,
+      [u.largerThan("md")]: {
+         fontSize: 50,
+      },
+      [u.smallerThan("md")]: {
+         fontSize: 40,
+      },
    };
 };
 
