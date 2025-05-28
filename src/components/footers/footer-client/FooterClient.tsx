@@ -2,11 +2,12 @@
 
 import { Logo2 } from "@/components/logo2/Logo2";
 import PhoneLink from "@/components/phone-link/PhoneLink";
+import linkApp from "@/constant/link.constant";
 import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { useAppSelector } from "@/redux/hooks";
 import { ActionIcon, Box, Button, Container, Divider, Group, rem, Stack, Text, useMantineTheme } from "@mantine/core";
-import { IconBrandInstagram, IconBrandTwitter, IconBrandYoutube, IconMapPinFilled, IconPhoneFilled } from "@tabler/icons-react";
+import { IconBrandFacebook, IconBrandShopee, IconBrandTiktok, IconMapPinFilled, IconPhoneFilled } from "@tabler/icons-react";
 import FooterAdmin from "../footer-admin/FooterAdmin";
 
 export default function FooterClient() {
@@ -50,12 +51,13 @@ export default function FooterClient() {
                   </Text>
                   <Group gap={0} wrap="nowrap">
                      {[
-                        { icon: IconBrandTwitter, link: "https://twitter.com/" },
-                        { icon: IconBrandYoutube, link: "https://www.youtube.com/" },
-                        { icon: IconBrandInstagram, link: "https://www.instagram.com/" },
+                        { icon: IconBrandTiktok, link: linkApp.tiktok },
+                        { icon: IconBrandShopee, link: linkApp.shopee },
+                        { icon: IconBrandFacebook, link: linkApp.facebook },
                      ].map((item, i) => {
                         return (
                            <ActionIcon
+                              onClick={() => window.open(item.link, "_blank")}
                               key={i}
                               size="lg"
                               sx={(theme) => {
