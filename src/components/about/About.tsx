@@ -33,22 +33,27 @@ export default function About() {
                }}
             >
                <Box w={`100%`}>
-                  <ImageCustom src={`/section/1.webp`} alt="" />
+                  <ImageCustom data-aos="fade-right" src={`/section/1.webp`} alt="" />
                </Box>
                <Stack>
                   <Box>
-                     <Text sx={titleSx}>{TITLE}</Text>
-                     <Text sx={descriptionSx}>Góc thôn quen để tụ tập</Text>
+                     <Text data-aos="fade-left" sx={titleSx}>
+                        {TITLE}
+                     </Text>
+                     <Text sx={descriptionSx} data-aos="fade-left" data-aos-delay="100">
+                        Góc thôn quen để tụ tập
+                     </Text>
                   </Box>
-                  <Text sx={descriptionSx}>
+                  <Text sx={descriptionSx} data-aos="fade-left" data-aos-delay="200">
                      Tĩnh lặng và dịu sâu - đó là cảm giác đầu tiên khi khẽ mở cánh cửa gỗ nâu quen thuộc Calming spa muốn mang đến cho khách hàng -
-                     những người bạn của mình. Giữa trung tâm Sài Gòn náo nhiệt, Nailature khép mình ẩn náu trong một không gian kín đáo, dịu dàng. Nơi sẽ
-                     ngay lập tức như đưa bạn trở về nhà, như lạc về một miền kí ức thân thương của những nồi nước lá xông thơm phức đến từng ngón
-                     tay, sợi tóc. Để cảm xúc được nâng niu, chiều chuộng sau một ngày dài mệt mỏi… {TITLE} - đúng như tên gọi, theo đuổi tiêu chí làm
-                     đẹp...
+                     những người bạn của mình. Giữa trung tâm Sài Gòn náo nhiệt, Nailature khép mình ẩn náu trong một không gian kín đáo, dịu dàng.
+                     Nơi sẽ ngay lập tức như đưa bạn trở về nhà, như lạc về một miền kí ức thân thương của những nồi nước lá xông thơm phức đến từng
+                     ngón tay, sợi tóc. Để cảm xúc được nâng niu, chiều chuộng sau một ngày dài mệt mỏi… {TITLE} - đúng như tên gọi, theo đuổi tiêu
+                     chí làm đẹp...
                   </Text>
 
                   <Text
+                     data-aos="fade-up"
                      sx={(theme, u) => {
                         return {
                            ...descriptionSx(theme, u),

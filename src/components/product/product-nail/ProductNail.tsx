@@ -3,7 +3,7 @@
 import { hoverColor, titleSx } from "@/components/provider/mantine/sx/text.sx";
 import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
-import { Center, Container, Stack, Text } from "@mantine/core";
+import { Box, Center, Container, Stack, Text } from "@mantine/core";
 import ProductCarousel from "../product-carousel/ProductCarousel";
 
 export default function ProductNail() {
@@ -47,12 +47,15 @@ export default function ProductNail() {
                            ...hoverColor(theme, u, theme.colors.spaTheme[6]),
                         };
                      }}
+                     data-aos="fade-right"
                   >
                      Sản phẩm nổi bật
                   </Text>
                </Center>
 
-               <ProductCarousel />
+               <Box data-aos="fade-up" data-aos-delay="300" mih={330}>
+                  <ProductCarousel />
+               </Box>
             </Stack>
          </Container>
       </section>

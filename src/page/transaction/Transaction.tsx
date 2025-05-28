@@ -37,7 +37,7 @@ export default function Transaction() {
             header: "Số tiền",
             size: 150,
             cell: ({ cell }) => (
-               <Text truncate="end" fw={500} maw={150} className={`${classes[`text`]}`} size="sm" c={theme.colors.shopee[5]}>
+               <Text truncate="end" fw={500} maw={150} className={`${classes[`text`]}`} size="sm" c={theme.colors.spaTheme[5]}>
                   ₫{renderData(cell.getValue())}
                </Text>
             ),

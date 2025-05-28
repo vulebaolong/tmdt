@@ -41,12 +41,14 @@ export default function Album() {
                            ...hoverColor(theme, u, theme.colors.spaTheme[6]),
                         };
                      }}
+                     data-aos="fade-right"
                   >
                      Thư viện ảnh Nailature
                   </Text>
                </Center>
 
                <Box
+                  data-aos="fade-left"
                   sx={() => ({
                      display: "grid",
                      gridTemplateColumns: "repeat(3, 1fr)",

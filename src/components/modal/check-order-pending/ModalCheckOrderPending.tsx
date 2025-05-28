@@ -35,7 +35,7 @@ export default function ModalCheckOrderPending({ opened, close, title, onSubmit,
                </Text>
             </Center>
             <Center>
-               <Button onClick={onSubmit} color={theme.colors.shopee[5]}>
+               <Button onClick={onSubmit} color={theme.colors.spaTheme[5]}>
                   Đi đến đơn hàng
                </Button>
             </Center>

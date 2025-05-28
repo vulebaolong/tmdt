@@ -25,6 +25,7 @@ export default function Banner2() {
             <Container pos={`relative`}>
                <Stack pt={`30%`}>
                   <Title
+                     data-aos="fade-right"
                      sx={(theme) => {
                         return {
                            fontFamily: "Great Vibes, cursive",
@@ -36,7 +37,7 @@ export default function Banner2() {
                   >
                      Đến {TITLE} ngay
                   </Title>
-                  <Text c={`white`} size="xl" mt="xl" maw={`70%`}>
+                  <Text c={`white`} size="xl" mt="xl" maw={`70%`} data-aos="fade-left">
                      Bạn sẽ tìm thấy an yên trong không gian ấm áp, nhấp tách trà nóng. thả lỏng cho mùi hương dịu dàng và bản nhạc cũ xoa dịu tâm hồn
                      bạn, và để đôi bàn tay của đội ngũ nhân viên thân thiện và chuyên
                   </Text>
@@ -55,6 +56,7 @@ export default function Banner2() {
                      radius="xl"
                      w={`fit-content`}
                      gradient={{ from: theme.colors.spaTheme[7], to: theme.colors.spaTheme[2], deg: 79 }}
+                     data-aos="fade-up"
                   >
                      {info ? `Mua ngay` : `Đăng ký ngay`}
                   </Button>

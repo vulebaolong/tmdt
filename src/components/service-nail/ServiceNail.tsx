@@ -31,18 +31,21 @@ export default function ServiceNail() {
                   sx={(theme, u) => {
                      return { ...titleSx(theme, u), textAlign: `center` };
                   }}
+                  data-aos="fade-right"
                >
                   Top dịch vụ trong tháng
                </Text>
 
-               <CarouselService />
+               <Box data-aos="fade-up" data-aos-delay="300">
+                  <CarouselService />
+               </Box>
 
                <Group sx={{ justifyContent: `space-between`, alignItems: `center` }}>
                   {list.map((item, i) => {
                      return (
                         <Fragment key={i}>
                            {i > 0 && <Divider orientation="vertical" opacity={0.5} color="rgba(255,255,255,0.9)" size={1} />}
-                           <Stack>
+                           <Stack data-aos="fade-up" data-aos-delay={i * 100}>
                               <Text
                                  sx={(theme) => {
                                     return {
@@ -57,10 +60,12 @@ export default function ServiceNail() {
                                  {item.t}
                               </Text>
                               <Text
-                                 sx={{
-                                    fontWeight: 500,
-                                    fontSize: 22,
-                                    color: `white`,
+                                 sx={(theme) => {
+                                    return {
+                                       fontWeight: 500,
+                                       fontSize: 22,
+                                       color: theme.colors.spaTheme[5],
+                                    };
                                  }}
                               >
                                  {item.d}

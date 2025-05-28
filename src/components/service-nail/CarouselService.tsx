@@ -16,7 +16,7 @@ export default function CarouselService() {
    const router = useRouter();
    const [selectedIndex, setSelectedIndex] = useState(-1);
    const [embla, setEmbla] = useState<any>(null);
-   const services = useServices({ pagination: { pageIndex: 1, pageSize: 6 } });
+   const services = useServices({ pagination: { pageIndex: 1, pageSize: 999 } });
 
    useEffect(() => {
       console.log(selectedIndex);
@@ -35,12 +35,12 @@ export default function CarouselService() {
    return (
       <Carousel
          getEmblaApi={setEmbla}
-         withIndicators
+         withIndicators={(services.data?.items?.length || 0) > 3}
          withControls={false}
          height={500}
          slideSize={{ base: "100%", md: "33.333333%" }}
          slideGap={{ base: 0 }}
-         emblaOptions={{ loop: true, align: "center" }}
+         emblaOptions={{ loop: (services.data?.items?.length || 0) > 3, align: "center" }}
          styles={(theme) => {
             return {
                indicator: {
@@ -73,7 +73,7 @@ export default function CarouselService() {
                   <Stack
                      sx={{
                         height: "100%",
-                        transform: selectedIndex === i ? `scale(${1 + addScale}, 1)` : `scale(1, ${1 - addScale})`,
+                        transform: selectedIndex === i && services.data?.items?.length > 3 ? `scale(${1 + addScale}, 1)` : `scale(1, ${1 - addScale})`,
                         transition: "all 0.3s ease",
                         background: `white`,
                         borderRadius: 16,
@@ -95,7 +95,7 @@ export default function CarouselService() {
                      </Text>
                      <Text
                         sx={(theme, u) => {
-                           return { ...descriptionSx(theme, u), textAlign: `center` };
+                           return { ...descriptionSx(theme, u), textAlign: `center`, [u.dark]: { color: `black` } };
                         }}
                      >
                         {service.description}

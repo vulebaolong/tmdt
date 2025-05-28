@@ -69,7 +69,7 @@ export default function ProductListCart({ cartList, disabled, setTotalPrice, set
                      </Box>
 
                      <Box w={100}>
-                        <ProductImage src={item.productId.imagePublicId} />
+                        <ProductImage src={item.productId.imagePublicIds[0]} />
                      </Box>
 
                      <Box className={`${classes[`box-2`]}`}>

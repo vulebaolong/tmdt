@@ -12,6 +12,7 @@ type TProps = {
 export default function BlogCarousel({ listBlog }: TProps) {
    return (
       <Carousel
+         height={550}
          withIndicators
          withControls={false}
          slideSize={{ base: "100%" }}

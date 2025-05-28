@@ -48,7 +48,7 @@ export default function InputSearchHeader() {
                   size="md"
                   styles={{ input: { backgroundColor: `transparent`, border: `transparent`, color: `black` } }}
                />
-               <Button size="md" color={theme.colors.shopee[5]}>
+               <Button size="md" color={theme.colors.spaTheme[5]}>
                   <IconSearch stroke={1} />
                </Button>
             </Group>
@@ -70,7 +70,7 @@ export default function InputSearchHeader() {
                      >
                         <ProductImage width="30px" height="30px" src={product.imagePublicId} />
                         <Text truncate="end">{product.name}</Text>
-                        <Text style={{ color: theme.colors.shopee[5], fontWeight: 900 }}>₫{renderData(product.price)}</Text>
+                        <Text style={{ color: theme.colors.spaTheme[5], fontWeight: 900 }}>₫{renderData(product.price)}</Text>
                      </Group>
                   );
                })}

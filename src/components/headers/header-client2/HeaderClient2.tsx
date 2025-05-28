@@ -125,10 +125,14 @@ export default function HeaderClient2() {
                   };
                }}
             >
-               <Logo2 width={70} />
+               <Box data-aos="fade-right">
+                  <Logo2 width={70} />
+               </Box>
                <Group gap={50}>
                   {listNav.map((item, i) => (
                      <Text
+                        data-aos="fade-up"
+                        data-aos-delay={i * 100}
                         key={i}
                         sx={(theme, u) => {
                            return {

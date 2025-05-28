@@ -68,7 +68,7 @@ export function Service() {
                      className={classes.card}
                      padding="xl"
                   >
-                     <feature.icon size={50} stroke={2} color={theme.colors.shopee[5]} />
+                     <feature.icon size={50} stroke={2} color={theme.colors.spaTheme[5]} />
                      <Text fz="lg" fw={500} className={classes.cardTitle} mt="md">
                         {feature.title}
                      </Text>

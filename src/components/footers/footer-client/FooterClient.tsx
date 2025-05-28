@@ -32,7 +32,7 @@ export default function FooterClient() {
                   };
                }}
             >
-               <Stack sx={{ justifyContent: `space-between` }}>
+               <Stack sx={{ justifyContent: `space-between` }} data-aos="fade-right">
                   <Box sx={{ height: `70px` }}>
                      <Logo2 width={70} />
                   </Box>
@@ -45,8 +45,8 @@ export default function FooterClient() {
                         color: `#e4e2e1`,
                      }}
                   >
-                     Chúng tôi mong muốn Nailature sẽ trở thành &quot;Nhà Nail&quot;, nơi mọi người giải tỏa được sự mệt mỏi và tìm thấy niềm vui, sự sẻ chia thân
-                     tình bên bạn bè và người thân.
+                     Nailature mang đến lựa chọn làm đẹp nhẹ nhàng, an toàn và thân thiện với môi trường. Sản phẩm tinh tế, tối giản, tôn lên cá tính.
+                     Làm đẹp là cách yêu thương bản thân và thế giới quanh ta.
                   </Text>
                   <Group gap={0} wrap="nowrap">
                      {[
@@ -73,7 +73,7 @@ export default function FooterClient() {
                   </Group>
                </Stack>
 
-               <Stack sx={{ justifyContent: `space-between` }}>
+               <Stack data-aos="fade-up">
                   <Text
                      sx={(theme) => {
                         return {
@@ -120,7 +120,7 @@ export default function FooterClient() {
                   </Group>
                </Stack>
 
-               <Stack sx={{ justifyContent: `space-between` }}>
+               <Stack data-aos="fade-left">
                   <Text
                      sx={(theme) => {
                         return {
@@ -158,7 +158,7 @@ export default function FooterClient() {
                   </Button>
                </Stack>
             </Box>
-            <Divider opacity={0.5} sx={{marginTop: `20px`}} />
+            <Divider opacity={0.5} sx={{ marginTop: `20px` }} />
             <Box h={`40px`}>
                <FooterAdmin />
             </Box>

@@ -2,7 +2,7 @@
 
 import { hoverColor, titleSx } from "@/components/provider/mantine/sx/text.sx";
 import { useIsMobile } from "@/hooks/is-mobile.hook";
-import { Center, Container, Stack, Text } from "@mantine/core";
+import { Box, Center, Container, Stack, Text } from "@mantine/core";
 import BlogCarousel from "./BlogCarousel";
 import BlogList from "./BlogList";
 
@@ -32,6 +32,7 @@ export default function Blog() {
             <Stack gap={50}>
                <Center>
                   <Text
+                     data-aos="fade-right"
                      sx={(theme, u) => {
                         return {
                            position: "relative",
@@ -67,7 +68,7 @@ export default function Blog() {
                   </Text>
                </Center>
 
-               {isMobile ? <BlogCarousel listBlog={listBlog} /> : <BlogList listBlog={listBlog} />}
+               <Box data-aos="fade-up">{isMobile ? <BlogCarousel listBlog={listBlog} /> : <BlogList listBlog={listBlog} />}</Box>
             </Stack>
          </Container>
       </section>

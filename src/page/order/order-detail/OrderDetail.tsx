@@ -115,7 +115,7 @@ export default function OrderDetail({ id }: TProps) {
                   {getOrderById.data && (
                      <Stack>
                         <Center>
-                           <Text style={{ color: theme.colors.shopee[5], fontSize: 22, fontWeight: 800 }}>ĐƠN HÀNG</Text>
+                           <Text style={{ color: theme.colors.spaTheme[5], fontSize: 22, fontWeight: 800 }}>ĐƠN HÀNG</Text>
                         </Center>
 
                         {timeLeft === 0 && (
@@ -351,7 +351,7 @@ export default function OrderDetail({ id }: TProps) {
                                     Tổng thanh toán:
                                  </Text>
 
-                                 <Text style={{ fontSize: 25, color: theme.colors.shopee[5], fontWeight: 900 }}>
+                                 <Text style={{ fontSize: 25, color: theme.colors.spaTheme[5], fontWeight: 900 }}>
                                     ₫{renderData(getOrderById.data?.data?.totalPrice)}
                                  </Text>
                               </Group>

@@ -114,7 +114,7 @@ export default function HeaderClient() {
                         }
                         size={20}
                         color={`white`}
-                        styles={{ indicator: { color: theme.colors.shopee[5], fontWeight: `bold`, fontSize: `15px` } }}
+                        styles={{ indicator: { color: theme.colors.spaTheme[5], fontWeight: `bold`, fontSize: `15px` } }}
                         disabled={cartCountQuery.isLoading || !cartCountQuery.data}
                      >
                         <IconShoppingCart

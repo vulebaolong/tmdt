@@ -37,6 +37,7 @@
     "@tiptap/pm": "^2.11.7",
     "@tiptap/react": "^2.11.7",
     "@tiptap/starter-kit": "^2.11.7",
+    "aos": "^2.3.4",
     "bcryptjs": "^3.0.2",
     "cloudinary": "^2.6.0",
     "dayjs": "^1.11.13",
@@ -60,6 +61,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/aos": "^3.0.7",
     "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20",
     "@types/qrcode": "^1.5.5",

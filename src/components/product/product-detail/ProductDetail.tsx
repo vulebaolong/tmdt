@@ -56,17 +56,17 @@ export default function ProductDetail({ product }: TProps) {
                      <Group>
                         <Group>
                            <Text opacity={0.5}>Thương hiệu</Text>
-                           <Text c={theme.colors.shopee[5]}>{product.brand ? product.brand : `Đang cập nhật`}</Text>
+                           <Text c={theme.colors.spaTheme[5]}>{product.brand ? product.brand : `Đang cập nhật`}</Text>
                         </Group>
 
                         <Divider orientation="vertical" />
 
                         <Group>
                            <Text opacity={0.5}>Tình trạng</Text>
-                           <Text c={theme.colors.shopee[5]}>{product.inStock ? `Còn hàng` : `Hết hàng`}</Text>
+                           <Text c={theme.colors.spaTheme[5]}>{product.inStock ? `Còn hàng` : `Hết hàng`}</Text>
                         </Group>
                      </Group>
-                     <Text c={theme.colors.shopee[5]} fz={25} fw={700}>
+                     <Text c={theme.colors.spaTheme[5]} fz={25} fw={700}>
                         ₫{renderData(product.price)}
                      </Text>
 
@@ -75,7 +75,7 @@ export default function ProductDetail({ product }: TProps) {
                      <TextContent text={product.description} />
 
                      <Group>
-                        <Button onClick={handleAddToCart} c={theme.colors.shopee[5]} size="xl" w={`min-content`} variant="outline">
+                        <Button onClick={handleAddToCart} c={theme.colors.spaTheme[5]} size="xl" w={`min-content`} variant="outline">
                            Thêm vào giao hàng
                         </Button>
                         <Button

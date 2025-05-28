@@ -84,10 +84,10 @@ export default function ProductCart() {
                <Paper pos={`relative`} shadow="md" radius="lg" withBorder p="xl" style={{ overflow: `hidden` }}>
                   <Stack style={{ filter: `blur(${!info?.address || !info?.phone ? `2px` : `0px`})` }}>
                      <Group gap={5}>
-                        <IconMapPinFilled color={theme.colors.shopee[5]} />
-                        <Text style={{ color: theme.colors.shopee[5], fontSize: 22, fontWeight: 800 }}>Địa Chỉ Nhận Hàng</Text>
+                        <IconMapPinFilled color={theme.colors.spaTheme[5]} />
+                        <Text style={{ color: theme.colors.spaTheme[5], fontSize: 22, fontWeight: 800 }}>Địa Chỉ Nhận Hàng</Text>
                         <ActionIcon onClick={handleModalAdd.open} variant="transparent">
-                           <IconEdit color={theme.colors.shopee[5]} />
+                           <IconEdit color={theme.colors.spaTheme[5]} />
                         </ActionIcon>
                      </Group>
                      <Stack gap={0}>
@@ -195,7 +195,7 @@ export default function ProductCart() {
                                  Tổng thanh toán:
                               </Text>
 
-                              <Text style={{ fontSize: 25, color: theme.colors.shopee[5], fontWeight: 900 }}>
+                              <Text style={{ fontSize: 25, color: theme.colors.spaTheme[5], fontWeight: 900 }}>
                                  ₫{renderData(totalPrice.totalPriceCart)}
                               </Text>
                            </Group>
@@ -211,7 +211,7 @@ export default function ProductCart() {
                            onClick={handleOrder}
                            size="lg"
                            w={150}
-                           color={theme.colors.shopee[5]}
+                           color={theme.colors.spaTheme[5]}
                         >
                            Đặt Hàng
                         </Button>
