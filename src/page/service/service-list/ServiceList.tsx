@@ -105,49 +105,51 @@ export default function ServiceList() {
                   </Center>
                ) : (
                   <>
-                     <Box className={`${classes[`box-container`]}`} mih={300}>
-                        {services.map((service, i) => (
-                           <Stack
-                              key={i}
-                              style={{
-                                 cursor: `pointer`,
-                                 width: `min-content`,
-                                 opacity: "0",
-                                 animation: "fadeInUp 0.5s forwards",
-                                 animationDelay: `${50 * i}ms`,
-                              }}
-                              onClick={() => {
-                                 router.push(`${ROUTER_CLIENT.SERVICE}/${service._id}`);
-                              }}
-                           >
-                              <Paper shadow="sm" radius={15} withBorder p="sm" w={`min-content`}>
-                                 <ProductImage borderRadius={`10px`} width="200px" src={service.thumbnail} />
-                              </Paper>
-                              <TextMantine ta={`center`}>{service.title}</TextMantine>
-                           </Stack>
-                        ))}
-                     </Box>
-
-                     {services.length > 0 && (
-                        <Center>
-                           <Button
-                              loading={getServiceList.isPending}
-                              disabled={page === totalPage.current}
-                              onClick={handleLoadMore}
-                              variant="default"
-                              w={300}
-                           >
-                              {t(`See more`)}
-                           </Button>
+                     {services.length === 0 ? (
+                        <Center w={`100%`} mih={300}>
+                           <Nodata />
                         </Center>
+                     ) : (
+                        <>
+                           <Box className={`${classes[`box-container`]}`} mih={300}>
+                              {services.map((service, i) => (
+                                 <Stack
+                                    key={i}
+                                    style={{
+                                       cursor: `pointer`,
+                                       width: `min-content`,
+                                       opacity: "0",
+                                       animation: "fadeInUp 0.5s forwards",
+                                       animationDelay: `${50 * i}ms`,
+                                    }}
+                                    onClick={() => {
+                                       router.push(`${ROUTER_CLIENT.SERVICE}/${service._id}`);
+                                    }}
+                                 >
+                                    <Paper shadow="sm" radius={15} withBorder p="sm" w={`min-content`}>
+                                       <ProductImage borderRadius={`10px`} width="200px" src={service.thumbnail} />
+                                    </Paper>
+                                    <TextMantine ta={`center`}>{service.title}</TextMantine>
+                                 </Stack>
+                              ))}
+                           </Box>
+
+                           {services.length > 0 && (
+                              <Center>
+                                 <Button
+                                    loading={getServiceList.isPending}
+                                    disabled={page === totalPage.current}
+                                    onClick={handleLoadMore}
+                                    variant="default"
+                                    w={300}
+                                 >
+                                    {t(`See more`)}
+                                 </Button>
+                              </Center>
+                           )}
+                        </>
                      )}
                   </>
-               )}
-
-               {!isFirstLoad && services.length === 0 && (
-                  <Center w={`100%`}>
-                     <Nodata />
-                  </Center>
                )}
             </Stack>
          </Stack>
