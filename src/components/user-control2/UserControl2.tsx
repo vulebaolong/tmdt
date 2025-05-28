@@ -6,6 +6,7 @@ import { Avatar, Group, Menu, Text } from "@mantine/core";
 import { IconUser } from "@tabler/icons-react";
 import UserMenuLoginNo from "../user-menu/UserMenuLoginNo";
 import UserMenuLoginYes from "../user-menu/UserMenuLoginYes";
+import { useState } from "react";
 
 type TProps = {
    colorText?: string;
@@ -14,9 +15,10 @@ type TProps = {
 export default function UserControl2({ colorText = "black" }: TProps) {
    useQueryInfo();
    const info = useAppSelector((state) => state.user.info);
+   const [opened, setOpened] = useState(false);
 
    return (
-      <Menu shadow="md" width={220}>
+      <Menu shadow="md" width={220} opened={opened} onChange={setOpened}>
          <Menu.Target>
             {info ? (
                <Avatar size={32} sx={{ cursor: `pointer` }} name={info?.fullName} color="initials" />
@@ -43,7 +45,9 @@ export default function UserControl2({ colorText = "black" }: TProps) {
             )}
          </Menu.Target>
 
-         <Menu.Dropdown sx={{ borderRadius: `16px`, padding: `8px` }}>{info ? <UserMenuLoginYes /> : <UserMenuLoginNo />}</Menu.Dropdown>
+         <Menu.Dropdown sx={{ borderRadius: `16px`, padding: `8px` }}>
+            {info ? <UserMenuLoginYes setOpened={setOpened} /> : <UserMenuLoginNo setOpened={setOpened} />}
+         </Menu.Dropdown>
       </Menu>
    );
 }

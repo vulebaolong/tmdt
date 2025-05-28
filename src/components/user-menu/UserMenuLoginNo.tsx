@@ -2,7 +2,7 @@ import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { Stack } from "@mantine/core";
 import { IconLogin, IconUserEdit } from "@tabler/icons-react";
-import { Fragment } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 import { toast } from "react-toastify";
 import UserMenuItem from "./UserMenuItem";
 
@@ -19,7 +19,11 @@ const listMenu = [
    },
 ];
 
-export default function UserMenuLoginNo() {
+type TProps = {
+   setOpened: Dispatch<SetStateAction<boolean>>;
+};
+
+export default function UserMenuLoginNo({ setOpened }: TProps) {
    const router = useRouter();
    return (
       <Stack gap={2}>
@@ -34,6 +38,7 @@ export default function UserMenuLoginNo() {
                         } else {
                            toast.info(`Coming Soon`);
                         }
+                        setOpened(false);
                      }}
                   />
                </Fragment>

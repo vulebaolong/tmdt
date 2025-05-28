@@ -4,7 +4,7 @@ import useRouter from "@/hooks/use-router-custom";
 import { useAppSelector } from "@/redux/hooks";
 import { Avatar, Divider, Group, Stack, Text } from "@mantine/core";
 import { IconCrown, IconLogout, IconSettings, IconUserCheck, IconUserSearch } from "@tabler/icons-react";
-import { Fragment } from "react";
+import { Dispatch, Fragment, SetStateAction } from "react";
 import { toast } from "react-toastify";
 import UserMenuItem from "./UserMenuItem";
 
@@ -36,7 +36,11 @@ const listMenu = [
    },
 ];
 
-export default function UserMenuLoginYes() {
+type TProps = {
+   setOpened: Dispatch<SetStateAction<boolean>>;
+};
+
+export default function UserMenuLoginYes({ setOpened }: TProps) {
    const info = useAppSelector((state) => state.user.info);
    const router = useRouter();
 
@@ -82,6 +86,7 @@ export default function UserMenuLoginYes() {
                            } else {
                               toast.info(`Coming Soon`);
                            }
+                           setOpened(false);
                         }}
                      />
 
