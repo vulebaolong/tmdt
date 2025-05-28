@@ -20,10 +20,10 @@ const listMenu = [
 ];
 
 type TProps = {
-   setOpened: Dispatch<SetStateAction<boolean>>;
+   onClick?: () => void;
 };
 
-export default function UserMenuLoginNo({ setOpened }: TProps) {
+export default function UserMenuLoginNo({ onClick }: TProps) {
    const router = useRouter();
    return (
       <Stack gap={2}>
@@ -38,7 +38,7 @@ export default function UserMenuLoginNo({ setOpened }: TProps) {
                         } else {
                            toast.info(`Coming Soon`);
                         }
-                        setOpened(false);
+                        onClick?.();
                      }}
                   />
                </Fragment>

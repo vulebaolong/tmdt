@@ -5,7 +5,7 @@ import { IconActivity, IconBrandAppleArcade, IconFingerprint, IconGauge } from "
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import UserAction from "../user-action/UserAction";
-import UserMenu from "../user-menu/UserMenuLoginYes";
+import UserMenuLoginYes from "../user-menu/UserMenuLoginYes";
 
 const navLinks = [
    {
@@ -44,7 +44,7 @@ export default function NavbarAdmin({ closeMobile }: TProps) {
    return (
       <Stack h={`100%`}>
          <Box className={` ${MOBILE_VISIBLE_DESKTOP_HIDDEN}`}>
-            <UserMenu />
+            <UserMenuLoginYes onClick={closeMobile} />
          </Box>
 
          <Divider className={` ${MOBILE_VISIBLE_DESKTOP_HIDDEN}`} />

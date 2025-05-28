@@ -4,9 +4,9 @@ import { useAppSelector } from "@/redux/hooks";
 import { useQueryInfo } from "@/tantask/auth.tanstack";
 import { Avatar, Group, Menu, Text } from "@mantine/core";
 import { IconUser } from "@tabler/icons-react";
+import { useState } from "react";
 import UserMenuLoginNo from "../user-menu/UserMenuLoginNo";
 import UserMenuLoginYes from "../user-menu/UserMenuLoginYes";
-import { useState } from "react";
 
 type TProps = {
    colorText?: string;
@@ -46,7 +46,7 @@ export default function UserControl2({ colorText = "black" }: TProps) {
          </Menu.Target>
 
          <Menu.Dropdown sx={{ borderRadius: `16px`, padding: `8px` }}>
-            {info ? <UserMenuLoginYes setOpened={setOpened} /> : <UserMenuLoginNo setOpened={setOpened} />}
+            {info ? <UserMenuLoginYes onClick={() => setOpened(false)} /> : <UserMenuLoginNo onClick={() => setOpened(false)} />}
          </Menu.Dropdown>
       </Menu>
    );

@@ -37,10 +37,11 @@ const listMenu = [
 ];
 
 type TProps = {
-   setOpened: Dispatch<SetStateAction<boolean>>;
+   setOpened?: Dispatch<SetStateAction<boolean>>;
+   onClick?: () => void;
 };
 
-export default function UserMenuLoginYes({ setOpened }: TProps) {
+export default function UserMenuLoginYes({ onClick }: TProps) {
    const info = useAppSelector((state) => state.user.info);
    const router = useRouter();
 
@@ -86,7 +87,7 @@ export default function UserMenuLoginYes({ setOpened }: TProps) {
                            } else {
                               toast.info(`Coming Soon`);
                            }
-                           setOpened(false);
+                           onClick?.();
                         }}
                      />
 
