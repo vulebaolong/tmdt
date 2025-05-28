@@ -8,7 +8,7 @@ export const themeOverride = createTheme({
    // Khai báo màu custom (phải có 10 mức độ sáng)
    colors: {
       shopee: ["#fff0ec", "#ffdcd2", "#ffb1a3", "#ff8a77", "#ff634a", "#ee4d2d", "#ee4d2d", "#a3311e", "#7d2316", "#57140e"],
-      tinaPink: [
+      NailaturePink: [
          "#fffafa", // 0 - very light background
          "#ffeaea", // 1
          "#ffd6dd", // 2
@@ -22,7 +22,7 @@ export const themeOverride = createTheme({
       ],
 
       // Be nhạt / kem – nền sáng
-      tinaBeige: [
+      NailatureBeige: [
          "#fdfcfa", // 0
          "#faf7f4", // 1
          "#f4efea", // 2
@@ -36,7 +36,7 @@ export const themeOverride = createTheme({
       ],
 
       // Nâu đỏ nhấn – dùng cho text, nút quan trọng
-      tinaBrown: [
+      NailatureBrown: [
          "#fef8f7", // 0
          "#fceae7", // 1
          "#f3c8c2", // 2
@@ -50,7 +50,7 @@ export const themeOverride = createTheme({
       ],
 
       // Vàng ánh kim nhẹ (trang trí)
-      tinaGold: [
+      NailatureGold: [
          "#fffcf5", // 0
          "#fff5d7", // 1
          "#ffe7a3", // 2

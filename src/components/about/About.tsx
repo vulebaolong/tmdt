@@ -42,7 +42,7 @@ export default function About() {
                   </Box>
                   <Text sx={descriptionSx}>
                      Tĩnh lặng và dịu sâu - đó là cảm giác đầu tiên khi khẽ mở cánh cửa gỗ nâu quen thuộc Calming spa muốn mang đến cho khách hàng -
-                     những người bạn của mình. Giữa trung tâm Sài Gòn náo nhiệt, Tina khép mình ẩn náu trong một không gian kín đáo, dịu dàng. Nơi sẽ
+                     những người bạn của mình. Giữa trung tâm Sài Gòn náo nhiệt, Nailature khép mình ẩn náu trong một không gian kín đáo, dịu dàng. Nơi sẽ
                      ngay lập tức như đưa bạn trở về nhà, như lạc về một miền kí ức thân thương của những nồi nước lá xông thơm phức đến từng ngón
                      tay, sợi tóc. Để cảm xúc được nâng niu, chiều chuộng sau một ngày dài mệt mỏi… {TITLE} - đúng như tên gọi, theo đuổi tiêu chí làm
                      đẹp...

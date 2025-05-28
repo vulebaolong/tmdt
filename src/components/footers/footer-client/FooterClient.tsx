@@ -45,7 +45,7 @@ export default function FooterClient() {
                         color: `#e4e2e1`,
                      }}
                   >
-                     Chúng tôi mong muốn Tina sẽ trở thành &quot;Nhà Nail&quot;, nơi mọi người giải tỏa được sự mệt mỏi và tìm thấy niềm vui, sự sẻ chia thân
+                     Chúng tôi mong muốn Nailature sẽ trở thành &quot;Nhà Nail&quot;, nơi mọi người giải tỏa được sự mệt mỏi và tìm thấy niềm vui, sự sẻ chia thân
                      tình bên bạn bè và người thân.
                   </Text>
                   <Group gap={0} wrap="nowrap">

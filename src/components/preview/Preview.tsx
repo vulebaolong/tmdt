@@ -7,15 +7,15 @@ import { titleSx } from "../provider/mantine/sx/text.sx";
 
 const listPreview = [
    {
-      text: ` Tina là nơi có thể đi "trốn" một mình khi cần hoặc làm nơi hẹn hò với bạn bè đều tốt! Mà đâu có xa xôi gì, ngay giữa trung tâm Sài Gòn tấp nập nữa mới hay chứ. Bởi vậy bạn cần dẫn đến có một lần à, là chị mua thẻ member nguyện làm "thành viên" của nhà Tina luôn".`,
+      text: ` Nailature là nơi có thể đi "trốn" một mình khi cần hoặc làm nơi hẹn hò với bạn bè đều tốt! Mà đâu có xa xôi gì, ngay giữa trung tâm Sài Gòn tấp nập nữa mới hay chứ. Bởi vậy bạn cần dẫn đến có một lần à, là chị mua thẻ member nguyện làm "thành viên" của nhà Nailature luôn".`,
       img: `/section/5-1.webp`,
    },
    {
-      text: ` Tina là nơi có thể đi "trốn" một mình khi cần hoặc làm nơi hẹn hò với bạn bè đều tốt! Mà đâu có xa xôi gì, ngay giữa trung tâm Sài Gòn tấp nập nữa mới hay chứ. Bởi vậy bạn cần dẫn đến có một lần à, là chị mua thẻ member nguyện làm "thành viên" của nhà Tina luôn".`,
+      text: ` Nailature là nơi có thể đi "trốn" một mình khi cần hoặc làm nơi hẹn hò với bạn bè đều tốt! Mà đâu có xa xôi gì, ngay giữa trung tâm Sài Gòn tấp nập nữa mới hay chứ. Bởi vậy bạn cần dẫn đến có một lần à, là chị mua thẻ member nguyện làm "thành viên" của nhà Nailature luôn".`,
       img: `/section/5-2.webp`,
    },
    {
-      text: ` Tina là nơi có thể đi "trốn" một mình khi cần hoặc làm nơi hẹn hò với bạn bè đều tốt! Mà đâu có xa xôi gì, ngay giữa trung tâm Sài Gòn tấp nập nữa mới hay chứ. Bởi vậy bạn cần dẫn đến có một lần à, là chị mua thẻ member nguyện làm "thành viên" của nhà Tina luôn".`,
+      text: ` Nailature là nơi có thể đi "trốn" một mình khi cần hoặc làm nơi hẹn hò với bạn bè đều tốt! Mà đâu có xa xôi gì, ngay giữa trung tâm Sài Gòn tấp nập nữa mới hay chứ. Bởi vậy bạn cần dẫn đến có một lần à, là chị mua thẻ member nguyện làm "thành viên" của nhà Nailature luôn".`,
       img: `/section/5-3.webp`,
    },
 ];

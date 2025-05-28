@@ -42,7 +42,7 @@ export default function Album() {
                         };
                      }}
                   >
-                     Thư viện ảnh Tina
+                     Thư viện ảnh Nailature
                   </Text>
                </Center>
 
