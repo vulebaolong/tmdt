@@ -2,7 +2,7 @@ import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { Stack } from "@mantine/core";
 import { IconLogin, IconUserEdit } from "@tabler/icons-react";
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { Fragment } from "react";
 import { toast } from "react-toastify";
 import UserMenuItem from "./UserMenuItem";
 
