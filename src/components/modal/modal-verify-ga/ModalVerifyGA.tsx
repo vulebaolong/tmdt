@@ -1,3 +1,5 @@
+"use client";
+
 import linkApp from "@/constant/link.constant";
 import { ActionIcon, Anchor, Box, Center, Group, Loader, Modal, PinInput, rem, Stack, Text } from "@mantine/core";
 import { IconBrandFacebook } from "@tabler/icons-react";

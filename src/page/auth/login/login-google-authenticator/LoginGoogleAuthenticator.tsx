@@ -1,3 +1,5 @@
+"use client";
+
 // import { useLoginGoogleAuthenticator } from "@/tantask/auth.tanstack";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import ROUTER_CLIENT from "@/constant/router.constant";

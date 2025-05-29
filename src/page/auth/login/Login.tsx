@@ -1,4 +1,5 @@
 "use client";
+
 import { GoogleButton } from "@/components/buttons/GoogleButton";
 import Paper from "@/components/custom/paper/PaperCustom";
 import Text from "@/components/custom/text-custom/TextCustom";

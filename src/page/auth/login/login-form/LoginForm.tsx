@@ -1,3 +1,5 @@
+"use client";
+
 import CustomPasswordInput, { validatePassword } from "@/components/password-input/CustomPasswordInput";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import ROUTER_CLIENT from "@/constant/router.constant";
