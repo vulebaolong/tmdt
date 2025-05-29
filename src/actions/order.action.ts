@@ -26,7 +26,7 @@ export async function createOrderAction(payload: TCreateOrder) {
       if (!info) throw new Error("Please login");
 
       if (info.googleAuthenticator) {
-         if (info.googleAuthenticator && !payload.token) throw new Error(`Please provide the OTP code`);
+         if (!payload.token) throw new Error(`Please provide the OTP code`);
          const isValid = authenticator.check(`${payload.token}`, info.googleAuthenticator);
          if (!isValid) throw new Error(`Check Token OTP failed`);
       }

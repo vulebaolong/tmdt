@@ -8,7 +8,7 @@ import { useRef } from "react";
 export const useCheckTransaction = () => {
    const lastIdRef = useRef<string | undefined | null>(undefined);
    const info = useAppSelector((state) => state.user.info);
-   // const isCheckTransaction = useAppSelector((state) => state.transaction.isCheckTransaction);
+   const isCheckTransaction = useAppSelector((state) => state.transaction.isCheckTransaction);
    const dispatch = useAppDispatch();
    const queryClient = useQueryClient();
    const toast = useAppToast();
@@ -35,6 +35,6 @@ export const useCheckTransaction = () => {
             return { hasNew: false };
          }
       },
-      refetchInterval: 1000,
+      refetchInterval: isCheckTransaction,
    });
 };

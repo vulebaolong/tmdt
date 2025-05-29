@@ -16,7 +16,13 @@ export function useCreateOrder() {
 
    return useMutation({
       mutationFn: async (payload: TCreateOrder) => {
-         const { token } = info?.googleAuthenticator ? await waitForCheckGA(dispatch) : undefined;
+         let token: string | undefined;
+
+         if (info?.googleAuthenticator) {
+            const result = await waitForCheckGA(dispatch);
+            token = result.token;
+         }
+
          return await createOrderAction({ ...payload, token });
       },
       onSuccess: (res) => {
