@@ -151,6 +151,8 @@ export default function ProductCart() {
                            <Stack mt="lg">
                               {Object.values(EOrderPaymentMethod).map((item) => {
                                  if (typeof item === "string") return null;
+                                 if(item === EOrderPaymentMethod[`Momo`]) return null;
+                                 if(item === EOrderPaymentMethod[`ZaloPay`]) return null;
                                  return (
                                     <Radio
                                        key={item}
