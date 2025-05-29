@@ -8,7 +8,9 @@ import { MOBILE_HIDDEN_DESKTOP_VISIBLE, MOBILE_VISIBLE_DESKTOP_HIDDEN } from "@/
 import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { useAppSelector } from "@/redux/hooks";
+import { useGetInfoQuery } from "@/tantask/auth.tanstack";
 import { useCartCountQuery } from "@/tantask/cart.tanstack";
+import { useCheckTransaction } from "@/tantask/check-transaction.tanstack";
 import { Box, Burger, Container, Group, Indicator, Loader, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconPhoneCall, IconShoppingBag } from "@tabler/icons-react";
@@ -30,6 +32,9 @@ export default function HeaderClient2() {
    const router = useRouter();
    const pathname = usePathname();
    const [opened, handleDrawerNavbar] = useDisclosure(false);
+
+   useGetInfoQuery();
+   useCheckTransaction();
 
    return (
       <>

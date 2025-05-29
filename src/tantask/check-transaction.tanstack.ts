@@ -14,7 +14,7 @@ export const useCheckTransaction = () => {
    const toast = useAppToast();
 
    return useQuery({
-      queryKey: ["check-transaction", info?._id, isCheckTransaction],
+      queryKey: ["check-transaction", info?._id],
       queryFn: async () => {
          if (info?._id) {
             console.log(`check-transaction`);
@@ -35,6 +35,6 @@ export const useCheckTransaction = () => {
             return { hasNew: false };
          }
       },
-      refetchInterval: isCheckTransaction,
+      refetchInterval: 1000,
    });
 };
