@@ -1,7 +1,6 @@
 "use client";
 
 import CustomPasswordInput, { validatePassword } from "@/components/password-input/CustomPasswordInput";
-import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { useLoginForm } from "@/tantask/auth.tanstack";
@@ -10,6 +9,7 @@ import { Anchor, Box, Button, Group, TextInput, useMantineTheme } from "@mantine
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
 import { Dispatch, SetStateAction } from "react";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 type TProps = {
@@ -18,7 +18,6 @@ type TProps = {
 };
 
 export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
-   const toast = useAppToast();
    const router = useRouter();
    const theme = useMantineTheme();
    const t = useTranslations();

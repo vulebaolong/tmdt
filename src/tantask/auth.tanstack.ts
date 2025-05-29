@@ -10,7 +10,6 @@ import {
    verifyGAAction,
 } from "@/actions/auth.action";
 import { waitForCheckGA } from "@/components/provider/check-ga/CheckGAProvider";
-import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import { resError } from "@/helpers/function.helper";
 import useRouter from "@/hooks/use-router-custom";
 import { useAppDispatch } from "@/redux/hooks";
@@ -59,8 +58,6 @@ export const useGetInfoQuery = () => {
 };
 
 export const useRegister = () => {
-   const toast = useAppToast();
-
    return useMutation({
       mutationFn: async (payload: TRegisterReq) => {
          const data = await registerAction(payload);
@@ -74,8 +71,6 @@ export const useRegister = () => {
 };
 
 export const useLoginForm = () => {
-   const toast = useAppToast();
-
    return useMutation({
       mutationFn: async (payload: TLoginFormReq) => {
          const data = await loginFormAction(payload);
@@ -90,16 +85,14 @@ export const useLoginForm = () => {
 };
 
 export const useLoginGoogleAuthenticator = () => {
-   const toast = useAppToast();
-
    return useMutation({
       mutationFn: async (payload: TPayloadLoginGoogleAuthenticator) => {
-         const data = await loginGoogleAuthenticatorAction(payload);
-         return data;
+         await loginGoogleAuthenticatorAction(payload);
+         return `data`;
       },
       onError: (error) => {
          console.log(error);
-         toast.error(resError(error, `Login Google Authenticator failed`));
+         toast.error(`Login Google Authenticator failed`);
       },
    });
 };
@@ -118,8 +111,6 @@ export const useLoginGoogleAuthenticator = () => {
 // };
 
 export const useLoginGoolge = () => {
-   const toast = useAppToast();
-
    return useMutation({
       mutationFn: async (payload: { code: string }) => {
          const data = await loginGooleAction(payload);

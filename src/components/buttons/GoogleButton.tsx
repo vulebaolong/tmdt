@@ -1,3 +1,5 @@
+"use client";
+
 import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { useLoginGoolge } from "@/tantask/auth.tanstack";

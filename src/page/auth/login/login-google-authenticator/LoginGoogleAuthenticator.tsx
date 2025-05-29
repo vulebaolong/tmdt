@@ -1,7 +1,5 @@
 "use client";
 
-// import { useLoginGoogleAuthenticator } from "@/tantask/auth.tanstack";
-import { useAppToast } from "@/components/provider/toast/Toasti18n";
 import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { useLoginGoogleAuthenticator } from "@/tantask/auth.tanstack";
@@ -10,6 +8,7 @@ import { Anchor, Box, Button, Center, Group, PinInput, Stack, Text, Title } from
 import { IconArrowLeft } from "@tabler/icons-react";
 import { useFormik } from "formik";
 import { Dispatch, SetStateAction } from "react";
+import { toast } from "react-toastify";
 import * as Yup from "yup";
 
 type TProps = {
@@ -18,8 +17,6 @@ type TProps = {
 };
 
 export default function LoginGoogleAuthenticator({ setStep, payloadLogin }: TProps) {
-   const toast = useAppToast();
-
    const loginGoogleAuthenticator = useLoginGoogleAuthenticator();
    const router = useRouter();
 
