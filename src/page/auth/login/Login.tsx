@@ -1,11 +1,12 @@
 "use client";
 import { GoogleButton } from "@/components/buttons/GoogleButton";
+import Paper from "@/components/custom/paper/PaperCustom";
 import Text from "@/components/custom/text-custom/TextCustom";
 import Title from "@/components/custom/title-custom/TitleCustom";
 import { Logo2 } from "@/components/logo2/Logo2";
 import useRouter from "@/hooks/use-router-custom";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
-import { Anchor, Box, Center, Divider, Group, Loader, Paper, Transition } from "@mantine/core";
+import { Anchor, Box, Center, Divider, Group, Loader, Stack, Transition } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import { Suspense, useState } from "react";
 import classes from "./../Auth.module.css";
@@ -29,25 +30,22 @@ export default function Login() {
             </Title>
 
             <Group grow mb="md" mt="md">
-               <GoogleButton radius="xl">Google</GoogleButton>
+               <GoogleButton
+                  onGoogleAuthenticator={(step, tokensGoogle) => {
+                     setStep(step);
+                     setPayloadLogin({ tokensGoogle });
+                  }}
+                  radius="xl"
+               >
+                  Google
+               </GoogleButton>
                {/* <FacebookButton radius="xl">Facebook</FacebookButton> */}
             </Group>
 
             <Divider label={t(`Or continue with email`)} labelPosition="center" my="lg" />
 
-            <Paper
-               withBorder
-               shadow="md"
-               p={30}
-               radius="md"
-               style={{
-                  display: `flex`,
-                  flexDirection: `column`,
-                  justifyContent: `space-between`,
-                  overflow: `hidden`,
-               }}
-            >
-               <Box h={256}>
+            <Paper>
+               <Stack h={256}>
                   <Transition enterDelay={400} mounted={step === `login-form`} transition="slide-right" duration={400} timingFunction="ease">
                      {(styles) => (
                         <div style={{ ...styles, height: `100%` }}>
@@ -69,7 +67,7 @@ export default function Login() {
                         </div>
                      )}
                   </Transition>
-               </Box>
+               </Stack>
             </Paper>
 
             <Text ta="center" mt="md">

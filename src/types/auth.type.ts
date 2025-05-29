@@ -1,4 +1,5 @@
 import { TUser } from "@/schemas/user.schema";
+import { Credentials } from "google-auth-library";
 
 export type TRegisterReq = {
    fullName: string;
@@ -13,9 +14,23 @@ export type TLoginFormReq = {
    password: string;
 };
 
-export type TLogin2FaReq = {
-   email: string;
-   password: string;
+export type TLoginGoogleAuthenticatorReq = {
+   email?: string;
+   password?: string;
+   token?: string;
+   code?: string;
+};
+
+export type TPayloadSaveSecret = {
+   token: string;
+   secret: string;
+};
+
+export type TPayloadDisableSecret = {
+   token: string;
+};
+
+export type TVerifyGAReq = {
    token: string;
 };
 
@@ -34,7 +49,8 @@ export interface ISessionUser {
 export type TStepLogin = "login-form" | "login-google-authentication";
 
 export type TPayloadLoginGoogleAuthenticator = {
-   email: string;
-   password: string;
-   token: string | null;
+   email?: string;
+   password?: string;
+   token?: string;
+   tokensGoogle?: Credentials
 };

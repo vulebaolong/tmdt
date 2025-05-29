@@ -1,5 +1,8 @@
 // import { useLoginGoogleAuthenticator } from "@/tantask/auth.tanstack";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
+import ROUTER_CLIENT from "@/constant/router.constant";
+import useRouter from "@/hooks/use-router-custom";
+import { useLoginGoogleAuthenticator } from "@/tantask/auth.tanstack";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
 import { Anchor, Box, Button, Center, Group, PinInput, Stack, Text, Title } from "@mantine/core";
 import { IconArrowLeft } from "@tabler/icons-react";
@@ -15,8 +18,8 @@ type TProps = {
 export default function LoginGoogleAuthenticator({ setStep, payloadLogin }: TProps) {
    const toast = useAppToast();
 
-   // const loginGoogleAuthenticator = useLoginGoogleAuthenticator();
-   // const router = useRouter();
+   const loginGoogleAuthenticator = useLoginGoogleAuthenticator();
+   const router = useRouter();
 
    const loginGoogleAuthenticatorForm = useFormik({
       initialValues: {
@@ -26,26 +29,38 @@ export default function LoginGoogleAuthenticator({ setStep, payloadLogin }: TPro
          token: Yup.string().trim().required("Code is required."),
       }),
       onSubmit: async (valuesRaw: any) => {
-         if (!payloadLogin) return toast.warning(`Please go back login`);
-         if (!payloadLogin.email) return toast.warning(`Please go back login`);
-         if (!payloadLogin.password) return toast.warning(`Please go back login`);
+         let payload: TPayloadLoginGoogleAuthenticator = {};
 
-         const { email, password } = payloadLogin;
+         if (payloadLogin?.password) {
+            // trường hợp login password với google authenticator
+            if (!payloadLogin) return toast.warning(`Please go back login`);
+            if (!payloadLogin.email) return toast.warning(`Please go back login`);
+            if (!payloadLogin.password) return toast.warning(`Please go back login`);
 
-         const payload = {
-            email,
-            password,
-            token: valuesRaw.token,
-         };
+            const { email, password } = payloadLogin;
+
+            payload = {
+               email,
+               password,
+               token: valuesRaw.token,
+            };
+         } else {
+            // trường hợp login google với google authenticator
+            if (!payloadLogin?.tokensGoogle) return toast.warning(`Provide the code`);
+            payload = {
+               tokensGoogle: payloadLogin.tokensGoogle,
+               token: valuesRaw.token,
+            };
+         }
 
          console.log({ payload });
 
-         // loginGoogleAuthenticator.mutate(payload, {
-         //    onSuccess: () => {
-         //       router.push(ROUTER_CLIENT.HOME);
-         //       toast.success(`Login successfully`);
-         //    },
-         // });
+         loginGoogleAuthenticator.mutate(payload, {
+            onSuccess: () => {
+               router.push(ROUTER_CLIENT.HOME);
+               toast.success(`Login successfully`);
+            },
+         });
       },
    });
    return (

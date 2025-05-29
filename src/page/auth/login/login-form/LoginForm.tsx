@@ -1,10 +1,9 @@
 import CustomPasswordInput, { validatePassword } from "@/components/password-input/CustomPasswordInput";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
-import ROUTER_CLIENT, { ROUTER_ADMIN } from "@/constant/router.constant";
+import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { useLoginForm } from "@/tantask/auth.tanstack";
 import { TPayloadLoginGoogleAuthenticator, TStepLogin } from "@/types/auth.type";
-import { ERole } from "@/types/enum/role.enum";
 import { Anchor, Box, Button, Group, TextInput, useMantineTheme } from "@mantine/core";
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
@@ -34,28 +33,28 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
       validationSchema: Yup.object().shape({
          email: Yup.string().trim().email(t("Email is invalid")).required(t("Email is required")),
          password: Yup.string()
-                    .trim()
-                    .required(t("Password is required"))
-                    .test("includes-number", t("Password must contain at least one number"), (value) => {
-                       if (!value) return false;
-                       return validatePassword[0].re.test(value);
-                    })
-                    .test("includes-lowercase", t("Password must contain a lowercase letter"), (value) => {
-                       if (!value) return false;
-                       return validatePassword[1].re.test(value);
-                    })
-                    .test("includes-uppercase", t("Password must contain an uppercase letter"), (value) => {
-                       if (!value) return false;
-                       return validatePassword[2].re.test(value);
-                    })
-                    .test("includes-special-symbol", t("Password must contain a special character"), (value) => {
-                       if (!value) return false;
-                       return validatePassword[3].re.test(value);
-                    })
-                    .test("includes-6-characters", t("Password must be at least 6 characters"), (value) => {
-                       if (!value) return false;
-                       return validatePassword[4].re.test(value);
-                    }),
+            .trim()
+            .required(t("Password is required"))
+            .test("includes-number", t("Password must contain at least one number"), (value) => {
+               if (!value) return false;
+               return validatePassword[0].re.test(value);
+            })
+            .test("includes-lowercase", t("Password must contain a lowercase letter"), (value) => {
+               if (!value) return false;
+               return validatePassword[1].re.test(value);
+            })
+            .test("includes-uppercase", t("Password must contain an uppercase letter"), (value) => {
+               if (!value) return false;
+               return validatePassword[2].re.test(value);
+            })
+            .test("includes-special-symbol", t("Password must contain a special character"), (value) => {
+               if (!value) return false;
+               return validatePassword[3].re.test(value);
+            })
+            .test("includes-6-characters", t("Password must be at least 6 characters"), (value) => {
+               if (!value) return false;
+               return validatePassword[4].re.test(value);
+            }),
       }),
       onSubmit: async (valuesRaw) => {
          const payload = {
@@ -64,13 +63,10 @@ export default function LoginForm({ setStep, setPayloadLogin }: TProps) {
          };
          setPayloadLogin({
             ...payload,
-            token: null,
          });
          useloginForm.mutate(payload, {
             onSuccess: (data) => {
                console.log({ data });
-               if (data.role === ERole[`Admin`]) return router.push(ROUTER_ADMIN.DASHBOARD);
-
                if (data.isGoogleAuthenticator) {
                   setStep(`login-google-authentication`);
                } else {

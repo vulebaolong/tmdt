@@ -17,7 +17,8 @@
       "Logout": "Logout",
       "General Settings": "General Settings",
       "Light": "Light",
-      "Dark": "Dark"
+      "Dark": "Dark",
+      "Google Authenticator (2FA)": "Google Authenticator (2FA)"
    },
    "home-right": {
       "Contact person": "Contact person"

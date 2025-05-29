@@ -10,7 +10,7 @@ export default function ClientLayout2({ children }: TProps) {
    return (
       <>
          <HeaderClient2 />
-         <main>{children}</main>
+         <main style={{ minHeight: `calc(100dvh - 500px)` }}>{children}</main>
          <FooterClient />
       </>
    );

@@ -1,6 +1,7 @@
 "use client";
 
 import Paper from "@/components/custom/paper/PaperCustom";
+import { logout } from "@/helpers/api.helper";
 import { useAppSelector } from "@/redux/hooks";
 import { Avatar, Button, Group, Stack, Text, Title } from "@mantine/core";
 import { useTranslations } from "next-intl";
@@ -42,7 +43,7 @@ export default function SettingAccount() {
                      </Text>
                   </Stack>
                </Group>
-               <Button variant="subtle" radius="xl">
+               <Button onClick={logout} variant="subtle" radius="xl">
                   {t(`Logout`)}
                </Button>
             </Group>

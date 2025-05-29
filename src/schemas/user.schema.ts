@@ -4,6 +4,7 @@ export type TUser = {
    email: string;
    fullName: string;
    password?: string;
+   googleAuthenticator?: string;
    avatar?: string;
    facebookId?: string;
    googleId?: string;
@@ -19,6 +20,7 @@ const UserSchema = new Schema<TUser>(
       email: { type: String, required: true, unique: true },
       fullName: { type: String, required: true },
       password: { type: String, select: false },
+      googleAuthenticator: { type: String, select: false },
       avatar: { type: String },
       facebookId: { type: String },
       googleId: { type: String },

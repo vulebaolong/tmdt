@@ -6,13 +6,18 @@ import { useMutation } from "@tanstack/react-query";
 import ROUTER_CLIENT from "@/constant/router.constant";
 import useRouter from "@/hooks/use-router-custom";
 import { useAppToast } from "@/components/provider/toast/Toasti18n";
+import { waitForCheckGA } from "@/components/provider/check-ga/CheckGAProvider";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { toast } from "react-toastify";
 
 export function useCreateOrder() {
-   const toast = useAppToast();
+   const dispatch = useAppDispatch();
+   const info = useAppSelector((state) => state.user.info);
 
    return useMutation({
       mutationFn: async (payload: TCreateOrder) => {
-         return await createOrderAction(payload);
+         const { token } = info?.googleAuthenticator ? await waitForCheckGA(dispatch) : undefined;
+         return await createOrderAction({ ...payload, token });
       },
       onSuccess: (res) => {
          if (res.success) {
@@ -70,5 +75,5 @@ export function useCheckPendingOrder() {
       onError: (error) => {
          toast.error(resError(error, `Order Check Error`));
       },
-   })
+   });
 }

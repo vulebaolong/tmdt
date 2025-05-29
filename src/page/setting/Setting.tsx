@@ -5,6 +5,7 @@ import { Container, Stack, Title } from "@mantine/core";
 import { useTranslations } from "next-intl";
 import SettingAccount from "./SettingAccount";
 import SettingAppearance from "./SettingAppearance";
+import SettingGoogleAuthenticator from "./SettingGoogleAuthenticator";
 
 export default function Setting() {
    const t = useTranslations("setting");
@@ -30,6 +31,7 @@ export default function Setting() {
                <Stack>
                   <SettingAccount />
                   <SettingAppearance />
+                  <SettingGoogleAuthenticator />
                </Stack>
             </Stack>
          </Stack>

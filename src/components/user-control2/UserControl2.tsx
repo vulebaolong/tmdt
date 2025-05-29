@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
-import { useQueryInfo } from "@/tantask/auth.tanstack";
+import { useGetInfoQuery } from "@/tantask/auth.tanstack";
 import { Avatar, Group, Menu, Text } from "@mantine/core";
 import { IconUser } from "@tabler/icons-react";
 import { useState } from "react";
@@ -13,7 +13,7 @@ type TProps = {
 };
 
 export default function UserControl2({ colorText = "black" }: TProps) {
-   useQueryInfo();
+   useGetInfoQuery();
    const info = useAppSelector((state) => state.user.info);
    const [opened, setOpened] = useState(false);
 

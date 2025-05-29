@@ -35,7 +35,7 @@ export async function logout() {
    if (typeof window !== "undefined") {
       // Client
       window.location.reload();
-      //   window.location.href = "/login";
+      window.location.href = "/login";
    } else {
       // Server
       const { redirect } = await import("next/navigation");

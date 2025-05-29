@@ -90,7 +90,6 @@ export default function UserMenuLoginYes({ onClick }: TProps) {
                            onClick?.();
                         }}
                      />
-
                      {i + 2 === listMenu.length && <Divider my="xs" />}
                   </Fragment>
                );

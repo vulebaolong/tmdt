@@ -92,6 +92,16 @@ export const themeOverride = createTheme({
             radius: "md",
          },
       },
+      Input: {
+         defaultProps: {
+            radius: "md",
+         },
+      },
+      TextInput: {
+         defaultProps: {
+            radius: "md",
+         },
+      },
    },
 });
 

@@ -6,6 +6,7 @@ import { connectDB } from "@/lib/mongoose";
 import Order, { IOrder } from "@/schemas/order.schema";
 import { EOrderPaymentMethod } from "@/types/enum/order.enum";
 import { Types } from "mongoose";
+import { authenticator } from "otplib";
 import { getInfoAction } from "./auth.action";
 
 export type TCreateOrder = {
@@ -14,14 +15,21 @@ export type TCreateOrder = {
    totalShipItemCart: number;
    totalPrice: number;
    paymentMethod: EOrderPaymentMethod;
+   token?: string;
 };
 
 export async function createOrderAction(payload: TCreateOrder) {
    try {
       await connectDB();
 
-      const info = await getInfoAction();
+      const info = await getInfoAction("secret");
       if (!info) throw new Error("Please login");
+
+      if (info.googleAuthenticator) {
+         if (info.googleAuthenticator && !payload.token) throw new Error(`Please provide the OTP code`);
+         const isValid = authenticator.check(`${payload.token}`, info.googleAuthenticator);
+         if (!isValid) throw new Error(`Check Token OTP failed`);
+      }
 
       console.log({ createOrderAction: payload });
 

@@ -5,7 +5,7 @@ import ButtonToggleTheme from "@/components/toggle-theme/button/ButtonToggleThem
 import { MOBILE_HIDDEN_DESKTOP_VISIBLE, MOBILE_VISIBLE_DESKTOP_HIDDEN } from "@/constant/app.constant";
 import ROUTER_CLIENT from "@/constant/router.constant";
 import { useAppSelector } from "@/redux/hooks";
-import { useQueryInfo } from "@/tantask/auth.tanstack";
+import { useGetInfoQuery } from "@/tantask/auth.tanstack";
 import { useCartCountQuery } from "@/tantask/cart.tanstack";
 import { useCheckTransaction } from "@/tantask/check-transaction.tanstack";
 import { Box, Burger, Container, Divider, Group, Indicator, Loader, Stack, useMantineTheme } from "@mantine/core";
@@ -27,7 +27,7 @@ export default function HeaderClient() {
    const theme = useMantineTheme();
    const cartCountQuery = useCartCountQuery();
 
-   useQueryInfo();
+   useGetInfoQuery();
    useCheckTransaction();
 
    return (

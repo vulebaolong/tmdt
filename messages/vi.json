@@ -17,7 +17,8 @@
       "Logout": "Đăng xuất",
       "General Settings": "Cài đặt chung",
       "Light": "Sáng",
-      "Dark": "Tối"
+      "Dark": "Tối",
+      "Google Authenticator (2FA)": "Xác thực Google (2FA)"
    },
    "home-right": {
       "Contact person": "Người liên hệ"

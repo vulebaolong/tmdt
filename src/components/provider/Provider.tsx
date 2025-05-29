@@ -19,6 +19,7 @@ import MantineProvider from "./mantine/MantineProvider";
 import ProviderRedux from "./redux/ProviderRedux";
 import ToastProvider from "./toast/ToastProvider";
 import AOSProvider from "./aos/AOSProvider";
+import CheckGAProvider from "./check-ga/CheckGAProvider";
 
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
@@ -46,7 +47,9 @@ export default function Provider({ children }: { children: ReactNode }) {
             <MantineProvider>
                <ToastProvider />
                <GoogleProvider>
-                  <AOSProvider>{children}</AOSProvider>
+                  <AOSProvider>
+                     <CheckGAProvider>{children}</CheckGAProvider>
+                  </AOSProvider>
                </GoogleProvider>
             </MantineProvider>
          </ProviderRedux>

@@ -1,8 +1,10 @@
 import ROUTER_CLIENT from "@/constant/router.constant";
+import useRouter from "@/hooks/use-router-custom";
 import { useLoginGoolge } from "@/tantask/auth.tanstack";
+import { TStepLogin } from "@/types/auth.type";
 import { Button, ButtonProps } from "@mantine/core";
 import { useGoogleLogin } from "@react-oauth/google";
-import useRouter from "@/hooks/use-router-custom";
+import { Credentials } from "google-auth-library";
 import { useState } from "react";
 import { useAppToast } from "../provider/toast/Toasti18n";
 
@@ -35,7 +37,11 @@ function GoogleIcon(props: React.ComponentPropsWithoutRef<"svg">) {
    );
 }
 
-export function GoogleButton(props: ButtonProps & React.ComponentPropsWithoutRef<"button">) {
+type TProps = {
+   onGoogleAuthenticator?: (step: TStepLogin, tokensGoogle: Credentials) => void;
+};
+
+export function GoogleButton({ onGoogleAuthenticator, ...props }: ButtonProps & React.ComponentPropsWithoutRef<"button"> & TProps) {
    const toast = useAppToast();
    const router = useRouter();
    const loginGoogle = useLoginGoolge();
@@ -48,9 +54,15 @@ export function GoogleButton(props: ButtonProps & React.ComponentPropsWithoutRef
          loginGoogle.mutate(
             { code: codeResponse.code },
             {
-               onSuccess: () => {
-                  router.push(ROUTER_CLIENT.HOME);
-                  toast.success(`Login successfully`);
+               onSuccess: (data) => {
+                  console.log({ data });
+                  if (data?.isGoogleAuthenticator) {
+                     if (!data.tokens) return toast.error(`Not Tokens Google Authenticator`);
+                     onGoogleAuthenticator?.(`login-google-authentication`, data.tokens);
+                  } else {
+                     router.push(ROUTER_CLIENT.HOME);
+                     toast.success(`Login successfully`);
+                  }
                },
                onSettled: () => {
                   setLoading(false);
