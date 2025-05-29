@@ -54,12 +54,16 @@ export default function LoginGoogleAuthenticator({ setStep, payloadLogin }: TPro
 
          console.log({ payload });
 
-         loginGoogleAuthenticator.mutate(payload, {
-            onSuccess: () => {
-               router.push(ROUTER_CLIENT.HOME);
-               toast.success(`Login successfully`);
-            },
-         });
+         try {
+            loginGoogleAuthenticator.mutate(payload, {
+               onSuccess: () => {
+                  router.push(ROUTER_CLIENT.HOME);
+                  toast.success(`Login successfully`);
+               },
+            });
+         } catch (error) {
+            console.error(error);
+         }
       },
    });
    return (

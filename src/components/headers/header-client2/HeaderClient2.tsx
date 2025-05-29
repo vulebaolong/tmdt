@@ -37,7 +37,7 @@ export default function HeaderClient2() {
             <Box
                sx={(theme) => {
                   return {
-                     background: pathname === ROUTER_CLIENT.HOME ? `transparent` : theme.colors.spaTheme[5],
+                     background: pathname === ROUTER_CLIENT.HOME ? `transparent` : theme.colors.spaTheme[7],
                   };
                }}
             >
